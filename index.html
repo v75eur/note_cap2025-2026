@@ -125,17 +125,19 @@
 </div>
 
 <script>
-// CONFIG
 const SUPA_URL = 'https://rwmfypnkhsobyvmgtupa.supabase.co';
 const SUPA_KEY = 'sb_publishable_SMwywe7eaf53fftFdvxLJQ_4RZ1_3-Y';
-const GLOBAL_PWD = '..@@3345';
-const ADMIN_PWD = '@-234;';
+
+// 3 MOTS DE PASSE
+const PWD_GLOBAL = '..@@3345';   // Accès site (tout le monde)
+const PWD_ADMIN = '@-234;';      // Mode admin Rick
+const PWD_ADJACLE = '@@EEE.';    // ADJacle (ses notes)
 
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 let formateurs = [], currentId = null, unlocked = false, admin = false, popCb = null;
+let userIsAdjacle = false; // true si connecté avec mot de passe ADJacle
 
-// INIT
 async function init() {
     document.getElementById('loading').classList.remove('hidden');
     const { data } = await sb.from('formateurs').select('*').order('id');
@@ -148,52 +150,51 @@ function showLoading() { document.getElementById('loading').classList.remove('hi
 function hideLoading() { document.getElementById('loading').classList.add('hidden'); }
 
 // API
-async function loadApprenants(fid) {
-    const { data } = await sb.from('apprenants').select('*').eq('formateur_id', fid).order('id');
-    return data || [];
-}
-
-async function loadNotes(aid) {
-    const { data } = await sb.from('notes').select('*').eq('apprenant_id', aid);
-    return data || [];
-}
-
+async function loadApprenants(fid) { const { data } = await sb.from('apprenants').select('*').eq('formateur_id', fid).order('id'); return data || []; }
+async function loadNotes(aid) { const { data } = await sb.from('notes').select('*').eq('apprenant_id', aid); return data || []; }
 async function upsertNote(aid, mi, sem, field, val) {
     const { data: ex } = await sb.from('notes').select('*').eq('apprenant_id', aid).eq('matiere_index', mi).eq('semestre', sem).maybeSingle();
     const row = ex || { apprenant_id: aid, matiere_index: mi, semestre: sem, interro1: null, interro2: null, interro3: null, interro4: null, devoir1: null, devoir2: null };
     row[field] = val === '' ? null : parseFloat(val);
     await sb.from('notes').upsert(row, { onConflict: 'apprenant_id,matiere_index,semestre' });
 }
-
-async function addApprenant(fid, nom, prenom, niveau) {
-    await sb.from('apprenants').insert({ formateur_id: fid, nom, prenom, niveau });
-}
-
+async function addApprenant(fid, nom, prenom, niveau) { await sb.from('apprenants').insert({ formateur_id: fid, nom, prenom, niveau }); }
 async function deleteApprenant(aid) { await sb.from('apprenants').delete().eq('id', aid); }
 async function deleteAllApprenants(fid, niveau) { await sb.from('apprenants').delete().eq('formateur_id', fid).eq('niveau', niveau); }
 async function updateFormateur(id, nom, prenom) { await sb.from('formateurs').update({ nom, prenom }).eq('id', id); }
 async function deleteFormateur(id) { await sb.from('formateurs').delete().eq('id', id); }
-async function addFormateur(nom, prenom, matieres) {
-    const { data } = await sb.from('formateurs').insert({ nom, prenom, matieres }).select();
-    return data?.[0] || null;
-}
+async function addFormateur(nom, prenom, matieres) { const { data } = await sb.from('formateurs').insert({ nom, prenom, matieres }).select(); return data?.[0] || null; }
 async function updateMatieres(id, matieres) { await sb.from('formateurs').update({ matieres }).eq('id', id); }
 
-// VERROUILLAGE
+// VERROUILLAGE - 3 MOTS DE PASSE
 function unlock() {
-    if (document.getElementById('pwd').value === GLOBAL_PWD) {
-        unlocked = true; admin = false;
+    const pwd = document.getElementById('pwd').value;
+    
+    if (pwd === PWD_GLOBAL || pwd === PWD_ADJACLE || pwd === PWD_ADMIN) {
+        unlocked = true;
+        admin = false;
+        userIsAdjacle = (pwd === PWD_ADJACLE);
+        
+        // Si c'est le mot de passe admin, on active direct
+        if (pwd === PWD_ADMIN) {
+            admin = true;
+            userIsAdjacle = false;
+        }
+        
         document.getElementById('lock').classList.add('hidden');
         document.getElementById('pwd-err').classList.remove('show');
         document.getElementById('banner').style.display = 'flex';
-        updateUI(); buildAll();
-    } else { document.getElementById('pwd-err').classList.add('show'); }
+        updateUI();
+        buildAll();
+    } else {
+        document.getElementById('pwd-err').classList.add('show');
+    }
     document.getElementById('pwd').value = '';
 }
 
 function lockSite() {
     showPopup('Verrouiller', 'Voulez-vous verrouiller le site ?', () => {
-        unlocked = false; admin = false;
+        unlocked = false; admin = false; userIsAdjacle = false;
         document.getElementById('lock').classList.remove('hidden');
         document.getElementById('banner').style.display = 'none';
         updateUI();
@@ -201,8 +202,9 @@ function lockSite() {
 }
 
 function tryAdmin() {
-    if (document.getElementById('admin-code').value === ADMIN_PWD) {
+    if (document.getElementById('admin-code').value === PWD_ADMIN) {
         admin = true;
+        userIsAdjacle = false;
         closeModal('modal-admin');
         updateUI();
         toast('Mode administrateur activé', 'warning');
@@ -224,8 +226,9 @@ function updateUI() {
     document.getElementById('btn-quit-admin').style.display = admin ? 'inline-block' : 'none';
     const b = document.getElementById('role-badge');
     if (!unlocked) { b.textContent = '🔒'; b.className = 'badge'; return; }
-    if (admin) { b.textContent = '👑 Admin'; b.className = 'badge badge-admin'; }
-    else { const f = formateurs.find(x => x.id === currentId); b.textContent = '👨‍🏫 ' + (f ? (f.prenom ? f.prenom + ' ' + f.nom : f.nom) : ''); b.className = 'badge badge-prof'; }
+    if (admin) { b.textContent = '👑 Rick • Admin'; b.className = 'badge badge-admin'; }
+    else if (userIsAdjacle) { b.textContent = '👨‍🏫 ADJacle • Professeur'; b.className = 'badge badge-prof'; }
+    else { b.textContent = '👨‍🏫 Rick • Professeur'; b.className = 'badge badge-prof'; }
 }
 
 function canEdit() { return unlocked; }
@@ -239,7 +242,6 @@ function showPopup(title, msg, cb, btnText) {
     popCb = cb;
     document.getElementById('popup').classList.add('active');
 }
-
 function closePopup() { document.getElementById('popup').classList.remove('active'); popCb = null; }
 document.getElementById('popup-ok').addEventListener('click', () => { if (popCb) popCb(); closePopup(); });
 document.getElementById('popup').addEventListener('click', function(e) { if (e.target === this) closePopup(); });
@@ -272,7 +274,7 @@ function buildToolbar() {
         h += '<button class="btn ' + (f.id === currentId ? 'btn-primary' : 'btn-outline') + '" onclick="selectProf(' + f.id + ')">' + name + '</button>';
     });
     if (canAdmin()) h += '<button class="btn btn-success" style="margin-left:10px" onclick="addProf()">+ Formateur</button>';
-    if (!admin && unlocked) h += '<button class="btn btn-accent" style="margin-left:10px" onclick="document.getElementById(\'modal-admin\').classList.add(\'active\')">🔑 Admin</button>';
+    if (!admin && unlocked && !userIsAdjacle) h += '<button class="btn btn-accent" style="margin-left:10px" onclick="document.getElementById(\'modal-admin\').classList.add(\'active\')">🔑 Admin</button>';
     document.getElementById('toolbar').innerHTML = h;
 }
 
@@ -395,128 +397,18 @@ async function addEleve(pid) {
     await refresh(pid);
 }
 
-function delEleve(pid, id) {
-    if (!canEdit()) return;
-    showPopup('Supprimer', 'Supprimer cet apprenant ?', async () => { await deleteApprenant(id); toast('Apprenant supprimé', 'error'); await refresh(pid); });
-}
-
-function delAll(pid) {
-    if (!canEdit()) return;
-    showPopup('Tout supprimer', '⚠️ Supprimer TOUS les apprenants ?', async () => { await deleteAllApprenants(pid, document.getElementById('lvl-' + pid).value); toast('Tous supprimés', 'error'); await refresh(pid); });
-}
-
-async function addProf() {
-    if (!canAdmin()) return;
-    const f = await addFormateur('Nouveau', '', ['Matière 1']);
-    if (f) { toast('Formateur ajouté', 'warning'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = f.id; buildAll(); }
-}
-
-function editProf(id) {
-    if (!canAdmin()) return;
-    const f = formateurs.find(x => x.id === id);
-    if (!f) return;
-    document.getElementById('mf-nom').value = f.nom;
-    document.getElementById('mf-prenom').value = f.prenom || '';
-    document.getElementById('mf-key').value = id;
-    document.getElementById('modal-prof').classList.add('active');
-}
-
-async function saveProf() {
-    if (!canAdmin()) return;
-    const id = parseInt(document.getElementById('mf-key').value);
-    await updateFormateur(id, document.getElementById('mf-nom').value.trim(), document.getElementById('mf-prenom').value.trim());
-    toast('Formateur modifié');
-    closeModal('modal-prof');
-    const { data } = await sb.from('formateurs').select('*').order('id');
-    formateurs = data || [];
-    buildAll();
-}
-
-function delProf(id) {
-    if (!canAdmin() || formateurs.length <= 1) return;
-    showPopup('Supprimer', 'Supprimer ce formateur ?', async () => { await deleteFormateur(id); toast('Formateur supprimé', 'error'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = formateurs[0]?.id; buildAll(); });
-}
-
-function editMatiere(pid, idx) {
-    if (!canAdmin()) return;
-    const f = formateurs.find(x => x.id === pid);
-    if (!f) return;
-    document.getElementById('mm-nom').value = f.matieres[idx];
-    document.getElementById('mm-prof').value = pid;
-    document.getElementById('mm-idx').value = idx;
-    document.getElementById('modal-matiere').classList.add('active');
-}
-
-async function saveMatiere() {
-    if (!canAdmin()) return;
-    const pid = parseInt(document.getElementById('mm-prof').value);
-    const idx = parseInt(document.getElementById('mm-idx').value);
-    const nom = document.getElementById('mm-nom').value.trim();
-    if (!nom) return;
-    const f = formateurs.find(x => x.id === pid);
-    if (!f) return;
-    f.matieres[idx] = nom;
-    await updateMatieres(pid, f.matieres);
-    toast('Matière modifiée');
-    closeModal('modal-matiere');
-    buildAll();
-}
-
-async function addMatiere(pid) {
-    if (!canAdmin()) return;
-    const nom = prompt('Nom :');
-    if (!nom) return;
-    const f = formateurs.find(x => x.id === pid);
-    if (!f) return;
-    f.matieres.push(nom);
-    await updateMatieres(pid, f.matieres);
-    toast('Matière ajoutée');
-    buildAll();
-}
-
-async function delMatiere(pid, idx) {
-    if (!canAdmin()) return;
-    const f = formateurs.find(x => x.id === pid);
-    if (!f || f.matieres.length <= 1) return;
-    showPopup('Supprimer', 'Supprimer cette matière ?', async () => { f.matieres.splice(idx, 1); await updateMatieres(pid, f.matieres); toast('Matière supprimée', 'error'); buildAll(); });
-}
-
-function expJSON(pid) {
-    const lvl = document.getElementById('lvl-' + pid)?.value || '1';
-    sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => {
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.json'; a.click();
-        toast('Export JSON');
-    });
-}
-
-function expCSV(pid) {
-    const lvl = document.getElementById('lvl-' + pid)?.value || '1';
-    const matIdx = parseInt(document.getElementById('mat-' + pid)?.value || '0');
-    const f = formateurs.find(x => x.id === pid);
-    if (!f) return;
-    const mats = f.matieres || [];
-    const mts = matIdx === 0 ? mats.map((_, i) => i) : [matIdx - 1];
-    sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => {
-        let csv = 'N°,Nom,Prénom,';
-        mts.forEach(mi => csv += 'S1-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,');
-        if (matIdx === 0) csv += 'MG S1,';
-        mts.forEach(mi => csv += 'S2-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,');
-        if (matIdx === 0) csv += 'MG S2'; csv += '\n';
-        data.forEach((a, i) => {
-            const an = {}; (a.notes || []).forEach(n => { an[n.matiere_index + '_' + n.semestre] = n; });
-            csv += (i + 1) + ',' + a.nom + ',' + a.prenom + ',';
-            mts.forEach(mi => { const nr = an[mi + '_1']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; });
-            if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '1') + ','; }
-            mts.forEach(mi => { const nr = an[mi + '_2']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; });
-            if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '2'); }
-            csv += '\n';
-        });
-        const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.csv'; a.click();
-        toast('Export CSV');
-    });
-}
+function delEleve(pid, id) { if (!canEdit()) return; showPopup('Supprimer', 'Supprimer cet apprenant ?', async () => { await deleteApprenant(id); toast('Apprenant supprimé', 'error'); await refresh(pid); }); }
+function delAll(pid) { if (!canEdit()) return; showPopup('Tout supprimer', '⚠️ Supprimer TOUS les apprenants ?', async () => { await deleteAllApprenants(pid, document.getElementById('lvl-' + pid).value); toast('Tous supprimés', 'error'); await refresh(pid); }); }
+async function addProf() { if (!canAdmin()) return; const f = await addFormateur('Nouveau', '', ['Matière 1']); if (f) { toast('Formateur ajouté', 'warning'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = f.id; buildAll(); } }
+function editProf(id) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === id); if (!f) return; document.getElementById('mf-nom').value = f.nom; document.getElementById('mf-prenom').value = f.prenom || ''; document.getElementById('mf-key').value = id; document.getElementById('modal-prof').classList.add('active'); }
+async function saveProf() { if (!canAdmin()) return; const id = parseInt(document.getElementById('mf-key').value); await updateFormateur(id, document.getElementById('mf-nom').value.trim(), document.getElementById('mf-prenom').value.trim()); toast('Formateur modifié'); closeModal('modal-prof'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; buildAll(); }
+function delProf(id) { if (!canAdmin() || formateurs.length <= 1) return; showPopup('Supprimer', 'Supprimer ce formateur ?', async () => { await deleteFormateur(id); toast('Formateur supprimé', 'error'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = formateurs[0]?.id; buildAll(); }); }
+function editMatiere(pid, idx) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === pid); if (!f) return; document.getElementById('mm-nom').value = f.matieres[idx]; document.getElementById('mm-prof').value = pid; document.getElementById('mm-idx').value = idx; document.getElementById('modal-matiere').classList.add('active'); }
+async function saveMatiere() { if (!canAdmin()) return; const pid = parseInt(document.getElementById('mm-prof').value); const idx = parseInt(document.getElementById('mm-idx').value); const nom = document.getElementById('mm-nom').value.trim(); if (!nom) return; const f = formateurs.find(x => x.id === pid); if (!f) return; f.matieres[idx] = nom; await updateMatieres(pid, f.matieres); toast('Matière modifiée'); closeModal('modal-matiere'); buildAll(); }
+async function addMatiere(pid) { if (!canAdmin()) return; const nom = prompt('Nom :'); if (!nom) return; const f = formateurs.find(x => x.id === pid); if (!f) return; f.matieres.push(nom); await updateMatieres(pid, f.matieres); toast('Matière ajoutée'); buildAll(); }
+async function delMatiere(pid, idx) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === pid); if (!f || f.matieres.length <= 1) return; showPopup('Supprimer', 'Supprimer cette matière ?', async () => { f.matieres.splice(idx, 1); await updateMatieres(pid, f.matieres); toast('Matière supprimée', 'error'); buildAll(); }); }
+function expJSON(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.json'; a.click(); toast('Export JSON'); }); }
+function expCSV(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; const matIdx = parseInt(document.getElementById('mat-' + pid)?.value || '0'); const f = formateurs.find(x => x.id === pid); if (!f) return; const mats = f.matieres || []; const mts = matIdx === 0 ? mats.map((_, i) => i) : [matIdx - 1]; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { let csv = 'N°,Nom,Prénom,'; mts.forEach(mi => csv += 'S1-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,'); if (matIdx === 0) csv += 'MG S1,'; mts.forEach(mi => csv += 'S2-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,'); if (matIdx === 0) csv += 'MG S2'; csv += '\n'; data.forEach((a, i) => { const an = {}; (a.notes || []).forEach(n => { an[n.matiere_index + '_' + n.semestre] = n; }); csv += (i + 1) + ',' + a.nom + ',' + a.prenom + ','; mts.forEach(mi => { const nr = an[mi + '_1']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; }); if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '1') + ','; } mts.forEach(mi => { const nr = an[mi + '_2']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; }); if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '2'); } csv += '\n'; }); const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.csv'; a.click(); toast('Export CSV'); }); }
 
 init();
 </script>
