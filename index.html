@@ -7,84 +7,359 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:#eef3f5;color:#1c2b33;padding:32px 18px;min-height:100vh}
-        .container{max-width:1440px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 16px 40px rgba(13,59,79,.18);overflow:hidden}
-        .header{background:linear-gradient(120deg,#07242f,#0d3b4f,#15596f);color:#fff;padding:20px 30px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-        .header h1{font-size:1.1em;font-weight:800}
-        .header .meta{font-size:.75em;opacity:.8}
-        .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:.7em;font-weight:700;background:rgba(255,255,255,.14);color:#fff}
-        .badge-admin{background:#fff4e4;color:#9a5c14}
-        .badge-prof{background:#e6f6ee;color:#1c7a4f}
-        .btn{padding:8px 16px;border:none;border-radius:8px;cursor:pointer;font-size:.78em;font-weight:700;transition:all .15s}
-        .btn:hover{transform:translateY(-1px)}
-        .btn-primary{background:#0d3b4f;color:#fff}
-        .btn-success{background:#1f8a5a;color:#fff}
-        .btn-danger{background:#c0392b;color:#fff}
-        .btn-outline{background:#fff;border:1px solid #dbe3e8;color:#1c2b33}
-        .btn-accent{background:#e08e3e;color:#fff}
-        .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-        .toolbar{display:flex;gap:10px;padding:12px 30px;border-bottom:1px solid #dbe3e8;flex-wrap:wrap;align-items:center;background:#fbfcfd}
-        .content{padding:20px 30px 30px}
-        .section-title{font-size:.8em;font-weight:700;color:#76898f;text-transform:uppercase;letter-spacing:.7px;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #dbe3e8}
-        .form-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:end}
-        .form-row input{padding:8px 12px;border:1px solid #dbe3e8;border-radius:8px;font-size:.82em;width:150px}
-        .table-container{overflow-x:auto;margin-top:10px;border:1px solid #dbe3e8;border-radius:10px}
-        table{width:100%;border-collapse:collapse;font-size:.76em}
-        thead th{background:#0d3b4f;color:#fff;padding:8px 5px;font-weight:600;font-size:.82em;white-space:nowrap;border:1px solid rgba(255,255,255,.08)}
-        thead th.sub-header{background:#eef3f6;color:#1c2b33;font-size:.75em;font-weight:700;border:1px solid #dbe3e8}
-        tbody td{padding:5px 3px;text-align:center;border:1px solid #dbe3e8}
-        tbody tr:nth-child(even){background:#f7fafb}
-        tbody td input{width:42px;padding:4px 2px;text-align:center;border:1px solid #dde4e8;border-radius:4px;font-size:.82em}
-        tbody td input:focus{border-color:#15596f;outline:none;background:#f0f8fa}
-        tbody td input:disabled{background:#f4f5f6;color:#999}
-        .cell-mi{font-weight:700;color:#1f8a5a;background:#f1faf4}
-        .cell-moy{font-weight:700;background:#bfe6d3;color:#1c6b46}
-        .cell-mg{font-weight:800;background:linear-gradient(120deg,#fff4e2,#fde9c8);color:#9a5c14}
-        .cell-name{font-weight:700;text-align:left;padding-left:10px}
-        .stats-row td{background:#0d3b4f!important;color:#fff!important;font-weight:700;font-size:.8em;border-top:3px solid #e08e3e}
-        .empty-state{text-align:center;padding:50px;color:#76898f}
-        .matiere-tag{display:inline-flex;align-items:center;gap:5px;background:#eef3f6;border:1px solid #dbe3e8;padding:6px 12px;border-radius:999px;font-size:.78em;font-weight:600}
-        .matiere-tag button{background:none;border:none;cursor:pointer;font-size:.9em;color:#76898f}
-        .toast{position:fixed;bottom:30px;right:30px;background:#1f8a5a;color:#fff;padding:14px 22px;border-radius:10px;font-weight:600;font-size:.82em;z-index:10001;animation:slideUp .35s ease}
-        .toast.warning{background:#e08e3e}
-        .toast.error{background:#c0392b}
-        @keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
-        .warning-banner{background:#fff3cd;border:2px solid #ffc107;color:#856404;text-align:center;padding:14px;font-weight:700;font-size:.9em;position:sticky;top:0;z-index:100}
-        .popup-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(7,36,47,.65);backdrop-filter:blur(3px);justify-content:center;align-items:center;z-index:10000}
-        .popup-overlay.active{display:flex}
-        .popup{background:#fff;border-radius:16px;padding:32px;max-width:420px;width:90%;box-shadow:0 16px 40px rgba(13,59,79,.18);text-align:center;animation:popIn .25s ease}
-        @keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
-        .popup h3{font-size:1.05em;color:#07242f;margin-bottom:8px;font-weight:800}
-        .popup p{font-size:.85em;color:#76898f;margin-bottom:22px}
-        .popup .btn-row{display:flex;gap:10px;justify-content:center}
-        .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(7,36,47,.55);backdrop-filter:blur(2px);justify-content:center;align-items:center;z-index:9999}
-        .modal-overlay.active{display:flex}
-        .modal{background:#fff;border-radius:14px;padding:32px;max-width:450px;width:90%;box-shadow:0 16px 40px rgba(13,59,79,.18)}
-        .modal h3{font-size:1em;margin-bottom:22px;color:#07242f;font-weight:800}
-        .modal label{display:block;font-size:.8em;font-weight:700;color:#76898f;margin-bottom:5px}
-        .modal input{width:100%;padding:10px;border:1px solid #dbe3e8;border-radius:8px;margin-bottom:16px;font-size:.9em}
-        .modal .btn-row{display:flex;gap:10px;justify-content:flex-end}
-        .lock-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#07242f,#0d3b4f,#15596f);display:flex;justify-content:center;align-items:center;z-index:10000}
-        .lock-screen.hidden{display:none}
-        .lock-card{background:rgba(255,255,255,.98);padding:42px 38px;border-radius:18px;text-align:center;max-width:380px;width:90%}
-        .lock-card h2{font-size:1.05em;color:#07242f;margin-bottom:8px;font-weight:800}
-        .lock-card input{width:100%;padding:12px;border:1.5px solid #dbe3e8;border-radius:9px;text-align:center;font-size:1em;margin-bottom:14px}
-        .lock-card .error-msg{color:#c0392b;font-size:.8em;margin-bottom:12px;display:none;font-weight:700}
-        .lock-card .error-msg.show{display:block}
-        .loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,.8);display:flex;justify-content:center;align-items:center;z-index:10002;font-size:1.5em;font-weight:700;color:#0d3b4f}
-        .loading-overlay.hidden{display:none}
-        .spinner{width:40px;height:40px;border:4px solid #dbe3e8;border-top-color:#0d3b4f;border-radius:50%;animation:spin .8s linear infinite;margin-right:12px}
-        @keyframes spin{to{transform:rotate(360deg)}}
+        :root {
+            --bg: #f1f5f9;
+            --white: #ffffff;
+            --primary: #1e3a5f;
+            --primary-light: #2d5a8e;
+            --accent: #e67e22;
+            --success: #27ae60;
+            --danger: #c0392b;
+            --border: #e2e8f0;
+            --text: #1a202c;
+            --text-light: #64748b;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-lg: 0 4px 16px rgba(0,0,0,0.1);
+            --radius: 10px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header h1 { font-size: 1.1em; font-weight: 700; }
+        .header .subtitle { font-size: 0.75em; opacity: 0.8; margin-top: 2px; }
+        .header-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 700;
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+        .badge.admin { background: #fdebd0; color: #b7791f; }
+        .badge.prof { background: #d5f5e3; color: #1e8449; }
+        .btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75em;
+            font-weight: 600;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .btn:hover { filter: brightness(1.1); }
+        .btn-sm { padding: 5px 10px; font-size: 0.7em; }
+        .btn-xs { padding: 3px 7px; font-size: 0.65em; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-accent { background: var(--accent); color: white; }
+        .btn-outline { background: white; border: 1px solid var(--border); color: var(--text); }
+        .btn-outline:hover { background: #f8fafc; }
+        .btn-white { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); }
+        .btn-white:hover { background: rgba(255,255,255,0.25); }
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            align-items: center;
+            background: #fafbfc;
+        }
+        .toolbar select {
+            padding: 7px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.8em;
+            background: white;
+        }
+        .content { padding: 20px 24px; }
+        .section-title {
+            font-size: 0.8em;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+        .form-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            align-items: end;
+        }
+        .form-row input {
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.8em;
+            width: 140px;
+        }
+        .form-row input:focus { border-color: var(--primary-light); outline: none; }
+        .matiere-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #eef2f7;
+            border: 1px solid var(--border);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+        .matiere-tag button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85em;
+            color: var(--text-light);
+            padding: 0 2px;
+        }
+        .matiere-tag button:hover { color: var(--primary); }
+        .table-wrapper {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.73em;
+        }
+        thead th {
+            background: var(--primary);
+            color: white;
+            padding: 8px 6px;
+            font-weight: 600;
+            font-size: 0.8em;
+            white-space: nowrap;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+        thead th.sub {
+            background: #edf2f7;
+            color: var(--text);
+            font-size: 0.72em;
+            font-weight: 700;
+            border: 1px solid var(--border);
+        }
+        tbody td {
+            padding: 6px 4px;
+            text-align: center;
+            border: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        tbody tr:nth-child(even) { background: #fafcfd; }
+        tbody tr:hover { background: #eef7f2; }
+        tbody td input {
+            width: 44px;
+            padding: 5px 3px;
+            text-align: center;
+            border: 1px solid #dde4e8;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-family: 'Inter', sans-serif;
+        }
+        tbody td input:focus {
+            border-color: var(--primary-light);
+            outline: none;
+            background: #f0f5fa;
+            box-shadow: 0 0 0 2px rgba(30,58,95,0.1);
+        }
+        tbody td input:disabled { background: #f4f5f6; color: #999; cursor: not-allowed; }
+        .td-name { font-weight: 700; text-align: left; padding-left: 8px; color: var(--primary); }
+        .td-mi { font-weight: 700; color: #27ae60; background: #f0faf4; }
+        .td-moy { font-weight: 700; background: #d5f5e3; color: #1e8449; }
+        .td-mg { font-weight: 800; background: #fef9e7; color: #b7791f; font-size: 0.85em; }
+        .stats-row td {
+            background: #1e3a5f !important;
+            color: white !important;
+            font-weight: 700;
+            font-size: 0.75em;
+            border-top: 3px solid var(--accent);
+            padding: 8px 4px;
+        }
+        .stats-row .stat-label { text-align: right; padding-right: 10px; color: #f6c897 !important; }
+        .empty-state { text-align: center; padding: 40px; color: var(--text-light); font-size: 0.85em; }
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--success);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.8em;
+            z-index: 9999;
+            animation: slideUp 0.3s ease;
+            box-shadow: var(--shadow-lg);
+        }
+        .toast.warn { background: var(--accent); }
+        .toast.err { background: var(--danger); }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .warning-banner {
+            background: #fef9e7;
+            border: 2px solid #f39c12;
+            color: #7d6608;
+            text-align: center;
+            padding: 10px;
+            font-weight: 700;
+            font-size: 0.8em;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        .popup-overlay.active { display: flex; }
+        .popup {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+        .popup h3 { font-size: 1em; margin-bottom: 8px; }
+        .popup p { font-size: 0.85em; color: var(--text-light); margin-bottom: 18px; }
+        .popup .btn-row { display: flex; gap: 8px; justify-content: center; }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+        }
+        .modal h3 { font-size: 0.95em; margin-bottom: 18px; color: var(--primary); }
+        .modal label { display: block; font-size: 0.75em; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
+        .modal input { width: 100%; padding: 9px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 12px; font-size: 0.85em; }
+        .modal input:focus { border-color: var(--primary-light); outline: none; }
+        .modal .btn-row { display: flex; gap: 8px; justify-content: flex-end; }
+        .lock-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #0c2d48, #1e3a5f, #2d5a8e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        .lock-screen.hidden { display: none; }
+        .lock-card {
+            background: white;
+            padding: 36px 30px;
+            border-radius: 14px;
+            text-align: center;
+            max-width: 360px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        .lock-card h2 { font-size: 1em; color: var(--primary); margin-bottom: 6px; }
+        .lock-card p { font-size: 0.8em; color: var(--text-light); margin-bottom: 18px; }
+        .lock-card input { width: 100%; padding: 11px; border: 2px solid var(--border); border-radius: 8px; text-align: center; font-size: 1em; margin-bottom: 12px; }
+        .lock-card input:focus { border-color: var(--primary-light); outline: none; }
+        .lock-card .err { color: var(--danger); font-size: 0.8em; margin-bottom: 10px; display: none; }
+        .lock-card .err.show { display: block; }
+        .loading {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255,255,255,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10001;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .loading.hidden { display: none; }
+        .spinner {
+            width: 36px; height: 36px;
+            border: 3px solid #e2e8f0;
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin-right: 10px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; border: none; }
+            .header, .toolbar, .form-row, .btn, .badge, .warning-banner, .lock-screen, .loading, .toast, .popup-overlay, .modal-overlay { display: none !important; }
+            .content { padding: 5px; }
+            table { font-size: 0.6em; }
+            td input { border: none; background: none; -webkit-appearance: none; }
+            .stats-row td { background: #eee !important; color: #000 !important; }
+            @page { size: landscape; margin: 5mm; }
+        }
     </style>
 </head>
 <body>
 
-<div class="loading-overlay" id="loading"><div class="spinner"></div>Chargement...</div>
+<div class="loading" id="loading"><div class="spinner"></div>Chargement...</div>
 <div class="warning-banner" id="banner" style="display:none">📝 TOUJOURS GARDER UNE COPIE MANUSCRITE DANS UN CAHIER DE NOTES 📒</div>
 
 <div class="popup-overlay" id="popup">
-    <div class="popup"><h3 id="popup-title"></h3><p id="popup-msg"></p>
+    <div class="popup">
+        <h3 id="popup-title"></h3><p id="popup-msg"></p>
         <div class="btn-row"><button class="btn btn-danger" id="popup-ok">Confirmer</button><button class="btn btn-outline" onclick="closePopup()">Annuler</button></div>
     </div>
 </div>
@@ -93,19 +368,19 @@
     <div class="lock-card">
         <h2>🔐 Accès protégé</h2><p>Mot de passe requis</p>
         <input type="password" id="pwd" placeholder="Mot de passe" onkeypress="if(event.key==='Enter')unlock()">
-        <div class="error-msg" id="pwd-err">Mot de passe incorrect</div>
+        <div class="err" id="pwd-err">Mot de passe incorrect</div>
         <button class="btn btn-primary" onclick="unlock()" style="width:100%">Accéder</button>
     </div>
 </div>
 
 <div class="container" id="app">
     <div class="header">
-        <div><h1>⚡ Notes CAP Électrotechnique</h1><div class="meta">Mesures & Essais • Schémas Électriques • Électrotechnique</div></div>
-        <div style="display:flex;gap:10px;align-items:center">
+        <div><h1>⚡ Notes CAP Électrotechnique</h1><div class="subtitle">Mesures & Essais • Schémas Électriques • Électrotechnique</div></div>
+        <div class="header-right">
             <span class="badge" id="role-badge"></span>
-            <button class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.1)" onclick="window.print()">🖨️ Imprimer</button>
-            <button class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.1)" onclick="lockSite()">🔒 Verrouiller</button>
-            <button class="btn btn-danger" id="btn-quit-admin" style="display:none" onclick="quitAdmin()">⬅ Quitter Admin</button>
+            <button class="btn btn-white" onclick="window.print()">🖨️ Imprimer</button>
+            <button class="btn btn-white" onclick="lockSite()">🔒 Verrouiller</button>
+            <button class="btn btn-danger btn-sm" id="btn-quit-admin" style="display:none" onclick="quitAdmin()">⬅ Quitter Admin</button>
         </div>
     </div>
     <div class="toolbar" id="toolbar"></div>
@@ -113,30 +388,24 @@
 </div>
 
 <div class="modal-overlay" id="modal-prof">
-    <div class="modal"><h3>✏️ Modifier le formateur</h3><label>Nom</label><input type="text" id="mf-nom"><label>Prénom</label><input type="text" id="mf-prenom"><input type="hidden" id="mf-key"><div class="btn-row"><button class="btn btn-success" onclick="saveProf()">💾 Enregistrer</button><button class="btn btn-outline" onclick="closeModal('modal-prof')">Annuler</button></div></div>
+    <div class="modal"><h3>✏️ Modifier le formateur</h3><label>Nom</label><input type="text" id="mf-nom"><label>Prénom</label><input type="text" id="mf-prenom"><input type="hidden" id="mf-key"><div class="btn-row"><button class="btn btn-success btn-sm" onclick="saveProf()">Enregistrer</button><button class="btn btn-outline btn-sm" onclick="closeModal('modal-prof')">Annuler</button></div></div>
 </div>
-
 <div class="modal-overlay" id="modal-matiere">
-    <div class="modal"><h3>✏️ Modifier la matière</h3><label>Nom</label><input type="text" id="mm-nom"><input type="hidden" id="mm-prof"><input type="hidden" id="mm-idx"><div class="btn-row"><button class="btn btn-success" onclick="saveMatiere()">💾 Enregistrer</button><button class="btn btn-outline" onclick="closeModal('modal-matiere')">Annuler</button></div></div>
+    <div class="modal"><h3>✏️ Modifier la matière</h3><label>Nom</label><input type="text" id="mm-nom"><input type="hidden" id="mm-prof"><input type="hidden" id="mm-idx"><div class="btn-row"><button class="btn btn-success btn-sm" onclick="saveMatiere()">Enregistrer</button><button class="btn btn-outline btn-sm" onclick="closeModal('modal-matiere')">Annuler</button></div></div>
 </div>
-
 <div class="modal-overlay" id="modal-admin">
-    <div class="modal"><h3>🔑 Droits administrateur</h3><p style="font-size:.85em;color:#76898f;margin-bottom:16px">Code admin requis.</p><label>Code admin</label><input type="password" id="admin-code"><div class="btn-row"><button class="btn btn-accent" onclick="tryAdmin()">🔓 Débloquer</button><button class="btn btn-outline" onclick="closeModal('modal-admin')">Annuler</button></div></div>
+    <div class="modal"><h3>🔑 Droits administrateur</h3><p style="font-size:0.8em;color:#64748b;margin-bottom:14px">Code admin requis.</p><label>Code admin</label><input type="password" id="admin-code"><div class="btn-row"><button class="btn btn-accent btn-sm" onclick="tryAdmin()">Débloquer</button><button class="btn btn-outline btn-sm" onclick="closeModal('modal-admin')">Annuler</button></div></div>
 </div>
 
 <script>
 const SUPA_URL = 'https://rwmfypnkhsobyvmgtupa.supabase.co';
 const SUPA_KEY = 'sb_publishable_SMwywe7eaf53fftFdvxLJQ_4RZ1_3-Y';
-
-// 3 MOTS DE PASSE
-const PWD_GLOBAL = '..@@3345';   // Accès site (tout le monde)
-const PWD_ADMIN = '@-234;';      // Mode admin Rick
-const PWD_ADJACLE = '@@EEE.';    // ADJacle (ses notes)
+const PWD_GLOBAL = '..@@3345';
+const PWD_ADMIN = '@-234;';
+const PWD_ADJACLE = '@@EEE.';
 
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
-
-let formateurs = [], currentId = null, unlocked = false, admin = false, popCb = null;
-let userIsAdjacle = false; // true si connecté avec mot de passe ADJacle
+let formateurs = [], currentId = null, unlocked = false, admin = false, userAdjacle = false, popCb = null;
 
 async function init() {
     document.getElementById('loading').classList.remove('hidden');
@@ -146,15 +415,12 @@ async function init() {
     document.getElementById('loading').classList.add('hidden');
 }
 
-function showLoading() { document.getElementById('loading').classList.remove('hidden'); }
-function hideLoading() { document.getElementById('loading').classList.add('hidden'); }
-
 // API
 async function loadApprenants(fid) { const { data } = await sb.from('apprenants').select('*').eq('formateur_id', fid).order('id'); return data || []; }
 async function loadNotes(aid) { const { data } = await sb.from('notes').select('*').eq('apprenant_id', aid); return data || []; }
-async function upsertNote(aid , mIdx, sem, field, val) {
-    const { data: ex } = await sb.from('notes').select('*').eq('apprenant_id', aid).eq('matiere_index', mi).eq('semestre', sem).maybeSingle();
-    const row = ex || { apprenant_id: aid, matiere_index: mi, semestre: sem, interro1: null, interro2: null, interro3: null, interro4: null, devoir1: null, devoir2: null };
+async function upsertNote(aid, matIdx, sem, field, val) {
+    const { data: ex } = await sb.from('notes').select('*').eq('apprenant_id', aid).eq('matiere_index', matIdx).eq('semestre', sem).maybeSingle();
+    const row = ex || { apprenant_id: aid, matiere_index: matIdx, semestre: sem, interro1: null, interro2: null, interro3: null, interro4: null, devoir1: null, devoir2: null };
     row[field] = val === '' ? null : parseFloat(val);
     await sb.from('notes').upsert(row, { onConflict: 'apprenant_id,matiere_index,semestre' });
 }
@@ -166,71 +432,49 @@ async function deleteFormateur(id) { await sb.from('formateurs').delete().eq('id
 async function addFormateur(nom, prenom, matieres) { const { data } = await sb.from('formateurs').insert({ nom, prenom, matieres }).select(); return data?.[0] || null; }
 async function updateMatieres(id, matieres) { await sb.from('formateurs').update({ matieres }).eq('id', id); }
 
-// VERROUILLAGE - 3 MOTS DE PASSE
+// VERROUILLAGE
 function unlock() {
     const pwd = document.getElementById('pwd').value;
-    
     if (pwd === PWD_GLOBAL || pwd === PWD_ADJACLE || pwd === PWD_ADMIN) {
-        unlocked = true;
-        admin = false;
-        userIsAdjacle = (pwd === PWD_ADJACLE);
-        
-        // Si c'est le mot de passe admin, on active direct
-        if (pwd === PWD_ADMIN) {
-            admin = true;
-            userIsAdjacle = false;
-        }
-        
+        unlocked = true; admin = false; userAdjacle = (pwd === PWD_ADJACLE);
+        if (pwd === PWD_ADMIN) { admin = true; userAdjacle = false; }
         document.getElementById('lock').classList.add('hidden');
         document.getElementById('pwd-err').classList.remove('show');
         document.getElementById('banner').style.display = 'flex';
-        updateUI();
-        buildAll();
-    } else {
-        document.getElementById('pwd-err').classList.add('show');
-    }
+        updateUI(); buildAll();
+    } else { document.getElementById('pwd-err').classList.add('show'); }
     document.getElementById('pwd').value = '';
 }
-
 function lockSite() {
-    showPopup('Verrouiller', 'Voulez-vous verrouiller le site ?', () => {
-        unlocked = false; admin = false; userIsAdjacle = false;
+    showPopup('Verrouiller', 'Voulez-vous verrouiller ?', () => {
+        unlocked = false; admin = false; userAdjacle = false;
         document.getElementById('lock').classList.remove('hidden');
         document.getElementById('banner').style.display = 'none';
         updateUI();
     });
 }
-
 function tryAdmin() {
     if (document.getElementById('admin-code').value === PWD_ADMIN) {
-        admin = true;
-        userIsAdjacle = false;
-        closeModal('modal-admin');
-        updateUI();
-        toast('Mode administrateur activé', 'warning');
-        buildAll();
+        admin = true; userAdjacle = false;
+        closeModal('modal-admin'); updateUI();
+        toast('Mode administrateur activé', 'warn'); buildAll();
     } else { alert('Code admin incorrect'); }
     document.getElementById('admin-code').value = '';
 }
-
 function quitAdmin() {
     showPopup('Quitter admin', 'Quitter le mode administrateur ?', () => {
-        admin = false;
-        updateUI();
-        toast('Mode admin désactivé', 'warning');
-        buildAll();
+        admin = false; updateUI();
+        toast('Mode admin désactivé', 'warn'); buildAll();
     }, 'Quitter');
 }
-
 function updateUI() {
     document.getElementById('btn-quit-admin').style.display = admin ? 'inline-block' : 'none';
     const b = document.getElementById('role-badge');
     if (!unlocked) { b.textContent = '🔒'; b.className = 'badge'; return; }
-    if (admin) { b.textContent = '👑 Rick • Admin'; b.className = 'badge badge-admin'; }
-    else if (userIsAdjacle) { b.textContent = '👨‍🏫 ADJacle • Professeur'; b.className = 'badge badge-prof'; }
-    else { b.textContent = '👨‍🏫 Rick • Professeur'; b.className = 'badge badge-prof'; }
+    if (admin) { b.textContent = '👑 Rick • Admin'; b.className = 'badge admin'; }
+    else if (userAdjacle) { b.textContent = '👨‍🏫 ADJacle'; b.className = 'badge prof'; }
+    else { b.textContent = '👨‍🏫 Rick'; b.className = 'badge prof'; }
 }
-
 function canEdit() { return unlocked; }
 function canAdmin() { return unlocked && admin; }
 
@@ -239,21 +483,17 @@ function showPopup(title, msg, cb, btnText) {
     document.getElementById('popup-title').textContent = title;
     document.getElementById('popup-msg').textContent = msg;
     document.getElementById('popup-ok').textContent = btnText || 'Confirmer';
-    popCb = cb;
-    document.getElementById('popup').classList.add('active');
+    popCb = cb; document.getElementById('popup').classList.add('active');
 }
 function closePopup() { document.getElementById('popup').classList.remove('active'); popCb = null; }
 document.getElementById('popup-ok').addEventListener('click', () => { if (popCb) popCb(); closePopup(); });
 document.getElementById('popup').addEventListener('click', function(e) { if (e.target === this) closePopup(); });
-
 function toast(msg, type) {
     const t = document.createElement('div');
-    t.className = 'toast' + (type === 'warning' ? ' warning' : '') + (type === 'error' ? ' error' : '');
-    t.textContent = (type === 'error' ? '❌ ' : '✅ ') + msg;
-    document.body.appendChild(t);
-    setTimeout(() => t.remove(), 3000);
+    t.className = 'toast' + (type === 'warn' ? ' warn' : '') + (type === 'err' ? ' err' : '');
+    t.textContent = (type === 'err' ? '❌ ' : '✅ ') + msg;
+    document.body.appendChild(t); setTimeout(() => t.remove(), 3000);
 }
-
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 document.addEventListener('click', e => { if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active'); });
 
@@ -266,125 +506,122 @@ async function buildAll() {
     await buildContent();
     updateUI();
 }
-
 function buildToolbar() {
     let h = '';
     formateurs.forEach(f => {
         const name = f.prenom ? f.prenom + ' ' + f.nom : f.nom;
-        h += '<button class="btn ' + (f.id === currentId ? 'btn-primary' : 'btn-outline') + '" onclick="selectProf(' + f.id + ')">' + name + '</button>';
+        h += '<button class="btn ' + (f.id === currentId ? 'btn-primary' : 'btn-outline') + ' btn-sm" onclick="selectProf(' + f.id + ')">' + name + '</button>';
     });
-    if (canAdmin()) h += '<button class="btn btn-success" style="margin-left:10px" onclick="addProf()">+ Formateur</button>';
-    if (!admin && unlocked && !userIsAdjacle) h += '<button class="btn btn-accent" style="margin-left:10px" onclick="document.getElementById(\'modal-admin\').classList.add(\'active\')">🔑 Admin</button>';
+    if (canAdmin()) h += '<button class="btn btn-success btn-sm" style="margin-left:8px" onclick="addProf()">+ Formateur</button>';
+    if (!admin && unlocked && !userAdjacle) h += '<button class="btn btn-accent btn-sm" style="margin-left:8px" onclick="document.getElementById(\'modal-admin\').classList.add(\'active\')">🔑 Admin</button>';
     document.getElementById('toolbar').innerHTML = h;
 }
-
 async function buildContent() {
     const ct = document.getElementById('content');
     if (!currentId) { ct.innerHTML = '<div class="empty-state">Sélectionnez un formateur</div>'; return; }
     const f = formateurs.find(x => x.id === currentId);
     if (!f) { ct.innerHTML = '<div class="empty-state">Formateur introuvable</div>'; return; }
     const name = f.prenom ? f.prenom + ' ' + f.nom : f.nom;
-    let h = '<div class="section-title">Formateur : ' + name + (admin ? ' <span style="color:#e08e3e">[Admin]</span>' : '') + '</div>';
-    h += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">';
+    let h = '<div class="section-title">Formateur : ' + name + (admin ? ' <span style="color:#e67e22">[Admin]</span>' : '') + '</div>';
+    h += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">';
     (f.matieres || []).forEach((m, i) => {
         h += '<span class="matiere-tag">' + m;
         if (admin) h += ' <button onclick="editMatiere(' + f.id + ',' + i + ')">✎</button><button style="color:#c0392b" onclick="delMatiere(' + f.id + ',' + i + ')">×</button>';
         h += '</span>';
     });
     if (admin) {
-        h += '<button class="btn btn-outline" style="font-size:.7em;padding:5px 10px" onclick="addMatiere(' + f.id + ')">+ Matière</button>';
-        h += '<button class="btn btn-outline" style="font-size:.7em;padding:5px 10px" onclick="editProf(' + f.id + ')">✎ Éditer</button>';
-        if (formateurs.length > 1) h += '<button class="btn btn-danger" style="font-size:.7em;padding:5px 10px" onclick="delProf(' + f.id + ')">🗑 Supprimer</button>';
+        h += '<button class="btn btn-outline btn-xs" onclick="addMatiere(' + f.id + ')">+ Matière</button>';
+        h += '<button class="btn btn-outline btn-xs" onclick="editProf(' + f.id + ')">✎ Éditer</button>';
+        if (formateurs.length > 1) h += '<button class="btn btn-danger btn-xs" onclick="delProf(' + f.id + ')">🗑 Supprimer</button>';
     }
     h += '</div>';
-    h += '<div style="display:flex;gap:12px;margin-bottom:16px"><select id="lvl-' + f.id + '" onchange="refresh(' + f.id + ')"><option value="1">CAP Niveau 1</option><option value="2">CAP Niveau 2</option></select><select id="mat-' + f.id + '" onchange="refresh(' + f.id + ')"><option value="0">Toutes les matières</option>';
+    h += '<div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center"><select id="lvl-' + f.id + '" onchange="refresh(' + f.id + ')"><option value="1">CAP Niveau 1</option><option value="2">CAP Niveau 2</option></select><select id="mat-' + f.id + '" onchange="refresh(' + f.id + ')"><option value="0">Toutes les matières</option>';
     (f.matieres || []).forEach((m, i) => h += '<option value="' + (i + 1) + '">' + m + '</option>');
-    h += '</select><span style="font-size:.8em;color:#76898f" id="stats-' + f.id + '"></span></div>';
-    h += '<div class="form-row"><input type="text" id="nom-' + f.id + '" placeholder="Nom"><input type="text" id="pnom-' + f.id + '" placeholder="Prénom"><button class="btn btn-success" onclick="addEleve(' + f.id + ')">Ajouter apprenant</button></div>';
-    h += '<div style="display:flex;gap:8px;margin-bottom:16px"><button class="btn btn-outline" onclick="expJSON(' + f.id + ')">📥 JSON</button><button class="btn btn-outline" onclick="expCSV(' + f.id + ')">📊 CSV</button><button class="btn btn-outline" onclick="window.print()">🖨️ PDF</button>';
-    if (canEdit()) h += '<button class="btn btn-danger" onclick="delAll(' + f.id + ')">🗑️ Tout supprimer</button></div>';
-    h += '<div class="table-container" id="table-' + f.id + '"></div>';
+    h += '</select><span style="font-size:0.78em;color:#64748b" id="stats-' + f.id + '"></span></div>';
+    h += '<div class="form-row"><input type="text" id="nom-' + f.id + '" placeholder="Nom"><input type="text" id="pnom-' + f.id + '" placeholder="Prénom"><button class="btn btn-success btn-sm" onclick="addEleve(' + f.id + ')">+ Ajouter apprenant</button></div>';
+    h += '<div style="display:flex;gap:6px;margin-bottom:14px"><button class="btn btn-outline btn-xs" onclick="expJSON(' + f.id + ')">📥 JSON</button><button class="btn btn-outline btn-xs" onclick="expCSV(' + f.id + ')">📊 CSV</button><button class="btn btn-outline btn-xs" onclick="window.print()">🖨️ PDF</button>';
+    if (canEdit()) h += '<button class="btn btn-danger btn-xs" onclick="delAll(' + f.id + ')">🗑️ Tout supprimer</button></div>';
+    h += '<div class="table-wrapper" id="table-' + f.id + '"></div>';
     ct.innerHTML = h;
     await refresh(f.id);
 }
-
 async function selectProf(id) { currentId = id; await buildContent(); buildToolbar(); updateUI(); }
 
 // CALCULS
-function mi(nr) { if (!nr) return 0; const v = [nr.interro1, nr.interro2, nr.interro3, nr.interro4].filter(x => x !== null && x !== undefined && x !== ''); return v.length > 0 ? v.reduce((a, b) => Number(a) + Number(b), 0) / v.length : 0; }
-function moy(nr) { if (!nr) return '-'; const m = mi(nr); const d1 = Number(nr.devoir1) || 0; const d2 = Number(nr.devoir2) || 0; const has = [nr.interro1, nr.interro2, nr.interro3, nr.interro4].some(x => x !== null && x !== undefined && x !== ''); if (!has && !nr.devoir1 && !nr.devoir2) return '-'; return ((m + d1 + d2) / 3).toFixed(2); }
-function mg(matNotes, sem) { const vals = matNotes.map(nr => { const n = nr[sem]; return n ? parseFloat(moy(n)) : NaN; }).filter(v => !isNaN(v)); return vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) : '-'; }
-function stats(liste , mIdx, sem) { const vals = liste.map(a => { const nr = (a._notes || {})[mi + '_' + sem]; return nr ? parseFloat(moy(nr)) : NaN; }).filter(v => !isNaN(v)); if (vals.length === 0) return { eff: 0, moy: '-', min: '-', max: '-' }; return { eff: vals.length, moy: (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2), min: Math.min(...vals).toFixed(2), max: Math.max(...vals).toFixed(2) }; }
+function calcMI(nr) { if (!nr) return 0; const v = [nr.interro1, nr.interro2, nr.interro3, nr.interro4].filter(x => x !== null && x !== undefined && x !== ''); return v.length > 0 ? v.reduce((a, b) => Number(a) + Number(b), 0) / v.length : 0; }
+function calcMoy(nr) { if (!nr) return '-'; const m = calcMI(nr); const d1 = Number(nr.devoir1) || 0; const d2 = Number(nr.devoir2) || 0; const has = [nr.interro1, nr.interro2, nr.interro3, nr.interro4].some(x => x !== null && x !== undefined && x !== ''); if (!has && !nr.devoir1 && !nr.devoir2) return '-'; return ((m + d1 + d2) / 3).toFixed(2); }
+function calcMG(matNotes, sem) { const vals = matNotes.map(nr => { const n = nr[sem]; return n ? parseFloat(calcMoy(n)) : NaN; }).filter(v => !isNaN(v)); return vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) : '-'; }
+function calcStats(liste, matIdx, sem) { const vals = liste.map(a => { const nr = (a._notes || {})[matIdx + '_' + sem]; return nr ? parseFloat(calcMoy(nr)) : NaN; }).filter(v => !isNaN(v)); if (vals.length === 0) return { eff: 0, moy: '-', min: '-', max: '-' }; return { eff: vals.length, moy: (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2), min: Math.min(...vals).toFixed(2), max: Math.max(...vals).toFixed(2) }; }
 
 async function refresh(pid) {
     const container = document.getElementById('table-' + pid);
     if (!container) return;
     const lvl = document.getElementById('lvl-' + pid)?.value || '1';
-    const matIdx = parseInt(document.getElementById('mat-' + pid)?.value || '0');
+    const matSelect = parseInt(document.getElementById('mat-' + pid)?.value || '0');
     const f = formateurs.find(x => x.id === pid);
     if (!f) return;
-    showLoading();
+    document.getElementById('loading').classList.remove('hidden');
     const liste = await loadApprenants(pid);
     const filtered = liste.filter(a => a.niveau === lvl);
     for (let a of filtered) { const n = await loadNotes(a.id); a._notes = {}; n.forEach(row => { a._notes[row.matiere_index + '_' + row.semestre] = row; }); }
     document.getElementById('stats-' + pid).textContent = filtered.length + ' apprenant(s)';
     const mats = f.matieres || [];
-    const mts = matIdx === 0 ? mats.map((_, i) => i) : [matIdx - 1];
-    if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">Aucun apprenant</div>'; hideLoading(); return; }
+    const showMats = matSelect === 0 ? mats.map((_, i) => i) : [matSelect - 1];
+    if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">Aucun apprenant</div>'; document.getElementById('loading').classList.add('hidden'); return; }
     let h = '<table><thead><tr><th rowspan="2">N°</th><th rowspan="2">Nom</th><th rowspan="2">Prénom</th>';
-    mts.forEach(mIdx => h += '<th colspan="8">Semestre 1 — ' + mats[mi] + '</th>');
-    if (matIdx === 0) h += '<th rowspan="2">MG S1</th>';
-    mts.forEach(mIdx => h += '<th colspan="8">Semestre 2 — ' + mats[mi] + '</th>');
-    if (matIdx === 0) h += '<th rowspan="2">MG S2</th><th rowspan="2"></th></tr><tr>';
-    mts.forEach(() => h += '<th class="sub-header">I1</th><th class="sub-header">I2</th><th class="sub-header">I3</th><th class="sub-header">I4</th><th class="sub-header">MI</th><th class="sub-header">D1</th><th class="sub-header">D2</th><th class="sub-header">Moy</th>');
-    mts.forEach(() => h += '<th class="sub-header">I1</th><th class="sub-header">I2</th><th class="sub-header">I3</th><th class="sub-header">I4</th><th class="sub-header">MI</th><th class="sub-header">D1</th><th class="sub-header">D2</th><th class="sub-header">Moy</th>');
+    showMats.forEach(mi => h += '<th colspan="8">Semestre 1 — ' + mats[mi] + '</th>');
+    if (matSelect === 0) h += '<th rowspan="2">MG S1</th>';
+    showMats.forEach(mi => h += '<th colspan="8">Semestre 2 — ' + mats[mi] + '</th>');
+    if (matSelect === 0) h += '<th rowspan="2">MG S2</th><th rowspan="2"></th></tr><tr>';
+    showMats.forEach(() => h += '<th class="sub">I1</th><th class="sub">I2</th><th class="sub">I3</th><th class="sub">I4</th><th class="sub">MI</th><th class="sub">D1</th><th class="sub">D2</th><th class="sub">Moy</th>');
+    showMats.forEach(() => h += '<th class="sub">I1</th><th class="sub">I2</th><th class="sub">I3</th><th class="sub">I4</th><th class="sub">MI</th><th class="sub">D1</th><th class="sub">D2</th><th class="sub">Moy</th>');
     h += '</tr></thead><tbody>';
     const edit = canEdit();
     filtered.forEach((a, idx) => {
         const an = a._notes || {};
-        h += '<tr><td>' + (idx + 1) + '</td><td class="cell-name">' + a.nom + '</td><td>' + a.prenom + '</td>';
-        mts.forEach(mIdx => {
+        h += '<tr><td>' + (idx + 1) + '</td><td class="td-name">' + a.nom + '</td><td>' + a.prenom + '</td>';
+        showMats.forEach(mi => {
             const nr = an[mi + '_1'];
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro3 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro3\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro4 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro4\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td class="cell-mi">' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '-') + '</td>';
+            h += '<td class="td-mi">' + (calcMI(nr) > 0 ? calcMI(nr).toFixed(2) : '-') + '</td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'devoir1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td class="cell-moy">' + moy(nr) + '</td>';
+            h += '<td class="td-moy">' + calcMoy(nr) + '</td>';
         });
-        if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); h += '<td class="cell-mg">' + mg(mn, '1') + '</td>'; }
-        mts.forEach(mIdx => {
+        if (matSelect === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); h += '<td class="td-mg">' + calcMG(mn, '1') + '</td>'; }
+        showMats.forEach(mi => {
             const nr = an[mi + '_2'];
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro3 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro3\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro4 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro4\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td class="cell-mi">' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '-') + '</td>';
+            h += '<td class="td-mi">' + (calcMI(nr) > 0 ? calcMI(nr).toFixed(2) : '-') + '</td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td class="cell-moy">' + moy(nr) + '</td>';
+            h += '<td class="td-moy">' + calcMoy(nr) + '</td>';
         });
-        if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); h += '<td class="cell-mg">' + mg(mn, '2') + '</td>'; }
-        h += '<td><button class="btn btn-danger" style="padding:2px 8px;font-size:.65em" onclick="delEleve(' + pid + ',' + a.id + ')" ' + (edit ? '' : 'disabled') + '>✕</button></td></tr>';
+        if (matSelect === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); h += '<td class="td-mg">' + calcMG(mn, '2') + '</td>'; }
+        h += '<td><button class="btn btn-danger btn-xs" onclick="delEleve(' + pid + ',' + a.id + ')" ' + (edit ? '' : 'disabled') + '>✕</button></td></tr>';
     });
+    // STATS
     h += '<tr class="stats-row"><td colspan="3" class="stat-label">📊 STATISTIQUES</td>';
-    mts.forEach(mIdx => { const s = stats(filtered , mIdx, '1'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
-    if (matIdx === 0) { const mgVals = filtered.map(a => { const mn = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] })); const v = mg(mn, '1'); return v === '-' ? NaN : parseFloat(v); }).filter(v => !isNaN(v)); h += '<td>Eff:' + mgVals.length + '<br>Moy:' + (mgVals.length > 0 ? (mgVals.reduce((a, b) => a + b, 0) / mgVals.length).toFixed(2) : '-') + '</td>'; }
-    mts.forEach(mIdx => { const s = stats(filtered , mIdx, '2'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
-    if (matIdx === 0) { const mgVals = filtered.map(a => { const mn = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] })); const v = mg(mn, '2'); return v === '-' ? NaN : parseFloat(v); }).filter(v => !isNaN(v)); h += '<td>Eff:' + mgVals.length + '<br>Moy:' + (mgVals.length > 0 ? (mgVals.reduce((a, b) => a + b, 0) / mgVals.length).toFixed(2) : '-') + '</td>'; }
+    showMats.forEach(mi => { const s = calcStats(filtered, mi, '1'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
+    if (matSelect === 0) { const mgVals = filtered.map(a => { const mn = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] })); const v = calcMG(mn, '1'); return v === '-' ? NaN : parseFloat(v); }).filter(v => !isNaN(v)); h += '<td>Eff:' + mgVals.length + '<br>Moy:' + (mgVals.length > 0 ? (mgVals.reduce((a, b) => a + b, 0) / mgVals.length).toFixed(2) : '-') + '</td>'; }
+    showMats.forEach(mi => { const s = calcStats(filtered, mi, '2'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
+    if (matSelect === 0) { const mgVals = filtered.map(a => { const mn = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] })); const v = calcMG(mn, '2'); return v === '-' ? NaN : parseFloat(v); }).filter(v => !isNaN(v)); h += '<td>Eff:' + mgVals.length + '<br>Moy:' + (mgVals.length > 0 ? (mgVals.reduce((a, b) => a + b, 0) / mgVals.length).toFixed(2) : '-') + '</td>'; }
     h += '<td></td></tr></tbody></table>';
     container.innerHTML = h;
-    hideLoading();
+    document.getElementById('loading').classList.add('hidden');
 }
 
-async function upd(aid , mIdx, sem, field, val) {
-    await upsertNote(aid , mIdx, sem, field, val);
+async function upd(aid, mi, sem, field, val) {
+    await upsertNote(aid, mi, sem, field, val);
     toast('Note enregistrée 📒');
     await refresh(currentId);
 }
-
 async function addEleve(pid) {
     if (!canEdit()) return;
     const nom = document.getElementById('nom-' + pid).value.trim();
@@ -396,19 +633,18 @@ async function addEleve(pid) {
     document.getElementById('pnom-' + pid).value = '';
     await refresh(pid);
 }
-
-function delEleve(pid, id) { if (!canEdit()) return; showPopup('Supprimer', 'Supprimer cet apprenant ?', async () => { await deleteApprenant(id); toast('Apprenant supprimé', 'error'); await refresh(pid); }); }
-function delAll(pid) { if (!canEdit()) return; showPopup('Tout supprimer', '⚠️ Supprimer TOUS les apprenants ?', async () => { await deleteAllApprenants(pid, document.getElementById('lvl-' + pid).value); toast('Tous supprimés', 'error'); await refresh(pid); }); }
-async function addProf() { if (!canAdmin()) return; const f = await addFormateur('Nouveau', '', ['Matière 1']); if (f) { toast('Formateur ajouté', 'warning'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = f.id; buildAll(); } }
+function delEleve(pid, id) { if (!canEdit()) return; showPopup('Supprimer', 'Supprimer cet apprenant ?', async () => { await deleteApprenant(id); toast('Apprenant supprimé', 'err'); await refresh(pid); }); }
+function delAll(pid) { if (!canEdit()) return; showPopup('Tout supprimer', '⚠️ Supprimer TOUS les apprenants ?', async () => { await deleteAllApprenants(pid, document.getElementById('lvl-' + pid).value); toast('Tous supprimés', 'err'); await refresh(pid); }); }
+async function addProf() { if (!canAdmin()) return; const f = await addFormateur('Nouveau', '', ['Matière 1']); if (f) { toast('Formateur ajouté', 'warn'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = f.id; buildAll(); } }
 function editProf(id) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === id); if (!f) return; document.getElementById('mf-nom').value = f.nom; document.getElementById('mf-prenom').value = f.prenom || ''; document.getElementById('mf-key').value = id; document.getElementById('modal-prof').classList.add('active'); }
 async function saveProf() { if (!canAdmin()) return; const id = parseInt(document.getElementById('mf-key').value); await updateFormateur(id, document.getElementById('mf-nom').value.trim(), document.getElementById('mf-prenom').value.trim()); toast('Formateur modifié'); closeModal('modal-prof'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; buildAll(); }
-function delProf(id) { if (!canAdmin() || formateurs.length <= 1) return; showPopup('Supprimer', 'Supprimer ce formateur ?', async () => { await deleteFormateur(id); toast('Formateur supprimé', 'error'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = formateurs[0]?.id; buildAll(); }); }
+function delProf(id) { if (!canAdmin() || formateurs.length <= 1) return; showPopup('Supprimer', 'Supprimer ce formateur ?', async () => { await deleteFormateur(id); toast('Formateur supprimé', 'err'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = formateurs[0]?.id; buildAll(); }); }
 function editMatiere(pid, idx) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === pid); if (!f) return; document.getElementById('mm-nom').value = f.matieres[idx]; document.getElementById('mm-prof').value = pid; document.getElementById('mm-idx').value = idx; document.getElementById('modal-matiere').classList.add('active'); }
 async function saveMatiere() { if (!canAdmin()) return; const pid = parseInt(document.getElementById('mm-prof').value); const idx = parseInt(document.getElementById('mm-idx').value); const nom = document.getElementById('mm-nom').value.trim(); if (!nom) return; const f = formateurs.find(x => x.id === pid); if (!f) return; f.matieres[idx] = nom; await updateMatieres(pid, f.matieres); toast('Matière modifiée'); closeModal('modal-matiere'); buildAll(); }
 async function addMatiere(pid) { if (!canAdmin()) return; const nom = prompt('Nom :'); if (!nom) return; const f = formateurs.find(x => x.id === pid); if (!f) return; f.matieres.push(nom); await updateMatieres(pid, f.matieres); toast('Matière ajoutée'); buildAll(); }
-async function delMatiere(pid, idx) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === pid); if (!f || f.matieres.length <= 1) return; showPopup('Supprimer', 'Supprimer cette matière ?', async () => { f.matieres.splice(idx, 1); await updateMatieres(pid, f.matieres); toast('Matière supprimée', 'error'); buildAll(); }); }
+async function delMatiere(pid, idx) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === pid); if (!f || f.matieres.length <= 1) return; showPopup('Supprimer', 'Supprimer cette matière ?', async () => { f.matieres.splice(idx, 1); await updateMatieres(pid, f.matieres); toast('Matière supprimée', 'err'); buildAll(); }); }
 function expJSON(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.json'; a.click(); toast('Export JSON'); }); }
-function expCSV(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; const matIdx = parseInt(document.getElementById('mat-' + pid)?.value || '0'); const f = formateurs.find(x => x.id === pid); if (!f) return; const mats = f.matieres || []; const mts = matIdx === 0 ? mats.map((_, i) => i) : [matIdx - 1]; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { let csv = 'N°,Nom,Prénom,'; mts.forEach(mIdx => csv += 'S1-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,'); if (matIdx === 0) csv += 'MG S1,'; mts.forEach(mIdx => csv += 'S2-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,'); if (matIdx === 0) csv += 'MG S2'; csv += '\n'; data.forEach((a, i) => { const an = {}; (a.notes || []).forEach(n => { an[n.matiere_index + '_' + n.semestre] = n; }); csv += (i + 1) + ',' + a.nom + ',' + a.prenom + ','; mts.forEach(mIdx => { const nr = an[mi + '_1']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; }); if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '1') + ','; } mts.forEach(mIdx => { const nr = an[mi + '_2']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; }); if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '2'); } csv += '\n'; }); const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.csv'; a.click(); toast('Export CSV'); }); }
+function expCSV(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; const matSelect = parseInt(document.getElementById('mat-' + pid)?.value || '0'); const f = formateurs.find(x => x.id === pid); if (!f) return; const mats = f.matieres || []; const showMats = matSelect === 0 ? mats.map((_, i) => i) : [matSelect - 1]; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { let csv = 'N°,Nom,Prénom,'; showMats.forEach(mi => csv += 'S1-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,'); if (matSelect === 0) csv += 'MG S1,'; showMats.forEach(mi => csv += 'S2-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,'); if (matSelect === 0) csv += 'MG S2'; csv += '\n'; data.forEach((a, i) => { const an = {}; (a.notes || []).forEach(n => { an[n.matiere_index + '_' + n.semestre] = n; }); csv += (i + 1) + ',' + a.nom + ',' + a.prenom + ','; showMats.forEach(mi => { const nr = an[mi + '_1']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (calcMI(nr) > 0 ? calcMI(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + calcMoy(nr) + ','; }); if (matSelect === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += calcMG(mn, '1') + ','; } showMats.forEach(mi => { const nr = an[mi + '_2']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (calcMI(nr) > 0 ? calcMI(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + calcMoy(nr) + ','; }); if (matSelect === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += calcMG(mn, '2'); } csv += '\n'; }); const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.csv'; a.click(); toast('Export CSV'); }); }
 
 init();
 </script>
