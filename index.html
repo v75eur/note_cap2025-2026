@@ -8,347 +8,513 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg: #f1f5f9;
+            --bg: #f0f4ff;
             --white: #ffffff;
-            --primary: #1e3a5f;
-            --primary-light: #2d5a8e;
-            --accent: #e67e22;
-            --success: #27ae60;
-            --danger: #c0392b;
-            --border: #e2e8f0;
-            --text: #1a202c;
-            --text-light: #64748b;
-            --shadow: 0 1px 3px rgba(0,0,0,0.08);
-            --shadow-lg: 0 4px 16px rgba(0,0,0,0.1);
-            --radius: 10px;
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --primary-light: #818cf8;
+            --accent: #f59e0b;
+            --accent2: #ec4899;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --border: #e0e7ff;
+            --text: #1e1b4b;
+            --text-light: #6b7280;
+            --radius: 12px;
+            --shadow: 0 2px 8px rgba(79,70,229,0.08);
+            --shadow-lg: 0 8px 32px rgba(79,70,229,0.15);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            padding: 20px;
-            min-height: 100vh;
+            font-family:'Inter',sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            color:var(--text);
+            min-height:100vh;
+            padding:16px;
         }
         .container {
-            max-width: 100%;
-            margin: 0 auto;
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
+            max-width:100%;
+            margin:0 auto;
+            background:rgba(255,255,255,0.97);
+            border-radius:20px;
+            box-shadow:var(--shadow-lg);
+            overflow:hidden;
         }
+        /* HEADER */
         .header {
-            background: var(--primary);
-            color: white;
-            padding: 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
+            color:white;
+            padding:18px 24px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:12px;
+            position:relative;
+            overflow:hidden;
         }
-        .header h1 { font-size: 1.1em; font-weight: 700; }
-        .header .subtitle { font-size: 0.75em; opacity: 0.8; margin-top: 2px; }
-        .header-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .header::before {
+            content:'⚡';
+            position:absolute;
+            right:20px;
+            top:50%;
+            transform:translateY(-50%);
+            font-size:5em;
+            opacity:0.07;
+            pointer-events:none;
+        }
+        .header h1 {
+            font-size:1.15em;
+            font-weight:800;
+            letter-spacing:-0.3px;
+            text-shadow:0 2px 8px rgba(0,0,0,0.2);
+        }
+        .header .subtitle {
+            font-size:0.72em;
+            opacity:0.85;
+            margin-top:3px;
+            font-weight:500;
+        }
+        .header-right { display:flex; gap:8px; align-items:center; flex-wrap:wrap; z-index:1; }
         .badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.7em;
-            font-weight: 700;
-            background: rgba(255,255,255,0.15);
-            color: white;
+            display:inline-block;
+            padding:5px 13px;
+            border-radius:20px;
+            font-size:0.7em;
+            font-weight:700;
+            background:rgba(255,255,255,0.2);
+            color:white;
+            backdrop-filter:blur(4px);
+            border:1px solid rgba(255,255,255,0.3);
         }
-        .badge.admin { background: #fdebd0; color: #b7791f; }
-        .badge.prof { background: #d5f5e3; color: #1e8449; }
+        .badge.admin { background:#fef3c7; color:#92400e; border-color:#fcd34d; }
+        .badge.prof  { background:#d1fae5; color:#065f46; border-color:#6ee7b7; }
+        /* BOUTONS */
         .btn {
-            padding: 8px 14px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.75em;
-            font-weight: 600;
-            transition: all 0.15s;
-            white-space: nowrap;
+            padding:8px 16px;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:0.75em;
+            font-weight:700;
+            transition:all 0.18s;
+            white-space:nowrap;
+            letter-spacing:0.2px;
         }
-        .btn:hover { filter: brightness(1.1); }
-        .btn-sm { padding: 5px 10px; font-size: 0.7em; }
-        .btn-xs { padding: 3px 7px; font-size: 0.65em; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-success { background: var(--success); color: white; }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-accent { background: var(--accent); color: white; }
-        .btn-outline { background: white; border: 1px solid var(--border); color: var(--text); }
-        .btn-outline:hover { background: #f8fafc; }
-        .btn-white { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); }
-        .btn-white:hover { background: rgba(255,255,255,0.25); }
+        .btn:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+        .btn:active { transform:translateY(0); }
+        .btn-sm { padding:6px 12px; font-size:0.72em; }
+        .btn-xs { padding:4px 9px; font-size:0.67em; }
+        .btn-primary { background:var(--primary); color:white; }
+        .btn-success { background:var(--success); color:white; }
+        .btn-danger  { background:var(--danger);  color:white; }
+        .btn-accent  { background:var(--accent);  color:white; }
+        .btn-pink    { background:var(--accent2); color:white; }
+        .btn-outline {
+            background:white;
+            border:1.5px solid var(--border);
+            color:var(--text);
+        }
+        .btn-outline:hover { border-color:var(--primary-light); color:var(--primary); background:#f5f3ff; }
+        .btn-white {
+            background:rgba(255,255,255,0.18);
+            color:white;
+            border:1px solid rgba(255,255,255,0.35);
+            backdrop-filter:blur(4px);
+        }
+        .btn-white:hover { background:rgba(255,255,255,0.3); }
+        /* TOOLBAR */
         .toolbar {
-            display: flex;
-            gap: 8px;
-            padding: 12px 24px;
-            border-bottom: 1px solid var(--border);
-            flex-wrap: wrap;
-            align-items: center;
-            background: #fafbfc;
+            display:flex;
+            gap:8px;
+            padding:14px 24px;
+            border-bottom:2px solid var(--border);
+            flex-wrap:wrap;
+            align-items:center;
+            background:linear-gradient(90deg,#f5f3ff,#fdf4ff);
         }
         .toolbar select {
-            padding: 7px 10px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.8em;
-            background: white;
+            padding:7px 10px;
+            border:1.5px solid var(--border);
+            border-radius:8px;
+            font-size:0.8em;
+            background:white;
+            color:var(--text);
         }
-        .content { padding: 20px 24px; }
+        /* CONTENT */
+        .content { padding:22px 24px; }
         .section-title {
-            font-size: 0.8em;
-            font-weight: 700;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 14px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--border);
+            font-size:0.82em;
+            font-weight:800;
+            color:var(--primary);
+            text-transform:uppercase;
+            letter-spacing:0.8px;
+            margin-bottom:16px;
+            padding-bottom:8px;
+            border-bottom:3px solid;
+            border-image:linear-gradient(90deg,#4f46e5,#ec4899) 1;
+            display:flex;
+            align-items:center;
+            gap:8px;
         }
+        /* FORM ROW */
         .form-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-            align-items: end;
+            display:flex;
+            gap:8px;
+            margin-bottom:16px;
+            flex-wrap:wrap;
+            align-items:end;
         }
         .form-row input {
-            padding: 8px 10px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.8em;
-            width: 140px;
+            padding:9px 12px;
+            border:1.5px solid var(--border);
+            border-radius:8px;
+            font-size:0.8em;
+            width:145px;
+            transition:border-color 0.15s;
+            font-family:'Inter',sans-serif;
         }
-        .form-row input:focus { border-color: var(--primary-light); outline: none; }
+        .form-row input:focus {
+            border-color:var(--primary-light);
+            outline:none;
+            box-shadow:0 0 0 3px rgba(79,70,229,0.1);
+        }
+        /* MATIERE TAGS */
         .matiere-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            background: #eef2f7;
-            border: 1px solid var(--border);
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.75em;
-            font-weight: 600;
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            background:linear-gradient(135deg,#ede9fe,#fce7f3);
+            border:1.5px solid #c4b5fd;
+            padding:5px 12px;
+            border-radius:20px;
+            font-size:0.75em;
+            font-weight:700;
+            color:#5b21b6;
         }
         .matiere-tag button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 0.85em;
-            color: var(--text-light);
-            padding: 0 2px;
+            background:none;
+            border:none;
+            cursor:pointer;
+            font-size:0.9em;
+            color:#7c3aed;
+            padding:0 2px;
         }
-        .matiere-tag button:hover { color: var(--primary); }
+        .matiere-tag button:hover { color:#dc2626; }
+        /* EXPORT BUTTONS */
+        .export-bar {
+            display:flex;
+            gap:6px;
+            margin-bottom:16px;
+            flex-wrap:wrap;
+        }
+        /* FILTRE ROW */
+        .filter-row {
+            display:flex;
+            gap:10px;
+            margin-bottom:16px;
+            flex-wrap:wrap;
+            align-items:center;
+            background:linear-gradient(135deg,#f5f3ff,#fdf4ff);
+            padding:12px 16px;
+            border-radius:12px;
+            border:1.5px solid #e0e7ff;
+        }
+        .filter-row select {
+            padding:7px 12px;
+            border:1.5px solid #c4b5fd;
+            border-radius:8px;
+            font-size:0.8em;
+            background:white;
+            color:var(--primary-dark);
+            font-weight:600;
+        }
+        /* TABLE */
         .table-wrapper {
-            overflow-x: auto;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            background: white;
+            overflow-x:auto;
+            border:2px solid var(--border);
+            border-radius:14px;
+            background:white;
+            box-shadow:var(--shadow);
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.73em;
-        }
+        table { width:100%; border-collapse:collapse; font-size:0.72em; }
         thead th {
-            background: var(--primary);
-            color: white;
-            padding: 8px 6px;
-            font-weight: 600;
-            font-size: 0.8em;
-            white-space: nowrap;
-            border: 1px solid rgba(255,255,255,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 2;
+            background:linear-gradient(135deg,#4f46e5,#7c3aed);
+            color:white;
+            padding:9px 6px;
+            font-weight:700;
+            font-size:0.8em;
+            white-space:nowrap;
+            border:1px solid rgba(255,255,255,0.15);
+            position:sticky;
+            top:0;
+            z-index:2;
+            text-shadow:0 1px 3px rgba(0,0,0,0.2);
         }
         thead th.sub {
-            background: #edf2f7;
-            color: var(--text);
-            font-size: 0.72em;
-            font-weight: 700;
-            border: 1px solid var(--border);
+            background:linear-gradient(135deg,#ede9fe,#fce7f3);
+            color:#5b21b6;
+            font-size:0.72em;
+            font-weight:800;
+            border:1px solid #c4b5fd;
         }
         tbody td {
-            padding: 6px 4px;
-            text-align: center;
-            border: 1px solid var(--border);
-            vertical-align: middle;
+            padding:6px 4px;
+            text-align:center;
+            border:1px solid #e0e7ff;
+            vertical-align:middle;
         }
-        tbody tr:nth-child(even) { background: #fafcfd; }
-        tbody tr:hover { background: #eef7f2; }
+        tbody tr:nth-child(even) { background:#fafaff; }
+        tbody tr:hover { background:linear-gradient(90deg,#f5f3ff,#fdf4ff); }
         tbody td input {
-            width: 44px;
-            padding: 5px 3px;
-            text-align: center;
-            border: 1px solid #dde4e8;
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-family: 'Inter', sans-serif;
+            width:46px;
+            padding:5px 3px;
+            text-align:center;
+            border:1.5px solid #c4b5fd;
+            border-radius:6px;
+            font-size:0.8em;
+            font-family:'Inter',sans-serif;
+            background:#fafaff;
         }
         tbody td input:focus {
-            border-color: var(--primary-light);
-            outline: none;
-            background: #f0f5fa;
-            box-shadow: 0 0 0 2px rgba(30,58,95,0.1);
+            border-color:var(--primary);
+            outline:none;
+            background:#ede9fe;
+            box-shadow:0 0 0 2px rgba(79,70,229,0.15);
         }
-        tbody td input:disabled { background: #f4f5f6; color: #999; cursor: not-allowed; }
-        .td-name { font-weight: 700; text-align: left; padding-left: 8px; color: var(--primary); }
-        .td-mi { font-weight: 700; color: #27ae60; background: #f0faf4; }
-        .td-moy { font-weight: 700; background: #d5f5e3; color: #1e8449; }
-        .td-mg { font-weight: 800; background: #fef9e7; color: #b7791f; font-size: 0.85em; }
+        tbody td input:disabled { background:#f4f4f4; color:#aaa; cursor:not-allowed; border-color:#e5e7eb; }
+        .td-name { font-weight:700; text-align:left; padding-left:10px; color:var(--primary-dark); }
+        .td-mi   { font-weight:700; color:#065f46; background:#d1fae5; }
+        .td-moy  { font-weight:800; background:linear-gradient(135deg,#a7f3d0,#6ee7b7); color:#065f46; }
+        .td-mg   { font-weight:900; background:linear-gradient(135deg,#fde68a,#fbbf24); color:#92400e; font-size:0.85em; }
+        /* STATS ROW */
         .stats-row td {
-            background: #1e3a5f !important;
-            color: white !important;
-            font-weight: 700;
-            font-size: 0.75em;
-            border-top: 3px solid var(--accent);
-            padding: 8px 4px;
+            background:linear-gradient(135deg,#1e1b4b,#4f46e5) !important;
+            color:white !important;
+            font-weight:700;
+            font-size:0.74em;
+            border-top:3px solid var(--accent);
+            padding:8px 5px;
         }
-        .stats-row .stat-label { text-align: right; padding-right: 10px; color: #f6c897 !important; }
-        .empty-state { text-align: center; padding: 40px; color: var(--text-light); font-size: 0.85em; }
+        .stats-row .stat-label { text-align:right; padding-right:12px; color:#fde68a !important; font-size:0.85em; }
+        /* BADGES NIVEAU */
+        .badge-niveau {
+            display:inline-block;
+            padding:2px 8px;
+            border-radius:20px;
+            font-size:0.65em;
+            font-weight:700;
+        }
+        .badge-n1 { background:#dbeafe; color:#1d4ed8; }
+        .badge-n2 { background:#fce7f3; color:#be185d; }
+        /* EMPTY STATE */
+        .empty-state {
+            text-align:center;
+            padding:50px;
+            color:var(--text-light);
+            font-size:0.85em;
+        }
+        .empty-state::before { content:'📭'; display:block; font-size:2em; margin-bottom:10px; }
+        /* TOAST */
         .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: var(--success);
-            color: white;
-            padding: 12px 18px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.8em;
-            z-index: 9999;
-            animation: slideUp 0.3s ease;
-            box-shadow: var(--shadow-lg);
+            position:fixed;
+            bottom:24px;
+            right:24px;
+            background:linear-gradient(135deg,#10b981,#059669);
+            color:white;
+            padding:12px 20px;
+            border-radius:12px;
+            font-weight:700;
+            font-size:0.8em;
+            z-index:9999;
+            animation:slideUp 0.3s ease;
+            box-shadow:0 8px 24px rgba(16,185,129,0.4);
         }
-        .toast.warn { background: var(--accent); }
-        .toast.err { background: var(--danger); }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .toast.warn { background:linear-gradient(135deg,#f59e0b,#d97706); box-shadow:0 8px 24px rgba(245,158,11,0.4); }
+        .toast.err  { background:linear-gradient(135deg,#ef4444,#dc2626); box-shadow:0 8px 24px rgba(239,68,68,0.4); }
+        @keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+        /* WARNING BANNER */
         .warning-banner {
-            background: #fef9e7;
-            border: 2px solid #f39c12;
-            color: #7d6608;
-            text-align: center;
-            padding: 10px;
-            font-weight: 700;
-            font-size: 0.8em;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background:linear-gradient(90deg,#fffbeb,#fef3c7);
+            border-bottom:2px solid #fcd34d;
+            color:#92400e;
+            text-align:center;
+            padding:10px;
+            font-weight:700;
+            font-size:0.78em;
+            position:sticky;
+            top:0;
+            z-index:100;
         }
+        /* POPUP */
         .popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(2px);
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
+            display:none;
+            position:fixed;
+            top:0;left:0;
+            width:100%;height:100%;
+            background:rgba(30,27,75,0.6);
+            backdrop-filter:blur(4px);
+            justify-content:center;
+            align-items:center;
+            z-index:10000;
         }
-        .popup-overlay.active { display: flex; }
+        .popup-overlay.active { display:flex; }
         .popup {
-            background: white;
-            border-radius: 12px;
-            padding: 28px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
+            background:white;
+            border-radius:18px;
+            padding:32px;
+            max-width:400px;
+            width:90%;
+            text-align:center;
+            box-shadow:0 20px 60px rgba(0,0,0,0.25);
+            border:2px solid var(--border);
         }
-        .popup h3 { font-size: 1em; margin-bottom: 8px; }
-        .popup p { font-size: 0.85em; color: var(--text-light); margin-bottom: 18px; }
-        .popup .btn-row { display: flex; gap: 8px; justify-content: center; }
+        .popup h3 { font-size:1em; margin-bottom:8px; color:var(--primary-dark); }
+        .popup p { font-size:0.85em; color:var(--text-light); margin-bottom:20px; }
+        .popup .btn-row { display:flex; gap:10px; justify-content:center; }
+        /* MODALS */
         .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(2px);
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
+            display:none;
+            position:fixed;
+            top:0;left:0;
+            width:100%;height:100%;
+            background:rgba(30,27,75,0.6);
+            backdrop-filter:blur(4px);
+            justify-content:center;
+            align-items:center;
+            z-index:9999;
         }
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active { display:flex; }
         .modal {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            max-width: 420px;
-            width: 90%;
-            box-shadow: var(--shadow-lg);
+            background:white;
+            border-radius:18px;
+            padding:26px;
+            max-width:420px;
+            width:90%;
+            box-shadow:0 20px 60px rgba(0,0,0,0.2);
+            border:2px solid var(--border);
         }
-        .modal h3 { font-size: 0.95em; margin-bottom: 18px; color: var(--primary); }
-        .modal label { display: block; font-size: 0.75em; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
-        .modal input { width: 100%; padding: 9px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 12px; font-size: 0.85em; }
-        .modal input:focus { border-color: var(--primary-light); outline: none; }
-        .modal .btn-row { display: flex; gap: 8px; justify-content: flex-end; }
+        .modal h3 { font-size:0.95em; margin-bottom:18px; color:var(--primary); font-weight:800; }
+        .modal label { display:block; font-size:0.73em; font-weight:700; color:var(--text-light); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.4px; }
+        .modal input { width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:8px; margin-bottom:14px; font-size:0.85em; font-family:'Inter',sans-serif; }
+        .modal input:focus { border-color:var(--primary-light); outline:none; box-shadow:0 0 0 3px rgba(79,70,229,0.1); }
+        .modal .btn-row { display:flex; gap:8px; justify-content:flex-end; }
+        /* LOCK SCREEN */
         .lock-screen {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, #0c2d48, #1e3a5f, #2d5a8e);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
+            position:fixed;
+            top:0;left:0;
+            width:100%;height:100%;
+            background:linear-gradient(135deg,#1e1b4b,#4f46e5,#7c3aed,#ec4899);
+            background-size:400% 400%;
+            animation:gradientBG 8s ease infinite;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            z-index:10000;
         }
-        .lock-screen.hidden { display: none; }
+        @keyframes gradientBG {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
+        .lock-screen.hidden { display:none; }
         .lock-card {
-            background: white;
-            padding: 36px 30px;
-            border-radius: 14px;
-            text-align: center;
-            max-width: 360px;
-            width: 90%;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            background:rgba(255,255,255,0.97);
+            padding:40px 32px;
+            border-radius:20px;
+            text-align:center;
+            max-width:360px;
+            width:90%;
+            box-shadow:0 30px 80px rgba(0,0,0,0.4);
+            border:2px solid rgba(255,255,255,0.5);
         }
-        .lock-card h2 { font-size: 1em; color: var(--primary); margin-bottom: 6px; }
-        .lock-card p { font-size: 0.8em; color: var(--text-light); margin-bottom: 18px; }
-        .lock-card input { width: 100%; padding: 11px; border: 2px solid var(--border); border-radius: 8px; text-align: center; font-size: 1em; margin-bottom: 12px; }
-        .lock-card input:focus { border-color: var(--primary-light); outline: none; }
-        .lock-card .err { color: var(--danger); font-size: 0.8em; margin-bottom: 10px; display: none; }
-        .lock-card .err.show { display: block; }
+        .lock-icon { font-size:2.5em; margin-bottom:12px; }
+        .lock-card h2 { font-size:1.1em; color:var(--primary-dark); margin-bottom:6px; font-weight:800; }
+        .lock-card p { font-size:0.8em; color:var(--text-light); margin-bottom:20px; }
+        .lock-card input {
+            width:100%;
+            padding:12px;
+            border:2px solid var(--border);
+            border-radius:10px;
+            text-align:center;
+            font-size:1em;
+            margin-bottom:14px;
+            font-family:'Inter',sans-serif;
+            background:#f5f3ff;
+        }
+        .lock-card input:focus { border-color:var(--primary); outline:none; background:white; box-shadow:0 0 0 4px rgba(79,70,229,0.12); }
+        .lock-card .err { color:var(--danger); font-size:0.8em; margin-bottom:10px; display:none; font-weight:600; }
+        .lock-card .err.show { display:block; }
+        /* LOADING */
         .loading {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(255,255,255,0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10001;
-            font-weight: 700;
-            color: var(--primary);
+            position:fixed;
+            top:0;left:0;
+            width:100%;height:100%;
+            background:rgba(255,255,255,0.8);
+            backdrop-filter:blur(3px);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            z-index:10001;
+            font-weight:700;
+            color:var(--primary);
+            font-size:0.85em;
         }
-        .loading.hidden { display: none; }
+        .loading.hidden { display:none; }
         .spinner {
-            width: 36px; height: 36px;
-            border: 3px solid #e2e8f0;
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            margin-right: 10px;
+            width:36px;height:36px;
+            border:3px solid #e0e7ff;
+            border-top-color:var(--primary);
+            border-radius:50%;
+            animation:spin 0.7s linear infinite;
+            margin-right:12px;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin { to{transform:rotate(360deg)} }
+        /* STAT CARDS */
+        .stat-cards {
+            display:flex;
+            gap:10px;
+            margin-bottom:16px;
+            flex-wrap:wrap;
+        }
+        .stat-card {
+            flex:1;
+            min-width:100px;
+            background:linear-gradient(135deg,#ede9fe,#fce7f3);
+            border:1.5px solid #c4b5fd;
+            border-radius:12px;
+            padding:10px 14px;
+            text-align:center;
+        }
+        .stat-card .val { font-size:1.4em; font-weight:900; color:var(--primary-dark); }
+        .stat-card .lbl { font-size:0.65em; color:#7c3aed; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-top:2px; }
+        /* PROF BUTTON */
+        .prof-btn {
+            padding:8px 16px;
+            border:2px solid transparent;
+            border-radius:10px;
+            cursor:pointer;
+            font-size:0.75em;
+            font-weight:700;
+            transition:all 0.18s;
+            background:white;
+            color:var(--primary);
+            border-color:#c4b5fd;
+        }
+        .prof-btn:hover { background:#f5f3ff; border-color:var(--primary-light); transform:translateY(-1px); }
+        .prof-btn.active { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:white; border-color:transparent; box-shadow:0 4px 12px rgba(79,70,229,0.35); }
+        /* PRINT */
         @media print {
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; border: none; }
-            .header, .toolbar, .form-row, .btn, .badge, .warning-banner, .lock-screen, .loading, .toast, .popup-overlay, .modal-overlay { display: none !important; }
-            .content { padding: 5px; }
-            table { font-size: 0.6em; }
-            td input { border: none; background: none; -webkit-appearance: none; }
-            .stats-row td { background: #eee !important; color: #000 !important; }
-            @page { size: landscape; margin: 5mm; }
+            body { background:white; padding:0; }
+            .container { box-shadow:none; border:none; }
+            .header, .toolbar, .form-row, .btn, .badge, .warning-banner, .lock-screen, .loading, .toast, .popup-overlay, .modal-overlay, .stat-cards, .export-bar, .filter-row { display:none !important; }
+            .content { padding:5px; }
+            table { font-size:0.6em; }
+            td input { border:none; background:none; -webkit-appearance:none; }
+            .stats-row td { background:#eee !important; color:#000 !important; }
+            @page { size:landscape; margin:5mm; }
         }
     </style>
 </head>
@@ -359,23 +525,32 @@
 
 <div class="popup-overlay" id="popup">
     <div class="popup">
-        <h3 id="popup-title"></h3><p id="popup-msg"></p>
-        <div class="btn-row"><button class="btn btn-danger" id="popup-ok">Confirmer</button><button class="btn btn-outline" onclick="closePopup()">Annuler</button></div>
+        <h3 id="popup-title"></h3>
+        <p id="popup-msg"></p>
+        <div class="btn-row">
+            <button class="btn btn-danger" id="popup-ok">Confirmer</button>
+            <button class="btn btn-outline" onclick="closePopup()">Annuler</button>
+        </div>
     </div>
 </div>
 
 <div class="lock-screen" id="lock">
     <div class="lock-card">
-        <h2>🔐 Accès protégé</h2><p>Mot de passe requis</p>
-        <input type="password" id="pwd" placeholder="Mot de passe" onkeypress="if(event.key==='Enter')unlock()">
-        <div class="err" id="pwd-err">Mot de passe incorrect</div>
-        <button class="btn btn-primary" onclick="unlock()" style="width:100%">Accéder</button>
+        <div class="lock-icon">⚡</div>
+        <h2>Notes CAP Électrotechnique</h2>
+        <p>Entrez votre mot de passe pour accéder</p>
+        <input type="password" id="pwd" placeholder="••••••••" onkeypress="if(event.key==='Enter')unlock()">
+        <div class="err" id="pwd-err">❌ Mot de passe incorrect</div>
+        <button class="btn btn-primary" onclick="unlock()" style="width:100%;padding:12px;font-size:0.85em">🔓 Accéder</button>
     </div>
 </div>
 
 <div class="container" id="app">
     <div class="header">
-        <div><h1>⚡ Notes CAP Électrotechnique</h1><div class="subtitle">Mesures & Essais • Schémas Électriques • Électrotechnique</div></div>
+        <div>
+            <h1>⚡ Notes CAP Électrotechnique</h1>
+            <div class="subtitle">Mesures &amp; Essais • Schémas Électriques • Électrotechnique</div>
+        </div>
         <div class="header-right">
             <span class="badge" id="role-badge"></span>
             <button class="btn btn-white" onclick="window.print()">🖨️ Imprimer</button>
@@ -388,13 +563,40 @@
 </div>
 
 <div class="modal-overlay" id="modal-prof">
-    <div class="modal"><h3>✏️ Modifier le formateur</h3><label>Nom</label><input type="text" id="mf-nom"><label>Prénom</label><input type="text" id="mf-prenom"><input type="hidden" id="mf-key"><div class="btn-row"><button class="btn btn-success btn-sm" onclick="saveProf()">Enregistrer</button><button class="btn btn-outline btn-sm" onclick="closeModal('modal-prof')">Annuler</button></div></div>
+    <div class="modal">
+        <h3>✏️ Modifier le formateur</h3>
+        <label>Nom</label><input type="text" id="mf-nom">
+        <label>Prénom</label><input type="text" id="mf-prenom">
+        <input type="hidden" id="mf-key">
+        <div class="btn-row">
+            <button class="btn btn-success btn-sm" onclick="saveProf()">Enregistrer</button>
+            <button class="btn btn-outline btn-sm" onclick="closeModal('modal-prof')">Annuler</button>
+        </div>
+    </div>
 </div>
 <div class="modal-overlay" id="modal-matiere">
-    <div class="modal"><h3>✏️ Modifier la matière</h3><label>Nom</label><input type="text" id="mm-nom"><input type="hidden" id="mm-prof"><input type="hidden" id="mm-idx"><div class="btn-row"><button class="btn btn-success btn-sm" onclick="saveMatiere()">Enregistrer</button><button class="btn btn-outline btn-sm" onclick="closeModal('modal-matiere')">Annuler</button></div></div>
+    <div class="modal">
+        <h3>✏️ Modifier la matière</h3>
+        <label>Nom</label><input type="text" id="mm-nom">
+        <input type="hidden" id="mm-prof">
+        <input type="hidden" id="mm-idx">
+        <div class="btn-row">
+            <button class="btn btn-success btn-sm" onclick="saveMatiere()">Enregistrer</button>
+            <button class="btn btn-outline btn-sm" onclick="closeModal('modal-matiere')">Annuler</button>
+        </div>
+    </div>
 </div>
 <div class="modal-overlay" id="modal-admin">
-    <div class="modal"><h3>🔑 Droits administrateur</h3><p style="font-size:0.8em;color:#64748b;margin-bottom:14px">Code admin requis.</p><label>Code admin</label><input type="password" id="admin-code"><div class="btn-row"><button class="btn btn-accent btn-sm" onclick="tryAdmin()">Débloquer</button><button class="btn btn-outline btn-sm" onclick="closeModal('modal-admin')">Annuler</button></div></div>
+    <div class="modal">
+        <h3>🔑 Droits administrateur</h3>
+        <p style="font-size:0.8em;color:#64748b;margin-bottom:14px">Code admin requis.</p>
+        <label>Code admin</label>
+        <input type="password" id="admin-code">
+        <div class="btn-row">
+            <button class="btn btn-accent btn-sm" onclick="tryAdmin()">Débloquer</button>
+            <button class="btn btn-outline btn-sm" onclick="closeModal('modal-admin')">Annuler</button>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -415,7 +617,6 @@ async function init() {
     document.getElementById('loading').classList.add('hidden');
 }
 
-// API
 async function loadApprenants(fid) { const { data } = await sb.from('apprenants').select('*').eq('formateur_id', fid).order('id'); return data || []; }
 async function loadNotes(aid) { const { data } = await sb.from('notes').select('*').eq('apprenant_id', aid); return data || []; }
 async function upsertNote(aid, matIdx, sem, field, val) {
@@ -432,7 +633,6 @@ async function deleteFormateur(id) { await sb.from('formateurs').delete().eq('id
 async function addFormateur(nom, prenom, matieres) { const { data } = await sb.from('formateurs').insert({ nom, prenom, matieres }).select(); return data?.[0] || null; }
 async function updateMatieres(id, matieres) { await sb.from('formateurs').update({ matieres }).eq('id', id); }
 
-// VERROUILLAGE
 function unlock() {
     const pwd = document.getElementById('pwd').value;
     if (pwd === PWD_GLOBAL || pwd === PWD_ADJACLE || pwd === PWD_ADMIN) {
@@ -478,7 +678,6 @@ function updateUI() {
 function canEdit() { return unlocked; }
 function canAdmin() { return unlocked && admin; }
 
-// POPUP / TOAST
 function showPopup(title, msg, cb, btnText) {
     document.getElementById('popup-title').textContent = title;
     document.getElementById('popup-msg').textContent = msg;
@@ -497,7 +696,6 @@ function toast(msg, type) {
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 document.addEventListener('click', e => { if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active'); });
 
-// BUILD
 async function buildAll() {
     if (!unlocked) return;
     const { data } = await sb.from('formateurs').select('*').order('id');
@@ -510,10 +708,10 @@ function buildToolbar() {
     let h = '';
     formateurs.forEach(f => {
         const name = f.prenom ? f.prenom + ' ' + f.nom : f.nom;
-        h += '<button class="btn ' + (f.id === currentId ? 'btn-primary' : 'btn-outline') + ' btn-sm" onclick="selectProf(' + f.id + ')">' + name + '</button>';
+        h += '<button class="prof-btn ' + (f.id === currentId ? 'active' : '') + '" onclick="selectProf(' + f.id + ')">' + name + '</button>';
     });
     if (canAdmin()) h += '<button class="btn btn-success btn-sm" style="margin-left:8px" onclick="addProf()">+ Formateur</button>';
-    if (!admin && unlocked && !userAdjacle) h += '<button class="btn btn-accent btn-sm" style="margin-left:8px" onclick="document.getElementById(\'modal-admin\').classList.add(\'active\')">🔑 Admin</button>';
+    if (!admin && unlocked && !userAdjacle) h += '<button class="btn btn-pink btn-sm" style="margin-left:8px" onclick="document.getElementById(\'modal-admin\').classList.add(\'active\')">🔑 Admin</button>';
     document.getElementById('toolbar').innerHTML = h;
 }
 async function buildContent() {
@@ -522,11 +720,11 @@ async function buildContent() {
     const f = formateurs.find(x => x.id === currentId);
     if (!f) { ct.innerHTML = '<div class="empty-state">Formateur introuvable</div>'; return; }
     const name = f.prenom ? f.prenom + ' ' + f.nom : f.nom;
-    let h = '<div class="section-title">Formateur : ' + name + (admin ? ' <span style="color:#e67e22">[Admin]</span>' : '') + '</div>';
-    h += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">';
+    let h = '<div class="section-title">👤 Formateur : ' + name + (admin ? ' <span style="color:#f59e0b;font-size:0.85em">[Admin]</span>' : '') + '</div>';
+    h += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center">';
     (f.matieres || []).forEach((m, i) => {
-        h += '<span class="matiere-tag">' + m;
-        if (admin) h += ' <button onclick="editMatiere(' + f.id + ',' + i + ')">✎</button><button style="color:#c0392b" onclick="delMatiere(' + f.id + ',' + i + ')">×</button>';
+        h += '<span class="matiere-tag">📚 ' + m;
+        if (admin) h += ' <button onclick="editMatiere(' + f.id + ',' + i + ')">✎</button><button style="color:#dc2626" onclick="delMatiere(' + f.id + ',' + i + ')">×</button>';
         h += '</span>';
     });
     if (admin) {
@@ -535,19 +733,19 @@ async function buildContent() {
         if (formateurs.length > 1) h += '<button class="btn btn-danger btn-xs" onclick="delProf(' + f.id + ')">🗑 Supprimer</button>';
     }
     h += '</div>';
-    h += '<div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center"><select id="lvl-' + f.id + '" onchange="refresh(' + f.id + ')"><option value="1">CAP Niveau 1</option><option value="2">CAP Niveau 2</option></select><select id="mat-' + f.id + '" onchange="refresh(' + f.id + ')"><option value="0">Toutes les matières</option>';
+    h += '<div class="filter-row"><select id="lvl-' + f.id + '" onchange="refresh(' + f.id + ')"><option value="1">📘 CAP Niveau 1</option><option value="2">📗 CAP Niveau 2</option></select><select id="mat-' + f.id + '" onchange="refresh(' + f.id + ')"><option value="0">📋 Toutes les matières</option>';
     (f.matieres || []).forEach((m, i) => h += '<option value="' + (i + 1) + '">' + m + '</option>');
-    h += '</select><span style="font-size:0.78em;color:#64748b" id="stats-' + f.id + '"></span></div>';
-    h += '<div class="form-row"><input type="text" id="nom-' + f.id + '" placeholder="Nom"><input type="text" id="pnom-' + f.id + '" placeholder="Prénom"><button class="btn btn-success btn-sm" onclick="addEleve(' + f.id + ')">+ Ajouter apprenant</button></div>';
-    h += '<div style="display:flex;gap:6px;margin-bottom:14px"><button class="btn btn-outline btn-xs" onclick="expJSON(' + f.id + ')">📥 JSON</button><button class="btn btn-outline btn-xs" onclick="expCSV(' + f.id + ')">📊 CSV</button><button class="btn btn-outline btn-xs" onclick="window.print()">🖨️ PDF</button>';
-    if (canEdit()) h += '<button class="btn btn-danger btn-xs" onclick="delAll(' + f.id + ')">🗑️ Tout supprimer</button></div>';
+    h += '</select><span style="font-size:0.78em;color:#7c3aed;font-weight:700" id="stats-' + f.id + '"></span></div>';
+    h += '<div class="form-row"><input type="text" id="nom-' + f.id + '" placeholder="Nom de famille"><input type="text" id="pnom-' + f.id + '" placeholder="Prénom"><button class="btn btn-success btn-sm" onclick="addEleve(' + f.id + ')">➕ Ajouter apprenant</button></div>';
+    h += '<div class="export-bar"><button class="btn btn-outline btn-xs" onclick="expJSON(' + f.id + ')">📥 JSON</button><button class="btn btn-outline btn-xs" onclick="expCSV(' + f.id + ')">📊 CSV</button><button class="btn btn-outline btn-xs" onclick="window.print()">🖨️ PDF</button>';
+    if (canEdit()) h += '<button class="btn btn-danger btn-xs" onclick="delAll(' + f.id + ')">🗑️ Tout supprimer</button>';
+    h += '</div>';
     h += '<div class="table-wrapper" id="table-' + f.id + '"></div>';
     ct.innerHTML = h;
     await refresh(f.id);
 }
 async function selectProf(id) { currentId = id; await buildContent(); buildToolbar(); updateUI(); }
 
-// CALCULS
 function calcMI(nr) { if (!nr) return 0; const v = [nr.interro1, nr.interro2, nr.interro3, nr.interro4].filter(x => x !== null && x !== undefined && x !== ''); return v.length > 0 ? v.reduce((a, b) => Number(a) + Number(b), 0) / v.length : 0; }
 function calcMoy(nr) { if (!nr) return '-'; const m = calcMI(nr); const d1 = Number(nr.devoir1) || 0; const d2 = Number(nr.devoir2) || 0; const has = [nr.interro1, nr.interro2, nr.interro3, nr.interro4].some(x => x !== null && x !== undefined && x !== ''); if (!has && !nr.devoir1 && !nr.devoir2) return '-'; return ((m + d1 + d2) / 3).toFixed(2); }
 function calcMG(matNotes, sem) { const vals = matNotes.map(nr => { const n = nr[sem]; return n ? parseFloat(calcMoy(n)) : NaN; }).filter(v => !isNaN(v)); return vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) : '-'; }
@@ -564,22 +762,24 @@ async function refresh(pid) {
     const liste = await loadApprenants(pid);
     const filtered = liste.filter(a => a.niveau === lvl);
     for (let a of filtered) { const n = await loadNotes(a.id); a._notes = {}; n.forEach(row => { a._notes[row.matiere_index + '_' + row.semestre] = row; }); }
-    document.getElementById('stats-' + pid).textContent = filtered.length + ' apprenant(s)';
+    const el = document.getElementById('stats-' + pid);
+    if (el) el.innerHTML = '👥 <b>' + filtered.length + '</b> apprenant(s) — ' + (lvl === '1' ? '📘 Niveau 1' : '📗 Niveau 2');
     const mats = f.matieres || [];
     const showMats = matSelect === 0 ? mats.map((_, i) => i) : [matSelect - 1];
-    if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">Aucun apprenant</div>'; document.getElementById('loading').classList.add('hidden'); return; }
-    let h = '<table><thead><tr><th rowspan="2">N°</th><th rowspan="2">Nom</th><th rowspan="2">Prénom</th>';
-    showMats.forEach(mi => h += '<th colspan="8">Semestre 1 — ' + mats[mi] + '</th>');
-    if (matSelect === 0) h += '<th rowspan="2">MG S1</th>';
-    showMats.forEach(mi => h += '<th colspan="8">Semestre 2 — ' + mats[mi] + '</th>');
-    if (matSelect === 0) h += '<th rowspan="2">MG S2</th><th rowspan="2"></th></tr><tr>';
+    if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">Aucun apprenant pour ce niveau</div>'; document.getElementById('loading').classList.add('hidden'); return; }
+    let h = '<table><thead><tr><th rowspan="2" style="min-width:28px">N°</th><th rowspan="2" style="min-width:80px">Nom</th><th rowspan="2" style="min-width:70px">Prénom</th>';
+    showMats.forEach(mi => h += '<th colspan="8" style="background:linear-gradient(135deg,#4f46e5,#7c3aed)">🟣 Semestre 1 — ' + mats[mi] + '</th>');
+    if (matSelect === 0) h += '<th rowspan="2" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:white">MG S1</th>';
+    showMats.forEach(mi => h += '<th colspan="8" style="background:linear-gradient(135deg,#ec4899,#be185d)">🔴 Semestre 2 — ' + mats[mi] + '</th>');
+    if (matSelect === 0) h += '<th rowspan="2" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:white">MG S2</th>';
+    h += '<th rowspan="2" style="min-width:36px"></th></tr><tr>';
     showMats.forEach(() => h += '<th class="sub">I1</th><th class="sub">I2</th><th class="sub">I3</th><th class="sub">I4</th><th class="sub">MI</th><th class="sub">D1</th><th class="sub">D2</th><th class="sub">Moy</th>');
-    showMats.forEach(() => h += '<th class="sub">I1</th><th class="sub">I2</th><th class="sub">I3</th><th class="sub">I4</th><th class="sub">MI</th><th class="sub">D1</th><th class="sub">D2</th><th class="sub">Moy</th>');
+    showMats.forEach(() => h += '<th class="sub" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);color:#be185d">I1</th><th class="sub" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);color:#be185d">I2</th><th class="sub" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);color:#be185d">I3</th><th class="sub" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);color:#be185d">I4</th><th class="sub" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);color:#be185d">MI</th><th class="sub" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);color:#be185d">D1</th><th class="sub" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);color:#be185d">D2</th><th class="sub" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);color:#be185d">Moy</th>');
     h += '</tr></thead><tbody>';
     const edit = canEdit();
     filtered.forEach((a, idx) => {
         const an = a._notes || {};
-        h += '<tr><td>' + (idx + 1) + '</td><td class="td-name">' + a.nom + '</td><td>' + a.prenom + '</td>';
+        h += '<tr><td style="font-weight:700;color:#7c3aed">' + (idx + 1) + '</td><td class="td-name">' + a.nom + '</td><td style="font-weight:600;color:#4b5563">' + a.prenom + '</td>';
         showMats.forEach(mi => {
             const nr = an[mi + '_1'];
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
@@ -594,19 +794,18 @@ async function refresh(pid) {
         if (matSelect === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); h += '<td class="td-mg">' + calcMG(mn, '1') + '</td>'; }
         showMats.forEach(mi => {
             const nr = an[mi + '_2'];
-            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro3 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro3\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro4 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro4\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td class="td-mi">' + (calcMI(nr) > 0 ? calcMI(nr).toFixed(2) : '-') + '</td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td class="td-moy">' + calcMoy(nr) + '</td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '" style="border-color:#f9a8d4"></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro2\',this.value)" ' + (edit ? '' : 'disabled') + '" style="border-color:#f9a8d4"></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro3 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro3\',this.value)" ' + (edit ? '' : 'disabled') + '" style="border-color:#f9a8d4"></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro4 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro4\',this.value)" ' + (edit ? '' : 'disabled') + '" style="border-color:#f9a8d4"></td>';
+            h += '<td class="td-mi" style="background:#fce7f3;color:#be185d">' + (calcMI(nr) > 0 ? calcMI(nr).toFixed(2) : '-') + '</td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir1\',this.value)" ' + (edit ? '' : 'disabled') + '" style="border-color:#f9a8d4"></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + '" style="border-color:#f9a8d4"></td>';
+            h += '<td class="td-moy" style="background:linear-gradient(135deg,#fbcfe8,#f9a8d4);color:#be185d">' + calcMoy(nr) + '</td>';
         });
         if (matSelect === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); h += '<td class="td-mg">' + calcMG(mn, '2') + '</td>'; }
         h += '<td><button class="btn btn-danger btn-xs" onclick="delEleve(' + pid + ',' + a.id + ')" ' + (edit ? '' : 'disabled') + '>✕</button></td></tr>';
     });
-    // STATS
     h += '<tr class="stats-row"><td colspan="3" class="stat-label">📊 STATISTIQUES</td>';
     showMats.forEach(mi => { const s = calcStats(filtered, mi, '1'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
     if (matSelect === 0) { const mgVals = filtered.map(a => { const mn = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] })); const v = calcMG(mn, '1'); return v === '-' ? NaN : parseFloat(v); }).filter(v => !isNaN(v)); h += '<td>Eff:' + mgVals.length + '<br>Moy:' + (mgVals.length > 0 ? (mgVals.reduce((a, b) => a + b, 0) / mgVals.length).toFixed(2) : '-') + '</td>'; }
@@ -628,13 +827,13 @@ async function addEleve(pid) {
     const pnom = document.getElementById('pnom-' + pid).value.trim();
     if (!nom || !pnom) return;
     await addApprenant(pid, nom, pnom, document.getElementById('lvl-' + pid).value);
-    toast('Apprenant ajouté');
+    toast('Apprenant ajouté ✨');
     document.getElementById('nom-' + pid).value = '';
     document.getElementById('pnom-' + pid).value = '';
     await refresh(pid);
 }
 function delEleve(pid, id) { if (!canEdit()) return; showPopup('Supprimer', 'Supprimer cet apprenant ?', async () => { await deleteApprenant(id); toast('Apprenant supprimé', 'err'); await refresh(pid); }); }
-function delAll(pid) { if (!canEdit()) return; showPopup('Tout supprimer', '⚠️ Supprimer TOUS les apprenants ?', async () => { await deleteAllApprenants(pid, document.getElementById('lvl-' + pid).value); toast('Tous supprimés', 'err'); await refresh(pid); }); }
+function delAll(pid) { if (!canEdit()) return; showPopup('Tout supprimer', '⚠️ Supprimer TOUS les apprenants de ce niveau ?', async () => { await deleteAllApprenants(pid, document.getElementById('lvl-' + pid).value); toast('Tous supprimés', 'err'); await refresh(pid); }); }
 async function addProf() { if (!canAdmin()) return; const f = await addFormateur('Nouveau', '', ['Matière 1']); if (f) { toast('Formateur ajouté', 'warn'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = f.id; buildAll(); } }
 function editProf(id) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === id); if (!f) return; document.getElementById('mf-nom').value = f.nom; document.getElementById('mf-prenom').value = f.prenom || ''; document.getElementById('mf-key').value = id; document.getElementById('modal-prof').classList.add('active'); }
 async function saveProf() { if (!canAdmin()) return; const id = parseInt(document.getElementById('mf-key').value); await updateFormateur(id, document.getElementById('mf-nom').value.trim(), document.getElementById('mf-prenom').value.trim()); toast('Formateur modifié'); closeModal('modal-prof'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; buildAll(); }
