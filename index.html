@@ -23,7 +23,7 @@
         .header {
             background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
             color:white; padding:18px 24px; display:flex; justify-content:space-between;
-            align-items:center; flex-wrap:wrap; gap:12px; position:relative; overflow:hidden;
+            align-items:center; flex-wrap:wrap; gap:12px;
         }
         .header h1 { font-size:1.15em; font-weight:800; }
         .header .subtitle { font-size:0.72em; opacity:0.85; margin-top:3px; }
@@ -45,7 +45,6 @@
         .btn-white { background:rgba(255,255,255,0.18); color:white; border:1px solid rgba(255,255,255,0.35); }
         .btn-white:hover { background:rgba(255,255,255,0.3); }
         .toolbar { display:flex; gap:8px; padding:14px 24px; border-bottom:2px solid var(--border); flex-wrap:wrap; align-items:center; background:linear-gradient(90deg,#f5f3ff,#fdf4ff); }
-        .toolbar select { padding:7px 10px; border:1.5px solid var(--border); border-radius:8px; font-size:0.8em; background:white; }
         .content { padding:22px 24px; }
         .section-title {
             font-size:0.82em; font-weight:800; color:var(--primary); text-transform:uppercase;
@@ -62,78 +61,82 @@
         .filter-row { display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap; align-items:center; background:linear-gradient(135deg,#f5f3ff,#fdf4ff); padding:12px 16px; border-radius:12px; border:1.5px solid #e0e7ff; }
         .filter-row select { padding:7px 12px; border:1.5px solid #c4b5fd; border-radius:8px; font-size:0.8em; background:white; color:var(--primary-dark); font-weight:600; }
         .table-wrapper { overflow-x:auto; border:2px solid var(--border); border-radius:14px; background:white; box-shadow:var(--shadow); margin-bottom:20px; }
-        table { width:100%; border-collapse:collapse; font-size:0.72em; }
+        table { width:100%; border-collapse:collapse; font-size:0.73em; }
         thead th {
             background:linear-gradient(135deg,#4f46e5,#7c3aed); color:white;
-            padding:9px 6px; font-weight:700; font-size:0.8em; white-space:nowrap;
-            border:1px solid rgba(255,255,255,0.15); position:sticky; top:0; z-index:2;
+            padding:8px 5px; font-weight:700; font-size:0.78em; white-space:nowrap;
+            border:1px solid rgba(255,255,255,0.15);
         }
-        thead th.sub { background:linear-gradient(135deg,#ede9fe,#fce7f3); color:#5b21b6; font-size:0.72em; font-weight:800; border:1px solid #c4b5fd; }
-        thead th.sub-s2 { background:linear-gradient(135deg,#fce7f3,#fbcfe8); color:#be185d; font-size:0.72em; font-weight:800; border:1px solid #f9a8d4; }
-        tbody td { padding:6px 4px; text-align:center; border:1px solid #e0e7ff; vertical-align:middle; }
+        thead th.s1 { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:white; }
+        thead th.s2 { background:linear-gradient(135deg,#ec4899,#be185d); color:white; }
+        thead th.sub { background:#ede9fe; color:#5b21b6; font-size:0.7em; font-weight:700; border:1px solid #c4b5fd; }
+        thead th.sub-s2 { background:#fce7f3; color:#be185d; font-size:0.7em; font-weight:700; border:1px solid #f9a8d4; }
+        tbody td { padding:5px 3px; text-align:center; border:1px solid #e0e7ff; vertical-align:middle; }
         tbody tr:nth-child(even) { background:#fafaff; }
-        tbody tr:hover { background:linear-gradient(90deg,#f5f3ff,#fdf4ff); }
-        tbody td input { width:46px; padding:5px 3px; text-align:center; border:1.5px solid #c4b5fd; border-radius:6px; font-size:0.8em; font-family:'Inter',sans-serif; background:#fafaff; }
+        tbody tr:hover { background:#f5f3ff; }
+        tbody td input { width:44px; padding:4px 2px; text-align:center; border:1.5px solid #c4b5fd; border-radius:5px; font-size:0.78em; font-family:'Inter',sans-serif; background:#fafaff; }
         tbody td input:focus { border-color:var(--primary); outline:none; background:#ede9fe; box-shadow:0 0 0 2px rgba(79,70,229,0.15); }
         tbody td input:disabled { background:#f4f4f4; color:#aaa; cursor:not-allowed; border-color:#e5e7eb; }
-        .td-name { font-weight:700; text-align:left; padding-left:8px; color:var(--primary-dark); }
-        .td-name input { width:80px; text-align:left; font-weight:700; }
-        .td-prenom input { width:80px; text-align:left; }
+        .td-name { font-weight:700; color:var(--primary-dark); }
+        .td-name input { width:75px; text-align:left; font-weight:700; padding-left:6px; }
+        .td-prenom input { width:75px; text-align:left; padding-left:6px; }
         .td-mi { font-weight:700; color:#065f46; background:#d1fae5; }
         .td-mi-s2 { font-weight:700; color:#be185d; background:#fce7f3; }
-        .td-moy { font-weight:800; background:linear-gradient(135deg,#a7f3d0,#6ee7b7); color:#065f46; }
-        .td-moy-s2 { font-weight:800; background:linear-gradient(135deg,#fbcfe8,#f9a8d4); color:#be185d; }
-        .td-mg { font-weight:900; background:linear-gradient(135deg,#fde68a,#fbbf24); color:#92400e; font-size:0.85em; }
-        .stats-row td { background:linear-gradient(135deg,#1e1b4b,#4f46e5) !important; color:white !important; font-weight:700; font-size:0.74em; border-top:3px solid var(--accent); padding:8px 5px; }
-        .stats-row .stat-label { text-align:right; padding-right:12px; color:#fde68a !important; font-size:0.85em; }
+        .td-moy { font-weight:800; background:#a7f3d0; color:#065f46; }
+        .td-moy-s2 { font-weight:800; background:#fbcfe8; color:#be185d; }
+        .td-mg { font-weight:900; background:#fde68a; color:#92400e; font-size:0.85em; }
+        .sem-row-label {
+            font-weight:800; font-size:0.75em; padding:4px 8px; border-radius:6px;
+            text-align:center; display:inline-block; margin:2px 0;
+        }
+        .sem-row-label.s1 { background:#ede9fe; color:#5b21b6; }
+        .sem-row-label.s2 { background:#fce7f3; color:#be185d; }
+        .stats-row td { background:#1e1b4b !important; color:white !important; font-weight:700; font-size:0.72em; border-top:3px solid var(--accent); padding:6px 4px; }
+        .stats-row .stat-label { text-align:right; padding-right:10px; color:#fde68a !important; }
         .empty-state { text-align:center; padding:50px; color:var(--text-light); font-size:0.85em; }
-        .toast { position:fixed; bottom:24px; right:24px; background:linear-gradient(135deg,#10b981,#059669); color:white; padding:12px 20px; border-radius:12px; font-weight:700; font-size:0.8em; z-index:9999; animation:slideUp 0.3s ease; box-shadow:0 8px 24px rgba(16,185,129,0.4); }
+        .toast { position:fixed; bottom:24px; right:24px; background:linear-gradient(135deg,#10b981,#059669); color:white; padding:12px 20px; border-radius:12px; font-weight:700; font-size:0.8em; z-index:9999; animation:slideUp 0.3s ease; }
         .toast.warn { background:linear-gradient(135deg,#f59e0b,#d97706); }
         .toast.err { background:linear-gradient(135deg,#ef4444,#dc2626); }
         @keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
-        .warning-banner { background:linear-gradient(90deg,#fffbeb,#fef3c7); border-bottom:2px solid #fcd34d; color:#92400e; text-align:center; padding:10px; font-weight:700; font-size:0.78em; position:sticky; top:0; z-index:100; }
+        .warning-banner { background:#fffbeb; border-bottom:2px solid #fcd34d; color:#92400e; text-align:center; padding:10px; font-weight:700; font-size:0.78em; position:sticky; top:0; z-index:100; }
         .popup-overlay { display:none; position:fixed; top:0;left:0; width:100%;height:100%; background:rgba(30,27,75,0.6); backdrop-filter:blur(4px); justify-content:center; align-items:center; z-index:10000; }
         .popup-overlay.active { display:flex; }
-        .popup { background:white; border-radius:18px; padding:32px; max-width:400px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.25); border:2px solid var(--border); }
+        .popup { background:white; border-radius:18px; padding:32px; max-width:400px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.25); }
         .popup h3 { font-size:1em; margin-bottom:8px; color:var(--primary-dark); }
         .popup p { font-size:0.85em; color:var(--text-light); margin-bottom:20px; }
         .popup .btn-row { display:flex; gap:10px; justify-content:center; }
         .modal-overlay { display:none; position:fixed; top:0;left:0; width:100%;height:100%; background:rgba(30,27,75,0.6); backdrop-filter:blur(4px); justify-content:center; align-items:center; z-index:9999; }
         .modal-overlay.active { display:flex; }
-        .modal { background:white; border-radius:18px; padding:26px; max-width:420px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.2); border:2px solid var(--border); }
+        .modal { background:white; border-radius:18px; padding:26px; max-width:420px; width:90%; }
         .modal h3 { font-size:0.95em; margin-bottom:18px; color:var(--primary); font-weight:800; }
         .modal label { display:block; font-size:0.73em; font-weight:700; color:var(--text-light); margin-bottom:4px; text-transform:uppercase; }
-        .modal input { width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:8px; margin-bottom:14px; font-size:0.85em; font-family:'Inter',sans-serif; }
-        .modal input:focus { border-color:var(--primary-light); outline:none; box-shadow:0 0 0 3px rgba(79,70,229,0.1); }
+        .modal input { width:100%; padding:10px; border:1.5px solid var(--border); border-radius:8px; margin-bottom:14px; font-size:0.85em; font-family:'Inter',sans-serif; }
+        .modal input:focus { border-color:var(--primary-light); outline:none; }
         .modal .btn-row { display:flex; gap:8px; justify-content:flex-end; }
         .lock-screen { position:fixed; top:0;left:0; width:100%;height:100%; background:linear-gradient(135deg,#1e1b4b,#4f46e5,#7c3aed,#ec4899); background-size:400% 400%; animation:gradientBG 8s ease infinite; display:flex; justify-content:center; align-items:center; z-index:10000; }
         .lock-screen.hidden { display:none; }
         @keyframes gradientBG { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-        .lock-card { background:rgba(255,255,255,0.97); padding:40px 32px; border-radius:20px; text-align:center; max-width:360px; width:90%; box-shadow:0 30px 80px rgba(0,0,0,0.4); }
+        .lock-card { background:white; padding:40px 32px; border-radius:20px; text-align:center; max-width:360px; width:90%; }
         .lock-card h2 { font-size:1.1em; color:var(--primary-dark); margin-bottom:6px; font-weight:800; }
         .lock-card p { font-size:0.8em; color:var(--text-light); margin-bottom:20px; }
         .lock-card input { width:100%; padding:12px; border:2px solid var(--border); border-radius:10px; text-align:center; font-size:1em; margin-bottom:14px; font-family:'Inter',sans-serif; background:#f5f3ff; }
-        .lock-card input:focus { border-color:var(--primary); outline:none; background:white; }
+        .lock-card input:focus { border-color:var(--primary); outline:none; }
         .lock-card .err { color:var(--danger); font-size:0.8em; margin-bottom:10px; display:none; font-weight:600; }
         .lock-card .err.show { display:block; }
-        .loading { position:fixed; top:0;left:0; width:100%;height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(3px); display:flex; justify-content:center; align-items:center; z-index:10001; font-weight:700; color:var(--primary); font-size:0.85em; }
+        .loading { position:fixed; top:0;left:0; width:100%;height:100%; background:rgba(255,255,255,0.8); backdrop-filter:blur(3px); display:flex; justify-content:center; align-items:center; z-index:10001; font-weight:700; color:var(--primary); }
         .loading.hidden { display:none; }
         .spinner { width:36px;height:36px; border:3px solid #e0e7ff; border-top-color:var(--primary); border-radius:50%; animation:spin 0.7s linear infinite; margin-right:12px; }
         @keyframes spin { to{transform:rotate(360deg)} }
-        .sem-label { display:block; font-size:0.85em; font-weight:800; padding:6px 10px; border-radius:8px; margin:4px 0; text-align:center; }
-        .sem-label.s1 { background:linear-gradient(135deg,#ede9fe,#c4b5fd); color:#5b21b6; }
-        .sem-label.s2 { background:linear-gradient(135deg,#fce7f3,#f9a8d4); color:#be185d; }
-        .prof-btn { padding:8px 16px; border:2px solid transparent; border-radius:10px; cursor:pointer; font-size:0.75em; font-weight:700; transition:all 0.18s; background:white; color:var(--primary); border-color:#c4b5fd; }
-        .prof-btn:hover { background:#f5f3ff; border-color:var(--primary-light); transform:translateY(-1px); }
-        .prof-btn.active { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:white; border-color:transparent; box-shadow:0 4px 12px rgba(79,70,229,0.35); }
-        .edit-name-input { width:90px !important; text-align:left !important; font-weight:700 !important; }
+        .prof-btn { padding:8px 16px; border:2px solid #c4b5fd; border-radius:10px; cursor:pointer; font-size:0.75em; font-weight:700; background:white; color:var(--primary); }
+        .prof-btn:hover { background:#f5f3ff; }
+        .prof-btn.active { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:white; border-color:transparent; }
         @media print {
             body { background:white; padding:0; }
             .container { box-shadow:none; border:none; }
             .header, .toolbar, .form-row, .btn, .badge, .warning-banner, .lock-screen, .loading, .toast, .popup-overlay, .modal-overlay, .export-bar, .filter-row { display:none !important; }
             .content { padding:5px; }
             table { font-size:0.6em; }
-            td input { border:none; background:none; -webkit-appearance:none; }
+            td input { border:none; background:none; }
             .stats-row td { background:#eee !important; color:#000 !important; }
             @page { size:landscape; margin:5mm; }
         }
@@ -144,16 +147,12 @@
 <div class="loading" id="loading"><div class="spinner"></div>Chargement...</div>
 <div class="warning-banner" id="banner" style="display:none">📝 TOUJOURS GARDER UNE COPIE MANUSCRITE DANS UN CAHIER DE NOTES 📒</div>
 
-<div class="popup-overlay" id="popup">
-    <div class="popup"><h3 id="popup-title"></h3><p id="popup-msg"></p><div class="btn-row"><button class="btn btn-danger" id="popup-ok">Confirmer</button><button class="btn btn-outline" onclick="closePopup()">Annuler</button></div></div>
-</div>
+<div class="popup-overlay" id="popup"><div class="popup"><h3 id="popup-title"></h3><p id="popup-msg"></p><div class="btn-row"><button class="btn btn-danger" id="popup-ok">Confirmer</button><button class="btn btn-outline" onclick="closePopup()">Annuler</button></div></div></div>
 
-<div class="lock-screen" id="lock">
-    <div class="lock-card"><div class="lock-icon">⚡</div><h2>Notes CAP Électrotechnique</h2><p>Entrez votre mot de passe pour accéder</p><input type="password" id="pwd" placeholder="••••••••" onkeypress="if(event.key==='Enter')unlock()"><div class="err" id="pwd-err">❌ Mot de passe incorrect</div><button class="btn btn-primary" onclick="unlock()" style="width:100%;padding:12px;font-size:0.85em">🔓 Accéder</button></div>
-</div>
+<div class="lock-screen" id="lock"><div class="lock-card"><div class="lock-icon">⚡</div><h2>Notes CAP Électrotechnique</h2><p>Entrez votre mot de passe</p><input type="password" id="pwd" placeholder="••••••••" onkeypress="if(event.key==='Enter')unlock()"><div class="err" id="pwd-err">❌ Mot de passe incorrect</div><button class="btn btn-primary" onclick="unlock()" style="width:100%;padding:12px">🔓 Accéder</button></div></div>
 
 <div class="container" id="app">
-    <div class="header"><div><h1>⚡ Notes CAP Électrotechnique</h1><div class="subtitle">Mesures & Essais • Schémas Électriques • Électrotechnique</div></div><div class="header-right"><span class="badge" id="role-badge"></span><button class="btn btn-white" onclick="window.print()">🖨️</button><button class="btn btn-white" onclick="lockSite()">🔒</button><button class="btn btn-danger btn-sm" id="btn-quit-admin" style="display:none" onclick="quitAdmin()">⬅ Admin</button></div></div>
+    <div class="header"><div><h1>⚡ Notes CAP Électrotechnique</h1><div class="subtitle">Mesures & Essais • Schémas Électriques • Électrotechnique</div></div><div class="header-right"><span class="badge" id="role-badge"></span><button class="btn btn-white btn-sm" onclick="window.print()">🖨️</button><button class="btn btn-white btn-sm" onclick="lockSite()">🔒</button><button class="btn btn-danger btn-sm" id="btn-quit-admin" style="display:none" onclick="quitAdmin()">⬅ Admin</button></div></div>
     <div class="toolbar" id="toolbar"></div>
     <div class="content" id="content"></div>
 </div>
@@ -168,18 +167,10 @@ const SUPA_KEY = 'sb_publishable_SMwywe7eaf53fftFdvxLJQ_4RZ1_3-Y';
 const PWD_GLOBAL = '..@@3345';
 const PWD_ADMIN = '@-234;';
 const PWD_ADJACLE = '@@EEE.';
-
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 let formateurs = [], currentId = null, unlocked = false, admin = false, userAdjacle = false, popCb = null;
 
-async function init() {
-    document.getElementById('loading').classList.remove('hidden');
-    const { data } = await sb.from('formateurs').select('*').order('id');
-    formateurs = data || [];
-    if (formateurs.length) currentId = formateurs[0].id;
-    document.getElementById('loading').classList.add('hidden');
-}
-
+async function init() { document.getElementById('loading').classList.remove('hidden'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; if (formateurs.length) currentId = formateurs[0].id; document.getElementById('loading').classList.add('hidden'); }
 async function loadApprenants(fid) { const { data } = await sb.from('apprenants').select('*').eq('formateur_id', fid).order('id'); return data || []; }
 async function loadNotes(aid) { const { data } = await sb.from('notes').select('*').eq('apprenant_id', aid); return data || []; }
 async function upsertNote(aid, matIdx, sem, field, val) {
@@ -189,7 +180,7 @@ async function upsertNote(aid, matIdx, sem, field, val) {
     await sb.from('notes').upsert(row, { onConflict: 'apprenant_id,matiere_index,semestre' });
 }
 async function addApprenant(fid, nom, prenom, niveau) { await sb.from('apprenants').insert({ formateur_id: fid, nom, prenom, niveau }); }
-async function updateApprenant(aid, nom, prenom) { await sb.from('apprenants').update({ nom, prenom }).eq('id', aid); }
+async function updateApprenantDB(aid, nom, prenom) { await sb.from('apprenants').update({ nom, prenom }).eq('id', aid); }
 async function deleteApprenant(aid) { await sb.from('apprenants').delete().eq('id', aid); }
 async function deleteAllApprenants(fid, niveau) { await sb.from('apprenants').delete().eq('formateur_id', fid).eq('niveau', niveau); }
 async function updateFormateur(id, nom, prenom) { await sb.from('formateurs').update({ nom, prenom }).eq('id', id); }
@@ -208,25 +199,9 @@ function unlock() {
     } else { document.getElementById('pwd-err').classList.add('show'); }
     document.getElementById('pwd').value = '';
 }
-function lockSite() {
-    showPopup('Verrouiller', 'Voulez-vous verrouiller ?', () => {
-        unlocked = false; admin = false; userAdjacle = false;
-        document.getElementById('lock').classList.remove('hidden');
-        document.getElementById('banner').style.display = 'none'; updateUI();
-    });
-}
-function tryAdmin() {
-    if (document.getElementById('admin-code').value === PWD_ADMIN) {
-        admin = true; userAdjacle = false;
-        closeModal('modal-admin'); updateUI(); toast('Admin activé', 'warn'); buildAll();
-    } else { alert('Code admin incorrect'); }
-    document.getElementById('admin-code').value = '';
-}
-function quitAdmin() {
-    showPopup('Quitter admin', 'Quitter le mode administrateur ?', () => {
-        admin = false; updateUI(); toast('Admin désactivé', 'warn'); buildAll();
-    }, 'Quitter');
-}
+function lockSite() { showPopup('Verrouiller', 'Voulez-vous verrouiller ?', () => { unlocked = false; admin = false; userAdjacle = false; document.getElementById('lock').classList.remove('hidden'); document.getElementById('banner').style.display = 'none'; updateUI(); }); }
+function tryAdmin() { if (document.getElementById('admin-code').value === PWD_ADMIN) { admin = true; userAdjacle = false; closeModal('modal-admin'); updateUI(); toast('Admin activé', 'warn'); buildAll(); } else { alert('Code admin incorrect'); } document.getElementById('admin-code').value = ''; }
+function quitAdmin() { showPopup('Quitter admin', 'Quitter ?', () => { admin = false; updateUI(); toast('Admin désactivé', 'warn'); buildAll(); }, 'Quitter'); }
 function updateUI() {
     document.getElementById('btn-quit-admin').style.display = admin ? 'inline-block' : 'none';
     const b = document.getElementById('role-badge');
@@ -237,59 +212,29 @@ function updateUI() {
 }
 function canEdit() { return unlocked; }
 function canAdmin() { return unlocked && admin; }
-
-function showPopup(title, msg, cb, btnText) {
-    document.getElementById('popup-title').textContent = title;
-    document.getElementById('popup-msg').textContent = msg;
-    document.getElementById('popup-ok').textContent = btnText || 'Confirmer';
-    popCb = cb; document.getElementById('popup').classList.add('active');
-}
+function showPopup(title, msg, cb, btnText) { document.getElementById('popup-title').textContent = title; document.getElementById('popup-msg').textContent = msg; document.getElementById('popup-ok').textContent = btnText || 'Confirmer'; popCb = cb; document.getElementById('popup').classList.add('active'); }
 function closePopup() { document.getElementById('popup').classList.remove('active'); popCb = null; }
 document.getElementById('popup-ok').addEventListener('click', () => { if (popCb) popCb(); closePopup(); });
 document.getElementById('popup').addEventListener('click', function(e) { if (e.target === this) closePopup(); });
-function toast(msg, type) {
-    const t = document.createElement('div');
-    t.className = 'toast' + (type === 'warn' ? ' warn' : '') + (type === 'err' ? ' err' : '');
-    t.textContent = (type === 'err' ? '❌ ' : '✅ ') + msg;
-    document.body.appendChild(t); setTimeout(() => t.remove(), 3000);
-}
+function toast(msg, type) { const t = document.createElement('div'); t.className = 'toast' + (type === 'warn' ? ' warn' : '') + (type === 'err' ? ' err' : ''); t.textContent = (type === 'err' ? '❌ ' : '✅ ') + msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
 function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 document.addEventListener('click', e => { if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active'); });
 
-async function buildAll() {
-    if (!unlocked) return;
-    const { data } = await sb.from('formateurs').select('*').order('id');
-    formateurs = data || [];
-    buildToolbar(); await buildContent(); updateUI();
-}
+async function buildAll() { if (!unlocked) return; const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; buildToolbar(); await buildContent(); updateUI(); }
 function buildToolbar() {
-    let h = '';
-    formateurs.forEach(f => {
-        const name = f.prenom ? f.prenom + ' ' + f.nom : f.nom;
-        h += '<button class="prof-btn ' + (f.id === currentId ? 'active' : '') + '" onclick="selectProf(' + f.id + ')">' + name + '</button>';
-    });
+    let h = ''; formateurs.forEach(f => { const name = f.prenom ? f.prenom + ' ' + f.nom : f.nom; h += '<button class="prof-btn ' + (f.id === currentId ? 'active' : '') + '" onclick="selectProf(' + f.id + ')">' + name + '</button>'; });
     if (canAdmin()) h += '<button class="btn btn-success btn-sm" style="margin-left:8px" onclick="addProf()">+ Formateur</button>';
     if (!admin && unlocked && !userAdjacle) h += '<button class="btn btn-pink btn-sm" style="margin-left:8px" onclick="document.getElementById(\'modal-admin\').classList.add(\'active\')">🔑 Admin</button>';
     document.getElementById('toolbar').innerHTML = h;
 }
 async function buildContent() {
-    const ct = document.getElementById('content');
-    if (!currentId) { ct.innerHTML = '<div class="empty-state">Sélectionnez un formateur</div>'; return; }
-    const f = formateurs.find(x => x.id === currentId);
-    if (!f) { ct.innerHTML = '<div class="empty-state">Formateur introuvable</div>'; return; }
+    const ct = document.getElementById('content'); if (!currentId) { ct.innerHTML = '<div class="empty-state">Sélectionnez un formateur</div>'; return; }
+    const f = formateurs.find(x => x.id === currentId); if (!f) { ct.innerHTML = '<div class="empty-state">Formateur introuvable</div>'; return; }
     const name = f.prenom ? f.prenom + ' ' + f.nom : f.nom;
     let h = '<div class="section-title">👤 Formateur : ' + name + (admin ? ' <span style="color:#f59e0b;font-size:0.85em">[Admin]</span>' : '') + '</div>';
     h += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center">';
-    (f.matieres || []).forEach((m, i) => {
-        h += '<span class="matiere-tag">📚 ' + m;
-        if (admin) h += ' <button onclick="editMatiere(' + f.id + ',' + i + ')">✎</button><button style="color:#dc2626" onclick="delMatiere(' + f.id + ',' + i + ')">×</button>';
-        h += '</span>';
-    });
-    if (admin) {
-        h += '<button class="btn btn-outline btn-xs" onclick="addMatiere(' + f.id + ')">+ Matière</button>';
-        h += '<button class="btn btn-outline btn-xs" onclick="editProf(' + f.id + ')">✎ Éditer</button>';
-        if (formateurs.length > 1) h += '<button class="btn btn-danger btn-xs" onclick="delProf(' + f.id + ')">🗑 Supprimer</button>';
-    }
+    (f.matieres || []).forEach((m, i) => { h += '<span class="matiere-tag">📚 ' + m; if (admin) h += ' <button onclick="editMatiere(' + f.id + ',' + i + ')">✎</button><button style="color:#dc2626" onclick="delMatiere(' + f.id + ',' + i + ')">×</button>'; h += '</span>'; });
+    if (admin) { h += '<button class="btn btn-outline btn-xs" onclick="addMatiere(' + f.id + ')">+ Matière</button>'; h += '<button class="btn btn-outline btn-xs" onclick="editProf(' + f.id + ')">✎ Éditer</button>'; if (formateurs.length > 1) h += '<button class="btn btn-danger btn-xs" onclick="delProf(' + f.id + ')">🗑 Supprimer</button>'; }
     h += '</div>';
     h += '<div class="filter-row"><select id="lvl-' + f.id + '" onchange="refresh(' + f.id + ')"><option value="1">📘 CAP Niveau 1</option><option value="2">📗 CAP Niveau 2</option></select><select id="mat-' + f.id + '" onchange="refresh(' + f.id + ')"><option value="0">📋 Toutes les matières</option>';
     (f.matieres || []).forEach((m, i) => h += '<option value="' + (i + 1) + '">' + m + '</option>');
@@ -309,126 +254,106 @@ function calcMG(matNotes, sem) { const vals = matNotes.map(nr => { const n = nr[
 function calcStats(liste, matIdx, sem) { const vals = liste.map(a => { const nr = (a._notes || {})[matIdx + '_' + sem]; return nr ? parseFloat(calcMoy(nr)) : NaN; }).filter(v => !isNaN(v)); if (vals.length === 0) return { eff: 0, moy: '-', min: '-', max: '-' }; return { eff: vals.length, moy: (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2), min: Math.min(...vals).toFixed(2), max: Math.max(...vals).toFixed(2) }; }
 
 async function refresh(pid) {
-    const container = document.getElementById('table-' + pid);
-    if (!container) return;
+    const container = document.getElementById('table-' + pid); if (!container) return;
     const lvl = document.getElementById('lvl-' + pid)?.value || '1';
     const matSelect = parseInt(document.getElementById('mat-' + pid)?.value || '0');
-    const f = formateurs.find(x => x.id === pid);
-    if (!f) return;
+    const f = formateurs.find(x => x.id === pid); if (!f) return;
     document.getElementById('loading').classList.remove('hidden');
     const liste = await loadApprenants(pid);
     const filtered = liste.filter(a => a.niveau === lvl);
     for (let a of filtered) { const n = await loadNotes(a.id); a._notes = {}; n.forEach(row => { a._notes[row.matiere_index + '_' + row.semestre] = row; }); }
-    const el = document.getElementById('stats-' + pid);
-    if (el) el.innerHTML = '👥 <b>' + filtered.length + '</b> apprenant(s) — ' + (lvl === '1' ? '📘 Niveau 1' : '📗 Niveau 2');
+    document.getElementById('stats-' + pid).innerHTML = '👥 <b>' + filtered.length + '</b> apprenant(s) — ' + (lvl === '1' ? '📘 Niveau 1' : '📗 Niveau 2');
     const mats = f.matieres || [];
     const showMats = matSelect === 0 ? mats.map((_, i) => i) : [matSelect - 1];
-    if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">Aucun apprenant pour ce niveau</div>'; document.getElementById('loading').classList.add('hidden'); return; }
+    if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">Aucun apprenant</div>'; document.getElementById('loading').classList.add('hidden'); return; }
     const edit = canEdit();
 
-    // NOUVEAU FORMAT : S1 et S2 empilés pour chaque matière
+    // FORMAT VERTICAL : S1 puis S2 en dessous pour chaque matière
     let h = '<table><thead><tr><th rowspan="2">N°</th><th rowspan="2">Nom</th><th rowspan="2">Prénom</th>';
-    showMats.forEach(mi => h += '<th colspan="14">' + mats[mi] + '</th>');
+    showMats.forEach(mi => h += '<th colspan="8" class="s1">🟣 ' + mats[mi] + ' — Semestre 1</th>');
     if (matSelect === 0) h += '<th rowspan="2">MG</th>';
     h += '<th rowspan="2"></th></tr><tr>';
-    showMats.forEach(() => {
-        h += '<th class="sub">I1</th><th class="sub">I2</th><th class="sub">I3</th><th class="sub">I4</th><th class="sub">MI</th><th class="sub">D1</th><th class="sub">D2</th><th class="sub">Moy</th>';
-        h += '<th class="sub-s2">I1</th><th class="sub-s2">I2</th><th class="sub-s2">I3</th><th class="sub-s2">I4</th><th class="sub-s2">MI</th><th class="sub-s2">D1</th><th class="sub-s2">D2</th><th class="sub-s2">Moy</th>';
-    });
+    showMats.forEach(() => h += '<th class="sub">I1</th><th class="sub">I2</th><th class="sub">I3</th><th class="sub">I4</th><th class="sub">MI</th><th class="sub">D1</th><th class="sub">D2</th><th class="sub">Moy</th>');
     h += '</tr></thead><tbody>';
 
     filtered.forEach((a, idx) => {
         const an = a._notes || {};
-        h += '<tr><td>' + (idx + 1) + '</td>';
-        // NOM ÉDITABLE
-        h += '<td class="td-name"><input type="text" class="edit-name-input" value="' + a.nom + '" onchange="updateApprenant(' + a.id + ',\'nom\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-        h += '<td class="td-prenom"><input type="text" class="edit-name-input" value="' + a.prenom + '" onchange="updateApprenant(' + a.id + ',\'prenom\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-        
+        // Ligne S1
+        h += '<tr><td rowspan="2">' + (idx + 1) + '</td>';
+        h += '<td class="td-name" rowspan="2"><input type="text" value="' + a.nom + '" onchange="updateNomPrenom(' + a.id + ',\'nom\',this.value)" ' + (edit ? '' : 'disabled') + ' style="width:75px;text-align:left;font-weight:700"></td>';
+        h += '<td rowspan="2"><input type="text" value="' + a.prenom + '" onchange="updateNomPrenom(' + a.id + ',\'prenom\',this.value)" ' + (edit ? '' : 'disabled') + ' style="width:75px;text-align:left"></td>';
         showMats.forEach(mi => {
-            const nr1 = an[mi + '_1'];
-            const nr2 = an[mi + '_2'];
-            // S1
-            h += '<td><input type="number" min="0" max="20" value="' + (nr1?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr1?.interro2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr1?.interro3 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro3\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr1?.interro4 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro4\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td class="td-mi">' + (calcMI(nr1) > 0 ? calcMI(nr1).toFixed(2) : '-') + '</td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr1?.devoir1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'devoir1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr1?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
-            h += '<td class="td-moy">' + calcMoy(nr1) + '</td>';
-            // S2
-            h += '<td><input type="number" min="0" max="20" value="' + (nr2?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr2?.interro2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro2\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr2?.interro3 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro3\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr2?.interro4 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro4\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
-            h += '<td class="td-mi-s2">' + (calcMI(nr2) > 0 ? calcMI(nr2).toFixed(2) : '-') + '</td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr2?.devoir1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir1\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
-            h += '<td><input type="number" min="0" max="20" value="' + (nr2?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
-            h += '<td class="td-moy-s2">' + calcMoy(nr2) + '</td>';
+            const nr = an[mi + '_1'];
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro3 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro3\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro4 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro4\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
+            h += '<td class="td-mi">' + (calcMI(nr) > 0 ? calcMI(nr).toFixed(2) : '-') + '</td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'devoir1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
+            h += '<td class="td-moy">' + calcMoy(nr) + '</td>';
         });
-        if (matSelect === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); h += '<td class="td-mg">' + calcMG(mn, '1') + '<br><span style="font-size:0.75em;color:#b45309">' + calcMG(mn, '2') + '</span></td>'; }
-        h += '<td><button class="btn btn-danger btn-xs" onclick="delEleve(' + pid + ',' + a.id + ')" ' + (edit ? '' : 'disabled') + '>✕</button></td></tr>';
+        if (matSelect === 0) h += '<td rowspan="2" class="td-mg">' + calcMG(mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })), '1') + '<br><span style="font-size:0.75em">' + calcMG(mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })), '2') + '</span></td>';
+        h += '<td rowspan="2"><button class="btn btn-danger btn-xs" onclick="delEleve(' + pid + ',' + a.id + ')" ' + (edit ? '' : 'disabled') + '>✕</button></td></tr>';
+
+        // Ligne S2
+        h += '<tr>';
+        showMats.forEach(mi => {
+            const nr = an[mi + '_2'];
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro2\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro3 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro3\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro4 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro4\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
+            h += '<td class="td-mi-s2">' + (calcMI(nr) > 0 ? calcMI(nr).toFixed(2) : '-') + '</td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir1\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
+            h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
+            h += '<td class="td-moy-s2">' + calcMoy(nr) + '</td>';
+        });
+        h += '</tr>';
     });
 
     // STATS
     h += '<tr class="stats-row"><td colspan="3" class="stat-label">📊 STATS</td>';
     showMats.forEach(mi => {
         const s1 = calcStats(filtered, mi, '1');
-        const s2 = calcStats(filtered, mi, '2');
         h += '<td colspan="4">Eff:' + s1.eff + '</td><td colspan="4">S1: ' + s1.moy + '</td>';
+    });
+    if (matSelect === 0) h += '<td></td>';
+    h += '<td></td></tr>';
+    h += '<tr class="stats-row"><td colspan="3" class="stat-label" style="color:#fbcfe8 !important">📊 STATS S2</td>';
+    showMats.forEach(mi => {
+        const s2 = calcStats(filtered, mi, '2');
         h += '<td colspan="4">Eff:' + s2.eff + '</td><td colspan="4">S2: ' + s2.moy + '</td>';
     });
-    if (matSelect === 0) { const mgVals1 = filtered.map(a => { const mn = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] })); return parseFloat(calcMG(mn, '1')); }).filter(v => !isNaN(v)); h += '<td>' + (mgVals1.length > 0 ? (mgVals1.reduce((a,b)=>a+b,0)/mgVals1.length).toFixed(2) : '-') + '</td>'; }
-    h += '<td></td></tr></tbody></table>';
+    if (matSelect === 0) h += '<td></td>';
+    h += '<td></td></tr>';
+    h += '</tbody></table>';
     container.innerHTML = h;
     document.getElementById('loading').classList.add('hidden');
 }
 
-async function upd(aid, mi, sem, field, val) {
-    await upsertNote(aid, mi, sem, field, val);
-    toast('Note enregistrée 📒');
-    await refresh(currentId);
-}
-async function updateApprenant(aid, field, val) {
+async function upd(aid, mi, sem, field, val) { await upsertNote(aid, mi, sem, field, val); toast('Note enregistrée 📒'); await refresh(currentId); }
+async function updateNomPrenom(aid, field, val) {
     if (!canEdit()) return;
-    const data = getData(currentId);
-    const a = data.find(x => x.id === aid);
-    if (!a) return;
-    if (field === 'nom') a.nom = val;
-    else a.prenom = val;
-    await updateApprenant(aid, a.nom, a.prenom);
-    toast('Nom modifié');
+    const { data } = await sb.from('apprenants').select('*').eq('id', aid).maybeSingle();
+    if (!data) return;
+    if (field === 'nom') data.nom = val; else data.prenom = val;
+    await updateApprenantDB(aid, data.nom, data.prenom);
+    toast('Modifié');
 }
-
-function getData(pid) {
-    const lvl = document.getElementById('lvl-' + pid)?.value || '1';
-    // On récupère depuis le tableau affiché
-    return []; // Simplifié
-}
-
-async function addEleve(pid) {
-    if (!canEdit()) return;
-    const nom = document.getElementById('nom-' + pid).value.trim();
-    const pnom = document.getElementById('pnom-' + pid).value.trim();
-    if (!nom || !pnom) return;
-    await addApprenant(pid, nom, pnom, document.getElementById('lvl-' + pid).value);
-    toast('Apprenant ajouté ✨');
-    document.getElementById('nom-' + pid).value = '';
-    document.getElementById('pnom-' + pid).value = '';
-    await refresh(pid);
-}
-function delEleve(pid, id) { if (!canEdit()) return; showPopup('Supprimer', 'Supprimer cet apprenant ?', async () => { await deleteApprenant(id); toast('Supprimé', 'err'); await refresh(pid); }); }
-function delAll(pid) { if (!canEdit()) return; showPopup('Tout supprimer', '⚠️ Supprimer TOUS les apprenants ?', async () => { await deleteAllApprenants(pid, document.getElementById('lvl-' + pid).value); toast('Tous supprimés', 'err'); await refresh(pid); }); }
-async function addProf() { if (!canAdmin()) return; const f = await addFormateur('Nouveau', '', ['Matière 1']); if (f) { toast('Formateur ajouté', 'warn'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = f.id; buildAll(); } }
+async function addEleve(pid) { if (!canEdit()) return; const nom = document.getElementById('nom-' + pid).value.trim(); const pnom = document.getElementById('pnom-' + pid).value.trim(); if (!nom || !pnom) return; await addApprenant(pid, nom, pnom, document.getElementById('lvl-' + pid).value); toast('Ajouté ✨'); document.getElementById('nom-' + pid).value = ''; document.getElementById('pnom-' + pid).value = ''; await refresh(pid); }
+function delEleve(pid, id) { if (!canEdit()) return; showPopup('Supprimer', 'Supprimer ?', async () => { await deleteApprenant(id); toast('Supprimé', 'err'); await refresh(pid); }); }
+function delAll(pid) { if (!canEdit()) return; showPopup('Tout supprimer', '⚠️ TOUS les apprenants ?', async () => { await deleteAllApprenants(pid, document.getElementById('lvl-' + pid).value); toast('Tous supprimés', 'err'); await refresh(pid); }); }
+async function addProf() { if (!canAdmin()) return; const f = await addFormateur('Nouveau', '', ['Matière 1']); if (f) { toast('Ajouté', 'warn'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = f.id; buildAll(); } }
 function editProf(id) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === id); if (!f) return; document.getElementById('mf-nom').value = f.nom; document.getElementById('mf-prenom').value = f.prenom || ''; document.getElementById('mf-key').value = id; document.getElementById('modal-prof').classList.add('active'); }
-async function saveProf() { if (!canAdmin()) return; const id = parseInt(document.getElementById('mf-key').value); await updateFormateur(id, document.getElementById('mf-nom').value.trim(), document.getElementById('mf-prenom').value.trim()); toast('Formateur modifié'); closeModal('modal-prof'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; buildAll(); }
-function delProf(id) { if (!canAdmin() || formateurs.length <= 1) return; showPopup('Supprimer', 'Supprimer ce formateur ?', async () => { await deleteFormateur(id); toast('Supprimé', 'err'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = formateurs[0]?.id; buildAll(); }); }
+async function saveProf() { if (!canAdmin()) return; const id = parseInt(document.getElementById('mf-key').value); await updateFormateur(id, document.getElementById('mf-nom').value.trim(), document.getElementById('mf-prenom').value.trim()); toast('Modifié'); closeModal('modal-prof'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; buildAll(); }
+function delProf(id) { if (!canAdmin() || formateurs.length <= 1) return; showPopup('Supprimer', 'Supprimer ?', async () => { await deleteFormateur(id); toast('Supprimé', 'err'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = formateurs[0]?.id; buildAll(); }); }
 function editMatiere(pid, idx) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === pid); if (!f) return; document.getElementById('mm-nom').value = f.matieres[idx]; document.getElementById('mm-prof').value = pid; document.getElementById('mm-idx').value = idx; document.getElementById('modal-matiere').classList.add('active'); }
-async function saveMatiere() { if (!canAdmin()) return; const pid = parseInt(document.getElementById('mm-prof').value); const idx = parseInt(document.getElementById('mm-idx').value); const nom = document.getElementById('mm-nom').value.trim(); if (!nom) return; const f = formateurs.find(x => x.id === pid); if (!f) return; f.matieres[idx] = nom; await updateMatieres(pid, f.matieres); toast('Matière modifiée'); closeModal('modal-matiere'); buildAll(); }
-async function addMatiere(pid) { if (!canAdmin()) return; const nom = prompt('Nom :'); if (!nom) return; const f = formateurs.find(x => x.id === pid); if (!f) return; f.matieres.push(nom); await updateMatieres(pid, f.matieres); toast('Matière ajoutée'); buildAll(); }
-async function delMatiere(pid, idx) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === pid); if (!f || f.matieres.length <= 1) return; showPopup('Supprimer', 'Supprimer cette matière ?', async () => { f.matieres.splice(idx, 1); await updateMatieres(pid, f.matieres); toast('Supprimée', 'err'); buildAll(); }); }
-function expJSON(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.json'; a.click(); toast('Export JSON'); }); }
-function expCSV(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; const matSelect = parseInt(document.getElementById('mat-' + pid)?.value || '0'); const f = formateurs.find(x => x.id === pid); if (!f) return; const mats = f.matieres || []; const showMats = matSelect === 0 ? mats.map((_, i) => i) : [matSelect - 1]; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { let csv = 'N°,Nom,Prénom,'; showMats.forEach(mi => csv += mats[mi] + ' S1 I1,S1 I2,S1 I3,S1 I4,S1 MI,S1 D1,S1 D2,S1 Moy,S2 I1,S2 I2,S2 I3,S2 I4,S2 MI,S2 D1,S2 D2,S2 Moy,'); csv += '\n'; data.forEach((a, i) => { const an = {}; (a.notes || []).forEach(n => { an[n.matiere_index + '_' + n.semestre] = n; }); csv += (i + 1) + ',' + a.nom + ',' + a.prenom + ','; showMats.forEach(mi => { const nr1 = an[mi + '_1']; const nr2 = an[mi + '_2']; csv += (nr1?.interro1||'')+','+(nr1?.interro2||'')+','+(nr1?.interro3||'')+','+(nr1?.interro4||'')+','+(calcMI(nr1)>0?calcMI(nr1).toFixed(2):'')+','+(nr1?.devoir1||'')+','+(nr1?.devoir2||'')+','+calcMoy(nr1)+','; csv += (nr2?.interro1||'')+','+(nr2?.interro2||'')+','+(nr2?.interro3||'')+','+(nr2?.interro4||'')+','+(calcMI(nr2)>0?calcMI(nr2).toFixed(2):'')+','+(nr2?.devoir1||'')+','+(nr2?.devoir2||'')+','+calcMoy(nr2)+','; }); csv += '\n'; }); const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.csv'; a.click(); toast('Export CSV'); }); }
+async function saveMatiere() { if (!canAdmin()) return; const pid = parseInt(document.getElementById('mm-prof').value); const idx = parseInt(document.getElementById('mm-idx').value); const nom = document.getElementById('mm-nom').value.trim(); if (!nom) return; const f = formateurs.find(x => x.id === pid); if (!f) return; f.matieres[idx] = nom; await updateMatieres(pid, f.matieres); toast('Modifiée'); closeModal('modal-matiere'); buildAll(); }
+async function addMatiere(pid) { if (!canAdmin()) return; const nom = prompt('Nom :'); if (!nom) return; const f = formateurs.find(x => x.id === pid); if (!f) return; f.matieres.push(nom); await updateMatieres(pid, f.matieres); toast('Ajoutée'); buildAll(); }
+async function delMatiere(pid, idx) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === pid); if (!f || f.matieres.length <= 1) return; showPopup('Supprimer', 'Supprimer ?', async () => { f.matieres.splice(idx, 1); await updateMatieres(pid, f.matieres); toast('Supprimée', 'err'); buildAll(); }); }
+function expJSON(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.json'; a.click(); toast('JSON exporté'); }); }
+function expCSV(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { let csv = 'N°,Nom,Prénom'; const f = formateurs.find(x => x.id === pid); const mats = f?.matieres || []; mats.forEach(m => csv += ',' + m + ' S1 I1,' + m + ' S1 I2,' + m + ' S1 I3,' + m + ' S1 I4,' + m + ' S1 MI,' + m + ' S1 D1,' + m + ' S1 D2,' + m + ' S1 Moy,' + m + ' S2 I1,' + m + ' S2 I2,' + m + ' S2 I3,' + m + ' S2 I4,' + m + ' S2 MI,' + m + ' S2 D1,' + m + ' S2 D2,' + m + ' S2 Moy'); csv += '\n'; data.forEach((a, i) => { const an = {}; (a.notes || []).forEach(n => { an[n.matiere_index + '_' + n.semestre] = n; }); csv += (i + 1) + ',' + a.nom + ',' + a.prenom; mats.forEach((m, mi) => { const nr1 = an[mi + '_1'] || {}; const nr2 = an[mi + '_2'] || {}; csv += ',' + (nr1.interro1||'') + ',' + (nr1.interro2||'') + ',' + (nr1.interro3||'') + ',' + (nr1.interro4||'') + ',' + (calcMI(nr1)>0?calcMI(nr1).toFixed(2):'') + ',' + (nr1.devoir1||'') + ',' + (nr1.devoir2||'') + ',' + calcMoy(nr1); csv += ',' + (nr2.interro1||'') + ',' + (nr2.interro2||'') + ',' + (nr2.interro3||'') + ',' + (nr2.interro4||'') + ',' + (calcMI(nr2)>0?calcMI(nr2).toFixed(2):'') + ',' + (nr2.devoir1||'') + ',' + (nr2.devoir2||'') + ',' + calcMoy(nr2); }); csv += '\n'; }); const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.csv'; a.click(); toast('CSV exporté'); }); }
 
 init();
 </script>
