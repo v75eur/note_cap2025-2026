@@ -152,7 +152,7 @@ function hideLoading() { document.getElementById('loading').classList.add('hidde
 // API
 async function loadApprenants(fid) { const { data } = await sb.from('apprenants').select('*').eq('formateur_id', fid).order('id'); return data || []; }
 async function loadNotes(aid) { const { data } = await sb.from('notes').select('*').eq('apprenant_id', aid); return data || []; }
-async function upsertNote(aid, mi, sem, field, val) {
+async function upsertNote(aid , mIdx, sem, field, val) {
     const { data: ex } = await sb.from('notes').select('*').eq('apprenant_id', aid).eq('matiere_index', mi).eq('semestre', sem).maybeSingle();
     const row = ex || { apprenant_id: aid, matiere_index: mi, semestre: sem, interro1: null, interro2: null, interro3: null, interro4: null, devoir1: null, devoir2: null };
     row[field] = val === '' ? null : parseFloat(val);
@@ -314,7 +314,7 @@ async function selectProf(id) { currentId = id; await buildContent(); buildToolb
 function mi(nr) { if (!nr) return 0; const v = [nr.interro1, nr.interro2, nr.interro3, nr.interro4].filter(x => x !== null && x !== undefined && x !== ''); return v.length > 0 ? v.reduce((a, b) => Number(a) + Number(b), 0) / v.length : 0; }
 function moy(nr) { if (!nr) return '-'; const m = mi(nr); const d1 = Number(nr.devoir1) || 0; const d2 = Number(nr.devoir2) || 0; const has = [nr.interro1, nr.interro2, nr.interro3, nr.interro4].some(x => x !== null && x !== undefined && x !== ''); if (!has && !nr.devoir1 && !nr.devoir2) return '-'; return ((m + d1 + d2) / 3).toFixed(2); }
 function mg(matNotes, sem) { const vals = matNotes.map(nr => { const n = nr[sem]; return n ? parseFloat(moy(n)) : NaN; }).filter(v => !isNaN(v)); return vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) : '-'; }
-function stats(liste, mi, sem) { const vals = liste.map(a => { const nr = (a._notes || {})[mi + '_' + sem]; return nr ? parseFloat(moy(nr)) : NaN; }).filter(v => !isNaN(v)); if (vals.length === 0) return { eff: 0, moy: '-', min: '-', max: '-' }; return { eff: vals.length, moy: (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2), min: Math.min(...vals).toFixed(2), max: Math.max(...vals).toFixed(2) }; }
+function stats(liste , mIdx, sem) { const vals = liste.map(a => { const nr = (a._notes || {})[mi + '_' + sem]; return nr ? parseFloat(moy(nr)) : NaN; }).filter(v => !isNaN(v)); if (vals.length === 0) return { eff: 0, moy: '-', min: '-', max: '-' }; return { eff: vals.length, moy: (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2), min: Math.min(...vals).toFixed(2), max: Math.max(...vals).toFixed(2) }; }
 
 async function refresh(pid) {
     const container = document.getElementById('table-' + pid);
@@ -332,9 +332,9 @@ async function refresh(pid) {
     const mts = matIdx === 0 ? mats.map((_, i) => i) : [matIdx - 1];
     if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">Aucun apprenant</div>'; hideLoading(); return; }
     let h = '<table><thead><tr><th rowspan="2">N°</th><th rowspan="2">Nom</th><th rowspan="2">Prénom</th>';
-    mts.forEach(mi => h += '<th colspan="8">Semestre 1 — ' + mats[mi] + '</th>');
+    mts.forEach(mIdx => h += '<th colspan="8">Semestre 1 — ' + mats[mi] + '</th>');
     if (matIdx === 0) h += '<th rowspan="2">MG S1</th>';
-    mts.forEach(mi => h += '<th colspan="8">Semestre 2 — ' + mats[mi] + '</th>');
+    mts.forEach(mIdx => h += '<th colspan="8">Semestre 2 — ' + mats[mi] + '</th>');
     if (matIdx === 0) h += '<th rowspan="2">MG S2</th><th rowspan="2"></th></tr><tr>';
     mts.forEach(() => h += '<th class="sub-header">I1</th><th class="sub-header">I2</th><th class="sub-header">I3</th><th class="sub-header">I4</th><th class="sub-header">MI</th><th class="sub-header">D1</th><th class="sub-header">D2</th><th class="sub-header">Moy</th>');
     mts.forEach(() => h += '<th class="sub-header">I1</th><th class="sub-header">I2</th><th class="sub-header">I3</th><th class="sub-header">I4</th><th class="sub-header">MI</th><th class="sub-header">D1</th><th class="sub-header">D2</th><th class="sub-header">Moy</th>');
@@ -343,7 +343,7 @@ async function refresh(pid) {
     filtered.forEach((a, idx) => {
         const an = a._notes || {};
         h += '<tr><td>' + (idx + 1) + '</td><td class="cell-name">' + a.nom + '</td><td>' + a.prenom + '</td>';
-        mts.forEach(mi => {
+        mts.forEach(mIdx => {
             const nr = an[mi + '_1'];
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
@@ -355,7 +355,7 @@ async function refresh(pid) {
             h += '<td class="cell-moy">' + moy(nr) + '</td>';
         });
         if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); h += '<td class="cell-mg">' + mg(mn, '1') + '</td>'; }
-        mts.forEach(mi => {
+        mts.forEach(mIdx => {
             const nr = an[mi + '_2'];
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
@@ -370,17 +370,17 @@ async function refresh(pid) {
         h += '<td><button class="btn btn-danger" style="padding:2px 8px;font-size:.65em" onclick="delEleve(' + pid + ',' + a.id + ')" ' + (edit ? '' : 'disabled') + '>✕</button></td></tr>';
     });
     h += '<tr class="stats-row"><td colspan="3" class="stat-label">📊 STATISTIQUES</td>';
-    mts.forEach(mi => { const s = stats(filtered, mi, '1'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
+    mts.forEach(mIdx => { const s = stats(filtered , mIdx, '1'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
     if (matIdx === 0) { const mgVals = filtered.map(a => { const mn = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] })); const v = mg(mn, '1'); return v === '-' ? NaN : parseFloat(v); }).filter(v => !isNaN(v)); h += '<td>Eff:' + mgVals.length + '<br>Moy:' + (mgVals.length > 0 ? (mgVals.reduce((a, b) => a + b, 0) / mgVals.length).toFixed(2) : '-') + '</td>'; }
-    mts.forEach(mi => { const s = stats(filtered, mi, '2'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
+    mts.forEach(mIdx => { const s = stats(filtered , mIdx, '2'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
     if (matIdx === 0) { const mgVals = filtered.map(a => { const mn = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] })); const v = mg(mn, '2'); return v === '-' ? NaN : parseFloat(v); }).filter(v => !isNaN(v)); h += '<td>Eff:' + mgVals.length + '<br>Moy:' + (mgVals.length > 0 ? (mgVals.reduce((a, b) => a + b, 0) / mgVals.length).toFixed(2) : '-') + '</td>'; }
     h += '<td></td></tr></tbody></table>';
     container.innerHTML = h;
     hideLoading();
 }
 
-async function upd(aid, mi, sem, field, val) {
-    await upsertNote(aid, mi, sem, field, val);
+async function upd(aid , mIdx, sem, field, val) {
+    await upsertNote(aid , mIdx, sem, field, val);
     toast('Note enregistrée 📒');
     await refresh(currentId);
 }
@@ -408,7 +408,7 @@ async function saveMatiere() { if (!canAdmin()) return; const pid = parseInt(doc
 async function addMatiere(pid) { if (!canAdmin()) return; const nom = prompt('Nom :'); if (!nom) return; const f = formateurs.find(x => x.id === pid); if (!f) return; f.matieres.push(nom); await updateMatieres(pid, f.matieres); toast('Matière ajoutée'); buildAll(); }
 async function delMatiere(pid, idx) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === pid); if (!f || f.matieres.length <= 1) return; showPopup('Supprimer', 'Supprimer cette matière ?', async () => { f.matieres.splice(idx, 1); await updateMatieres(pid, f.matieres); toast('Matière supprimée', 'error'); buildAll(); }); }
 function expJSON(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.json'; a.click(); toast('Export JSON'); }); }
-function expCSV(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; const matIdx = parseInt(document.getElementById('mat-' + pid)?.value || '0'); const f = formateurs.find(x => x.id === pid); if (!f) return; const mats = f.matieres || []; const mts = matIdx === 0 ? mats.map((_, i) => i) : [matIdx - 1]; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { let csv = 'N°,Nom,Prénom,'; mts.forEach(mi => csv += 'S1-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,'); if (matIdx === 0) csv += 'MG S1,'; mts.forEach(mi => csv += 'S2-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,'); if (matIdx === 0) csv += 'MG S2'; csv += '\n'; data.forEach((a, i) => { const an = {}; (a.notes || []).forEach(n => { an[n.matiere_index + '_' + n.semestre] = n; }); csv += (i + 1) + ',' + a.nom + ',' + a.prenom + ','; mts.forEach(mi => { const nr = an[mi + '_1']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; }); if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '1') + ','; } mts.forEach(mi => { const nr = an[mi + '_2']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; }); if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '2'); } csv += '\n'; }); const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.csv'; a.click(); toast('Export CSV'); }); }
+function expCSV(pid) { const lvl = document.getElementById('lvl-' + pid)?.value || '1'; const matIdx = parseInt(document.getElementById('mat-' + pid)?.value || '0'); const f = formateurs.find(x => x.id === pid); if (!f) return; const mats = f.matieres || []; const mts = matIdx === 0 ? mats.map((_, i) => i) : [matIdx - 1]; sb.from('apprenants').select('*, notes(*)').eq('formateur_id', pid).eq('niveau', lvl).then(({ data }) => { let csv = 'N°,Nom,Prénom,'; mts.forEach(mIdx => csv += 'S1-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,'); if (matIdx === 0) csv += 'MG S1,'; mts.forEach(mIdx => csv += 'S2-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,'); if (matIdx === 0) csv += 'MG S2'; csv += '\n'; data.forEach((a, i) => { const an = {}; (a.notes || []).forEach(n => { an[n.matiere_index + '_' + n.semestre] = n; }); csv += (i + 1) + ',' + a.nom + ',' + a.prenom + ','; mts.forEach(mIdx => { const nr = an[mi + '_1']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; }); if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '1') + ','; } mts.forEach(mIdx => { const nr = an[mi + '_2']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; }); if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '2'); } csv += '\n'; }); const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + pid + '.csv'; a.click(); toast('Export CSV'); }); }
 
 init();
 </script>
