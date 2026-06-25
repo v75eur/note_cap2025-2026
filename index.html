@@ -20,11 +20,7 @@
             background-attachment: fixed; color:var(--text); min-height:100vh; padding:16px;
         }
         .container { max-width:100%; margin:0 auto; background:rgba(255,255,255,0.97); border-radius:20px; box-shadow:var(--shadow-lg); overflow:hidden; }
-        .header {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899);
-            color:white; padding:18px 24px; display:flex; justify-content:space-between;
-            align-items:center; flex-wrap:wrap; gap:12px;
-        }
+        .header { background: linear-gradient(135deg, #4f46e5, #7c3aed, #ec4899); color:white; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
         .header h1 { font-size:1.15em; font-weight:800; }
         .header .subtitle { font-size:0.72em; opacity:0.85; margin-top:3px; }
         .header-right { display:flex; gap:8px; align-items:center; flex-wrap:wrap; z-index:1; }
@@ -46,11 +42,7 @@
         .btn-white:hover { background:rgba(255,255,255,0.3); }
         .toolbar { display:flex; gap:8px; padding:14px 24px; border-bottom:2px solid var(--border); flex-wrap:wrap; align-items:center; background:linear-gradient(90deg,#f5f3ff,#fdf4ff); }
         .content { padding:22px 24px; }
-        .section-title {
-            font-size:0.82em; font-weight:800; color:var(--primary); text-transform:uppercase;
-            letter-spacing:0.8px; margin-bottom:16px; padding-bottom:8px;
-            border-bottom:3px solid; border-image:linear-gradient(90deg,#4f46e5,#ec4899) 1;
-        }
+        .section-title { font-size:0.82em; font-weight:800; color:var(--primary); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:16px; padding-bottom:8px; border-bottom:3px solid; border-image:linear-gradient(90deg,#4f46e5,#ec4899) 1; }
         .form-row { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; align-items:end; }
         .form-row input { padding:9px 12px; border:1.5px solid var(--border); border-radius:8px; font-size:0.8em; width:145px; font-family:'Inter',sans-serif; }
         .form-row input:focus { border-color:var(--primary-light); outline:none; box-shadow:0 0 0 3px rgba(79,70,229,0.1); }
@@ -62,21 +54,24 @@
         .filter-row select { padding:7px 12px; border:1.5px solid #c4b5fd; border-radius:8px; font-size:0.8em; background:white; color:var(--primary-dark); font-weight:600; }
         .table-wrapper { overflow-x:auto; border:2px solid var(--border); border-radius:14px; background:white; box-shadow:var(--shadow); margin-bottom:20px; }
         table { width:100%; border-collapse:collapse; font-size:0.73em; }
-        thead th {
-            background:linear-gradient(135deg,#4f46e5,#7c3aed); color:white;
-            padding:8px 5px; font-weight:700; font-size:0.78em; white-space:nowrap;
-            border:1px solid rgba(255,255,255,0.15);
-        }
+        thead th { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:white; padding:8px 5px; font-weight:700; font-size:0.78em; white-space:nowrap; border:1px solid rgba(255,255,255,0.15); }
         thead th.s1 { background:linear-gradient(135deg,#4f46e5,#7c3aed); color:white; }
         thead th.s2 { background:linear-gradient(135deg,#ec4899,#be185d); color:white; }
         thead th.sub { background:#ede9fe; color:#5b21b6; font-size:0.7em; font-weight:700; border:1px solid #c4b5fd; }
         thead th.sub-s2 { background:#fce7f3; color:#be185d; font-size:0.7em; font-weight:700; border:1px solid #f9a8d4; }
         tbody td { padding:5px 3px; text-align:center; border:1px solid #e0e7ff; vertical-align:middle; }
-        tbody tr:nth-child(even) { background:#fafaff; }
-        tbody tr:hover { background:#f5f3ff; }
+        tbody tr.s1-row { background:#fafaff; }
+        tbody tr.s2-row { background:#fff5fa; }
+        tbody tr:hover { background:#f5f3ff !important; }
         tbody td input { width:44px; padding:4px 2px; text-align:center; border:1.5px solid #c4b5fd; border-radius:5px; font-size:0.78em; font-family:'Inter',sans-serif; background:#fafaff; }
         tbody td input:focus { border-color:var(--primary); outline:none; background:#ede9fe; box-shadow:0 0 0 2px rgba(79,70,229,0.15); }
         tbody td input:disabled { background:#f4f4f4; color:#aaa; cursor:not-allowed; border-color:#e5e7eb; }
+        .td-sem {
+            font-weight:800; font-size:0.7em; text-align:center; padding:2px 6px !important;
+            border-radius:4px; display:inline-block; width:auto; letter-spacing:0.3px;
+        }
+        .td-sem.s1 { background:#ede9fe; color:#5b21b6; }
+        .td-sem.s2 { background:#fce7f3; color:#be185d; }
         .td-name { font-weight:700; color:var(--primary-dark); }
         .td-name input { width:75px; text-align:left; font-weight:700; padding-left:6px; }
         .td-prenom input { width:75px; text-align:left; padding-left:6px; }
@@ -85,12 +80,6 @@
         .td-moy { font-weight:800; background:#a7f3d0; color:#065f46; }
         .td-moy-s2 { font-weight:800; background:#fbcfe8; color:#be185d; }
         .td-mg { font-weight:900; background:#fde68a; color:#92400e; font-size:0.85em; }
-        .sem-row-label {
-            font-weight:800; font-size:0.75em; padding:4px 8px; border-radius:6px;
-            text-align:center; display:inline-block; margin:2px 0;
-        }
-        .sem-row-label.s1 { background:#ede9fe; color:#5b21b6; }
-        .sem-row-label.s2 { background:#fce7f3; color:#be185d; }
         .stats-row td { background:#1e1b4b !important; color:white !important; font-weight:700; font-size:0.72em; border-top:3px solid var(--accent); padding:6px 4px; }
         .stats-row .stat-label { text-align:right; padding-right:10px; color:#fde68a !important; }
         .empty-state { text-align:center; padding:50px; color:var(--text-light); font-size:0.85em; }
@@ -101,7 +90,7 @@
         .warning-banner { background:#fffbeb; border-bottom:2px solid #fcd34d; color:#92400e; text-align:center; padding:10px; font-weight:700; font-size:0.78em; position:sticky; top:0; z-index:100; }
         .popup-overlay { display:none; position:fixed; top:0;left:0; width:100%;height:100%; background:rgba(30,27,75,0.6); backdrop-filter:blur(4px); justify-content:center; align-items:center; z-index:10000; }
         .popup-overlay.active { display:flex; }
-        .popup { background:white; border-radius:18px; padding:32px; max-width:400px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.25); }
+        .popup { background:white; border-radius:18px; padding:32px; max-width:400px; width:90%; text-align:center; }
         .popup h3 { font-size:1em; margin-bottom:8px; color:var(--primary-dark); }
         .popup p { font-size:0.85em; color:var(--text-light); margin-bottom:20px; }
         .popup .btn-row { display:flex; gap:10px; justify-content:center; }
@@ -268,20 +257,18 @@ async function refresh(pid) {
     if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">Aucun apprenant</div>'; document.getElementById('loading').classList.add('hidden'); return; }
     const edit = canEdit();
 
-    // FORMAT VERTICAL : S1 puis S2 en dessous pour chaque matière
-    let h = '<table><thead><tr><th rowspan="2">N°</th><th rowspan="2">Nom</th><th rowspan="2">Prénom</th>';
-    showMats.forEach(mi => h += '<th colspan="8" class="s1">🟣 ' + mats[mi] + ' — Semestre 1</th>');
-    if (matSelect === 0) h += '<th rowspan="2">MG</th>';
-    h += '<th rowspan="2"></th></tr><tr>';
-    showMats.forEach(() => h += '<th class="sub">I1</th><th class="sub">I2</th><th class="sub">I3</th><th class="sub">I4</th><th class="sub">MI</th><th class="sub">D1</th><th class="sub">D2</th><th class="sub">Moy</th>');
-    h += '</tr></thead><tbody>';
+    let h = '<table><thead><tr><th>N°</th><th>Nom</th><th>Prénom</th><th>Sem</th>';
+    showMats.forEach(mi => h += '<th colspan="8" class="s1">🟣 ' + mats[mi] + '</th>');
+    if (matSelect === 0) h += '<th>MG</th>';
+    h += '<th></th></tr></thead><tbody>';
 
     filtered.forEach((a, idx) => {
         const an = a._notes || {};
         // Ligne S1
-        h += '<tr><td rowspan="2">' + (idx + 1) + '</td>';
+        h += '<tr class="s1-row"><td rowspan="2">' + (idx + 1) + '</td>';
         h += '<td class="td-name" rowspan="2"><input type="text" value="' + a.nom + '" onchange="updateNomPrenom(' + a.id + ',\'nom\',this.value)" ' + (edit ? '' : 'disabled') + ' style="width:75px;text-align:left;font-weight:700"></td>';
         h += '<td rowspan="2"><input type="text" value="' + a.prenom + '" onchange="updateNomPrenom(' + a.id + ',\'prenom\',this.value)" ' + (edit ? '' : 'disabled') + ' style="width:75px;text-align:left"></td>';
+        h += '<td><span class="td-sem s1">S1</span></td>';
         showMats.forEach(mi => {
             const nr = an[mi + '_1'];
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
@@ -293,11 +280,11 @@ async function refresh(pid) {
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
             h += '<td class="td-moy">' + calcMoy(nr) + '</td>';
         });
-        if (matSelect === 0) h += '<td rowspan="2" class="td-mg">' + calcMG(mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })), '1') + '<br><span style="font-size:0.75em">' + calcMG(mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })), '2') + '</span></td>';
+        if (matSelect === 0) h += '<td rowspan="2" class="td-mg">S1: ' + calcMG(mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })), '1') + '<br>S2: ' + calcMG(mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })), '2') + '</td>';
         h += '<td rowspan="2"><button class="btn btn-danger btn-xs" onclick="delEleve(' + pid + ',' + a.id + ')" ' + (edit ? '' : 'disabled') + '>✕</button></td></tr>';
 
         // Ligne S2
-        h += '<tr>';
+        h += '<tr class="s2-row"><td><span class="td-sem s2">S2</span></td>';
         showMats.forEach(mi => {
             const nr = an[mi + '_2'];
             h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + ' style="border-color:#f9a8d4"></td>';
@@ -312,38 +299,24 @@ async function refresh(pid) {
         h += '</tr>';
     });
 
-    // STATS
-    h += '<tr class="stats-row"><td colspan="3" class="stat-label">📊 STATS</td>';
-    showMats.forEach(mi => {
-        const s1 = calcStats(filtered, mi, '1');
-        h += '<td colspan="4">Eff:' + s1.eff + '</td><td colspan="4">S1: ' + s1.moy + '</td>';
-    });
-    if (matSelect === 0) h += '<td></td>';
-    h += '<td></td></tr>';
-    h += '<tr class="stats-row"><td colspan="3" class="stat-label" style="color:#fbcfe8 !important">📊 STATS S2</td>';
-    showMats.forEach(mi => {
-        const s2 = calcStats(filtered, mi, '2');
-        h += '<td colspan="4">Eff:' + s2.eff + '</td><td colspan="4">S2: ' + s2.moy + '</td>';
-    });
-    if (matSelect === 0) h += '<td></td>';
-    h += '<td></td></tr>';
+    // Stats S1
+    h += '<tr class="stats-row"><td colspan="4" class="stat-label">📊 S1</td>';
+    showMats.forEach(mi => { const s = calcStats(filtered, mi, '1'); h += '<td colspan="4">E:' + s.eff + '</td><td colspan="4">M:' + s.moy + ' | m:' + s.min + ' | M:' + s.max + '</td>'; });
+    if (matSelect === 0) h += '<td></td>'; h += '<td></td></tr>';
+    // Stats S2
+    h += '<tr class="stats-row"><td colspan="4" class="stat-label" style="color:#fbcfe8 !important">📊 S2</td>';
+    showMats.forEach(mi => { const s = calcStats(filtered, mi, '2'); h += '<td colspan="4">E:' + s.eff + '</td><td colspan="4">M:' + s.moy + ' | m:' + s.min + ' | M:' + s.max + '</td>'; });
+    if (matSelect === 0) h += '<td></td>'; h += '<td></td></tr>';
     h += '</tbody></table>';
     container.innerHTML = h;
     document.getElementById('loading').classList.add('hidden');
 }
 
 async function upd(aid, mi, sem, field, val) { await upsertNote(aid, mi, sem, field, val); toast('Note enregistrée 📒'); await refresh(currentId); }
-async function updateNomPrenom(aid, field, val) {
-    if (!canEdit()) return;
-    const { data } = await sb.from('apprenants').select('*').eq('id', aid).maybeSingle();
-    if (!data) return;
-    if (field === 'nom') data.nom = val; else data.prenom = val;
-    await updateApprenantDB(aid, data.nom, data.prenom);
-    toast('Modifié');
-}
+async function updateNomPrenom(aid, field, val) { if (!canEdit()) return; const { data } = await sb.from('apprenants').select('*').eq('id', aid).maybeSingle(); if (!data) return; if (field === 'nom') data.nom = val; else data.prenom = val; await updateApprenantDB(aid, data.nom, data.prenom); toast('Modifié'); }
 async function addEleve(pid) { if (!canEdit()) return; const nom = document.getElementById('nom-' + pid).value.trim(); const pnom = document.getElementById('pnom-' + pid).value.trim(); if (!nom || !pnom) return; await addApprenant(pid, nom, pnom, document.getElementById('lvl-' + pid).value); toast('Ajouté ✨'); document.getElementById('nom-' + pid).value = ''; document.getElementById('pnom-' + pid).value = ''; await refresh(pid); }
 function delEleve(pid, id) { if (!canEdit()) return; showPopup('Supprimer', 'Supprimer ?', async () => { await deleteApprenant(id); toast('Supprimé', 'err'); await refresh(pid); }); }
-function delAll(pid) { if (!canEdit()) return; showPopup('Tout supprimer', '⚠️ TOUS les apprenants ?', async () => { await deleteAllApprenants(pid, document.getElementById('lvl-' + pid).value); toast('Tous supprimés', 'err'); await refresh(pid); }); }
+function delAll(pid) { if (!canEdit()) return; showPopup('Tout supprimer', '⚠️ TOUS ?', async () => { await deleteAllApprenants(pid, document.getElementById('lvl-' + pid).value); toast('Tous supprimés', 'err'); await refresh(pid); }); }
 async function addProf() { if (!canAdmin()) return; const f = await addFormateur('Nouveau', '', ['Matière 1']); if (f) { toast('Ajouté', 'warn'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; currentId = f.id; buildAll(); } }
 function editProf(id) { if (!canAdmin()) return; const f = formateurs.find(x => x.id === id); if (!f) return; document.getElementById('mf-nom').value = f.nom; document.getElementById('mf-prenom').value = f.prenom || ''; document.getElementById('mf-key').value = id; document.getElementById('modal-prof').classList.add('active'); }
 async function saveProf() { if (!canAdmin()) return; const id = parseInt(document.getElementById('mf-key').value); await updateFormateur(id, document.getElementById('mf-nom').value.trim(), document.getElementById('mf-prenom').value.trim()); toast('Modifié'); closeModal('modal-prof'); const { data } = await sb.from('formateurs').select('*').order('id'); formateurs = data || []; buildAll(); }
