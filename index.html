@@ -27,342 +27,97 @@
             --shadow-md: 0 6px 18px rgba(13,59,79,0.12);
             --shadow-lg: 0 16px 40px rgba(13,59,79,0.18);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(165deg, #eef3f5 0%, #e3ecf0 100%);
-            color: var(--text);
-            line-height: 1.5;
-            padding: 32px 18px 100px;
-            min-height: 100vh;
+            color: var(--text); line-height: 1.5; padding: 32px 18px 100px; min-height: 100vh;
         }
-
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(120deg, var(--primary-dark), var(--primary) 55%, var(--primary-light));
-            color: white;
-            padding: 24px 34px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .header h1 { font-size: 1.2em; font-weight: 800; letter-spacing: .2px; }
-        .header h1 .spark { margin-right: 6px; }
-        .header .meta { font-size: 0.76em; opacity: 0.78; margin-top: 4px; letter-spacing: .2px; }
-
+        .container { max-width: 1440px; margin: 0 auto; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-lg); border: 1px solid var(--border); overflow: hidden; }
+        .header { background: linear-gradient(120deg, var(--primary-dark), var(--primary) 55%, var(--primary-light)); color: white; padding: 24px 34px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .header h1 { font-size: 1.2em; font-weight: 800; }
+        .header .meta { font-size: 0.76em; opacity: 0.78; margin-top: 4px; }
         .header-right { display: flex; gap: 10px; align-items: center; }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 999px;
-            font-size: 0.72em;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-            background: rgba(255,255,255,0.14);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.28);
-        }
-
+        .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 999px; font-size: 0.72em; font-weight: 700; background: rgba(255,255,255,0.14); color: #fff; border: 1px solid rgba(255,255,255,0.28); }
         .badge-admin { background: #fff4e4; color: #9a5c14; border-color: #f0c896; }
         .badge-prof { background: #e6f6ee; color: #1c7a4f; border-color: #aee0c6; }
-
-        .btn-icon {
-            background: rgba(255,255,255,0.10);
-            border: 1px solid rgba(255,255,255,0.28);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 0.78em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        .btn-icon:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
-        .btn-icon.danger { background: rgba(192,57,43,0.3); border-color: rgba(231,76,96,0.5); }
-        .btn-icon.danger:hover { background: rgba(192,57,43,0.5); }
-
-        .toolbar {
-            display: flex;
-            gap: 10px;
-            padding: 14px 34px;
-            border-bottom: 1px solid var(--border);
-            flex-wrap: wrap;
-            align-items: center;
-            background: #fbfcfd;
-        }
-
+        .btn-icon { background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.28); color: white; padding: 8px 14px; border-radius: 8px; font-size: 0.78em; font-weight: 600; cursor: pointer; }
+        .btn-icon:hover { background: rgba(255,255,255,0.22); }
+        .toolbar { display: flex; gap: 10px; padding: 14px 34px; border-bottom: 1px solid var(--border); flex-wrap: wrap; align-items: center; background: #fbfcfd; }
         .content { padding: 24px 34px 36px; }
-
-        .section-title {
-            font-size: 0.82em;
-            font-weight: 700;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            margin-bottom: 18px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--border);
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            left: 0; bottom: -2px;
-            width: 48px; height: 2px;
-            background: var(--accent);
-        }
-
-        .form-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            align-items: end;
-        }
-
-        .form-row input {
-            padding: 9px 13px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.82em;
-            width: 150px;
-        }
-        .form-row input:focus { border-color: var(--primary-light); outline: none; box-shadow: 0 0 0 3px rgba(21,89,111,0.12); }
-
-        .btn {
-            padding: 9px 17px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.78em;
-            font-weight: 700;
-            letter-spacing: 0.2px;
-            transition: all 0.15s;
-            box-shadow: var(--shadow-sm);
-        }
+        .section-title { font-size: 0.82em; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 2px solid var(--border); position: relative; }
+        .section-title::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 48px; height: 2px; background: var(--accent); }
+        .form-row { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: end; }
+        .form-row input { padding: 9px 13px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.82em; width: 150px; }
+        .form-row input:focus { border-color: var(--primary-light); outline: none; }
+        .btn { padding: 9px 17px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.78em; font-weight: 700; transition: all 0.15s; box-shadow: var(--shadow-sm); }
         .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-light); }
         .btn-success { background: var(--success); color: white; }
-        .btn-success:hover { opacity: 0.92; }
         .btn-danger { background: var(--danger); color: white; }
-        .btn-danger:hover { opacity: 0.92; }
         .btn-outline { background: white; border: 1px solid var(--border); color: var(--text); box-shadow: none; }
-        .btn-outline:hover { background: #f3f7f8; border-color: var(--primary-light); }
+        .btn-outline:hover { background: #f3f7f8; }
         .btn-accent { background: var(--accent); color: white; }
-        .btn-accent:hover { opacity: 0.92; }
         .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        .table-container {
-            overflow-x: auto;
-            margin-top: 10px;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-        }
-
+        .table-container { overflow-x: auto; margin-top: 10px; border: 1px solid var(--border); border-radius: 10px; }
         table { width: 100%; border-collapse: collapse; font-size: 0.76em; }
-
-        thead th {
-            background: linear-gradient(120deg, var(--primary-dark), var(--primary));
-            color: white;
-            padding: 8px 5px;
-            font-weight: 600;
-            font-size: 0.82em;
-            white-space: nowrap;
-            border: 1px solid rgba(255,255,255,0.08);
-            position: sticky;
-            top: 0;
-            z-index: 2;
-        }
-        thead th.sub-header {
-            background: #eef3f6;
-            color: var(--text);
-            font-size: 0.75em;
-            font-weight: 700;
-            border: 1px solid var(--border);
-        }
-
-        tbody td {
-            padding: 5px 3px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
+        thead th { background: linear-gradient(120deg, var(--primary-dark), var(--primary)); color: white; padding: 8px 5px; font-weight: 600; font-size: 0.82em; white-space: nowrap; border: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 2; }
+        thead th.sub-header { background: #eef3f6; color: var(--text); font-size: 0.75em; font-weight: 700; border: 1px solid var(--border); }
+        tbody td { padding: 5px 3px; text-align: center; border: 1px solid var(--border); }
         tbody tr:nth-child(even) { background: #f7fafb; }
         tbody tr:hover { background: #eef7f1; }
-
-        tbody td input {
-            width: 42px;
-            padding: 4px 2px;
-            text-align: center;
-            border: 1px solid #dde4e8;
-            border-radius: 4px;
-            font-size: 0.82em;
-            background: #fff;
-            transition: border-color .15s;
-        }
-        tbody td input:focus {
-            border-color: var(--primary-light);
-            outline: none;
-            background: #f0f8fa;
-            box-shadow: 0 0 0 2px rgba(21,89,111,0.12);
-        }
+        tbody td input { width: 42px; padding: 4px 2px; text-align: center; border: 1px solid #dde4e8; border-radius: 4px; font-size: 0.82em; background: #fff; }
+        tbody td input:focus { border-color: var(--primary-light); outline: none; background: #f0f8fa; }
         tbody td input:disabled { background: #f4f5f6; color: #999; cursor: not-allowed; }
-
         .cell-mi { font-weight: 700; color: var(--success); background: #f1faf4; }
         .cell-moy { font-weight: 700; background: var(--success-light); color: #1c6b46; }
         .cell-mg { font-weight: 800; background: linear-gradient(120deg, #fff4e2, #fde9c8); color: #9a5c14; font-size: 0.92em; border-left: 2px solid var(--accent); }
         .cell-name { font-weight: 700; text-align: left; padding-left: 10px; color: var(--primary-dark); }
-
-        .stats-row td {
-            background: linear-gradient(120deg, #1a3050, #0d3b4f) !important;
-            color: white !important;
-            font-weight: 700;
-            font-size: 0.8em;
-            border-top: 3px solid var(--accent);
-        }
-        .stats-row .stat-label { text-align: right; padding-right: 10px; color: var(--accent-light) !important; letter-spacing: 0.5px; }
-
+        .stats-row td { background: linear-gradient(120deg, #1a3050, #0d3b4f) !important; color: white !important; font-weight: 700; font-size: 0.8em; border-top: 3px solid var(--accent); }
+        .stats-row .stat-label { text-align: right; padding-right: 10px; color: var(--accent-light) !important; }
         .empty-state { text-align: center; padding: 56px; color: var(--text-light); font-size: 0.9em; }
-
-        .matiere-tag {
-            display: inline-flex; align-items: center; gap: 5px;
-            background: #eef3f6; border: 1px solid var(--border);
-            padding: 6px 12px; border-radius: 999px; font-size: 0.78em; font-weight: 600;
-        }
+        .matiere-tag { display: inline-flex; align-items: center; gap: 5px; background: #eef3f6; border: 1px solid var(--border); padding: 6px 12px; border-radius: 999px; font-size: 0.78em; font-weight: 600; }
         .matiere-tag button { background: none; border: none; cursor: pointer; font-size: 0.9em; padding: 0 2px; color: var(--text-light); }
         .matiere-tag button:hover { color: var(--primary); }
-
-        .toast {
-            position: fixed; bottom: 30px; right: 30px;
-            background: var(--success); color: white;
-            padding: 14px 22px; border-radius: 10px;
-            font-weight: 600; font-size: 0.82em;
-            z-index: 10001; animation: slideUp 0.35s ease;
-            box-shadow: var(--shadow-lg);
-        }
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--success); color: white; padding: 14px 22px; border-radius: 10px; font-weight: 600; font-size: 0.82em; z-index: 10001; animation: slideUp 0.35s ease; box-shadow: var(--shadow-lg); }
         .toast.warning { background: var(--accent); }
         .toast.error { background: var(--danger); }
-
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .warning-banner {
-            background: #fff3cd; border: 2px solid #ffc107; color: #856404;
-            text-align: center; padding: 14px 20px; font-weight: 700;
-            font-size: 0.9em; letter-spacing: 0.3px;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .warning-banner .icon { font-size: 1.4em; }
-
-        .popup-overlay {
-            display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(7,36,47,0.65); backdrop-filter: blur(3px);
-            justify-content: center; align-items: center; z-index: 10000;
-        }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .warning-banner { background: #fff3cd; border: 2px solid #ffc107; color: #856404; text-align: center; padding: 14px 20px; font-weight: 700; font-size: 0.9em; display: flex; align-items: center; justify-content: center; gap: 10px; position: sticky; top: 0; z-index: 100; }
+        .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7,36,47,0.65); backdrop-filter: blur(3px); justify-content: center; align-items: center; z-index: 10000; }
         .popup-overlay.active { display: flex; }
-
-        .popup {
-            background: white; border-radius: 16px; padding: 32px;
-            max-width: 420px; width: 90%;
-            box-shadow: var(--shadow-lg); text-align: center;
-            animation: popIn 0.25s ease;
-        }
-        @keyframes popIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        .popup { background: white; border-radius: 16px; padding: 32px; max-width: 420px; width: 90%; box-shadow: var(--shadow-lg); text-align: center; animation: popIn 0.25s ease; }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .popup .popup-icon { font-size: 3em; margin-bottom: 12px; }
         .popup h3 { font-size: 1.05em; color: var(--primary-dark); margin-bottom: 8px; font-weight: 800; }
         .popup p { font-size: 0.85em; color: var(--text-light); margin-bottom: 22px; }
         .popup .btn-row { display: flex; gap: 10px; justify-content: center; }
-
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(7,36,47,0.55); backdrop-filter: blur(2px);
-            justify-content: center; align-items: center; z-index: 9999;
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(7,36,47,0.55); backdrop-filter: blur(2px); justify-content: center; align-items: center; z-index: 9999; }
         .modal-overlay.active { display: flex; }
-
-        .modal {
-            background: white; border-radius: 14px; padding: 32px;
-            max-width: 450px; width: 90%;
-            box-shadow: var(--shadow-lg); border-top: 3px solid var(--accent);
-        }
+        .modal { background: white; border-radius: 14px; padding: 32px; max-width: 450px; width: 90%; box-shadow: var(--shadow-lg); border-top: 3px solid var(--accent); }
         .modal h3 { font-size: 1em; margin-bottom: 22px; color: var(--primary-dark); font-weight: 800; }
         .modal label { display: block; font-size: 0.8em; font-weight: 700; color: var(--text-light); margin-bottom: 5px; }
         .modal input { width: 100%; padding: 10px 13px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 16px; font-size: 0.9em; }
-        .modal input:focus { border-color: var(--primary-light); outline: none; box-shadow: 0 0 0 3px rgba(21,89,111,0.12); }
+        .modal input:focus { border-color: var(--primary-light); outline: none; }
         .modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; }
-
-        .lock-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary) 55%, var(--primary-light));
-            display: flex; justify-content: center; align-items: center;
-            z-index: 10000; overflow: hidden;
-        }
-        .lock-screen::before, .lock-screen::after {
-            content: ''; position: absolute; border-radius: 50%;
-            filter: blur(70px); opacity: 0.4; pointer-events: none;
-        }
+        .lock-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--primary-dark), var(--primary) 55%, var(--primary-light)); display: flex; justify-content: center; align-items: center; z-index: 10000; overflow: hidden; }
+        .lock-screen::before, .lock-screen::after { content: ''; position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.4; pointer-events: none; }
         .lock-screen::before { width: 360px; height: 360px; background: var(--accent); top: -100px; left: -100px; }
         .lock-screen::after { width: 320px; height: 320px; background: var(--success); bottom: -90px; right: -70px; }
         .lock-screen.hidden { display: none; }
-
-        .lock-card {
-            position: relative; background: rgba(255,255,255,0.98);
-            padding: 42px 38px; border-radius: 18px;
-            text-align: center; max-width: 380px; width: 90%;
-            box-shadow: var(--shadow-lg);
-        }
+        .lock-card { position: relative; background: rgba(255,255,255,0.98); padding: 42px 38px; border-radius: 18px; text-align: center; max-width: 380px; width: 90%; box-shadow: var(--shadow-lg); }
         .lock-card .lock-icon { font-size: 2.2em; margin-bottom: 10px; }
         .lock-card h2 { font-size: 1.05em; color: var(--primary-dark); margin-bottom: 8px; font-weight: 800; }
         .lock-card p { font-size: 0.82em; color: var(--text-light); margin-bottom: 22px; }
         .lock-card input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 9px; text-align: center; font-size: 1em; margin-bottom: 14px; }
-        .lock-card input:focus { border-color: var(--primary-light); outline: none; box-shadow: 0 0 0 3px rgba(21,89,111,0.14); }
+        .lock-card input:focus { border-color: var(--primary-light); outline: none; }
         .lock-card .error-msg { color: var(--danger); font-size: 0.8em; margin-bottom: 12px; display: none; font-weight: 700; }
         .lock-card .error-msg.show { display: block; }
         .lock-card .btn-primary { width: 100%; padding: 11px; }
-
-        .loading-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.8);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 10002; font-size: 1.5em; font-weight: 700; color: var(--primary);
-        }
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); display: flex; justify-content: center; align-items: center; z-index: 10002; font-size: 1.5em; font-weight: 700; color: var(--primary); }
         .loading-overlay.hidden { display: none; }
-        .spinner {
-            width: 40px; height: 40px;
-            border: 4px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-right: 12px;
-        }
+        .spinner { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 12px; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
         @media print {
             body { background: white; padding: 0; }
             .container { box-shadow: none; border: none; }
@@ -376,105 +131,17 @@
     </style>
 </head>
 <body>
-    <!-- LOADING -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="spinner"></div> Chargement...
-    </div>
+    <div class="loading-overlay" id="loading-overlay"><div class="spinner"></div>Chargement...</div>
+    <div class="warning-banner" id="warning-banner" style="display:none;"><span>📝 TOUJOURS GARDER UNE COPIE MANUSCRITE DANS UN CAHIER DE NOTES 📒</span></div>
+    <div class="popup-overlay" id="popup-confirm"><div class="popup"><div class="popup-icon" id="popup-icon">⚠️</div><h3 id="popup-title"></h3><p id="popup-msg"></p><div class="btn-row"><button class="btn btn-danger" id="popup-btn-ok">Confirmer</button><button class="btn btn-outline" onclick="closePopup()">Annuler</button></div></div></div>
+    <div class="lock-screen" id="lock-screen"><div class="lock-card"><div class="lock-icon">🔐</div><h2>Accès protégé</h2><p>Mot de passe requis</p><input type="password" id="pwd-input" placeholder="Mot de passe" onkeypress="if(event.key==='Enter')tryUnlock()"><div class="error-msg" id="pwd-error">Mot de passe incorrect</div><button class="btn btn-primary" onclick="tryUnlock()">Accéder</button></div></div>
+    <div class="container" id="main-app"><div class="header"><div><h1>⚡ Notes CAP Électrotechnique</h1><div class="meta">Mesures & Essais • Schémas Électriques • Électrotechnique</div></div><div class="header-right"><span class="badge" id="role-badge"></span><button class="btn-icon" onclick="imprimerPDF()">🖨️ Imprimer</button><button class="btn-icon" onclick="lockSite()">🔒 Verrouiller</button><button class="btn-icon danger" id="btn-quit-admin" style="display:none;" onclick="quitAdmin()">⬅ Quitter Admin</button></div></div><div class="toolbar" id="toolbar"></div><div class="content" id="content-area"></div></div>
+    <div class="modal-overlay" id="modal-prof"><div class="modal"><h3>✏️ Modifier le formateur</h3><label>Nom</label><input type="text" id="mf-nom"><label>Prénom</label><input type="text" id="mf-prenom"><input type="hidden" id="mf-key"><div class="btn-row"><button class="btn btn-success" onclick="saveProf()">💾 Enregistrer</button><button class="btn btn-outline" onclick="closeModal('modal-prof')">Annuler</button></div></div></div>
+    <div class="modal-overlay" id="modal-matiere"><div class="modal"><h3>✏️ Modifier la matière</h3><label>Nom</label><input type="text" id="mm-nom"><input type="hidden" id="mm-prof"><input type="hidden" id="mm-idx"><div class="btn-row"><button class="btn btn-success" onclick="saveMatiere()">💾 Enregistrer</button><button class="btn btn-outline" onclick="closeModal('modal-matiere')">Annuler</button></div></div></div>
+    <div class="modal-overlay" id="modal-admin"><div class="modal"><h3>🔑 Droits administrateur</h3><p style="font-size:0.85em;color:var(--text-light);margin-bottom:16px;">Code admin requis pour tous les contrôles.</p><label>Code admin</label><input type="password" id="admin-code-input"><div class="btn-row"><button class="btn btn-accent" onclick="tryAdminUnlock()">🔓 Débloquer</button><button class="btn btn-outline" onclick="closeModal('modal-admin')">Annuler</button></div></div></div>
 
-    <!-- BANDEAU -->
-    <div class="warning-banner" id="warning-banner" style="display:none;">
-        <span class="icon">📝</span>
-        <span>TOUJOURS GARDER UNE COPIE MANUSCRITE DANS UN CAHIER DE NOTES</span>
-        <span class="icon">📒</span>
-    </div>
-
-    <!-- POPUP CONFIRMATION -->
-    <div class="popup-overlay" id="popup-confirm">
-        <div class="popup">
-            <div class="popup-icon" id="popup-icon">⚠️</div>
-            <h3 id="popup-title">Confirmation</h3>
-            <p id="popup-msg"></p>
-            <div class="btn-row">
-                <button class="btn btn-danger" id="popup-btn-ok">Confirmer</button>
-                <button class="btn btn-outline" onclick="closePopup()">Annuler</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- VERROUILLAGE -->
-    <div class="lock-screen" id="lock-screen">
-        <div class="lock-card">
-            <div class="lock-icon">🔐</div>
-            <h2>Accès protégé</h2>
-            <p>Mot de passe requis</p>
-            <input type="password" id="pwd-input" placeholder="Mot de passe" onkeypress="if(event.key==='Enter')tryUnlock()">
-            <div class="error-msg" id="pwd-error">Mot de passe incorrect</div>
-            <button class="btn btn-primary" onclick="tryUnlock()">Accéder</button>
-        </div>
-    </div>
-
-    <!-- APP -->
-    <div class="container" id="main-app">
-        <div class="header">
-            <div>
-                <h1><span class="spark">⚡</span>Notes CAP Électrotechnique</h1>
-                <div class="meta">Mesures & Essais • Schémas Électriques • Électrotechnique</div>
-            </div>
-            <div class="header-right">
-                <span class="badge" id="role-badge"></span>
-                <button class="btn-icon" onclick="imprimerPDF()">🖨️ Imprimer</button>
-                <button class="btn-icon" onclick="lockSite()">🔒 Verrouiller</button>
-                <button class="btn-icon danger" id="btn-quit-admin" style="display:none;" onclick="quitAdmin()">⬅ Quitter Admin</button>
-            </div>
-        </div>
-        <div class="toolbar" id="toolbar"></div>
-        <div class="content" id="content-area"></div>
-    </div>
-
-    <!-- MODAL FORMATEUR -->
-    <div class="modal-overlay" id="modal-prof">
-        <div class="modal">
-            <h3>✏️ Modifier le formateur</h3>
-            <label>Nom</label><input type="text" id="mf-nom">
-            <label>Prénom</label><input type="text" id="mf-prenom">
-            <input type="hidden" id="mf-key">
-            <div class="btn-row">
-                <button class="btn btn-success" onclick="saveProf()">💾 Enregistrer</button>
-                <button class="btn btn-outline" onclick="closeModal('modal-prof')">Annuler</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL MATIERE -->
-    <div class="modal-overlay" id="modal-matiere">
-        <div class="modal">
-            <h3>✏️ Modifier la matière</h3>
-            <label>Nom</label><input type="text" id="mm-nom">
-            <input type="hidden" id="mm-prof"><input type="hidden" id="mm-idx">
-            <div class="btn-row">
-                <button class="btn btn-success" onclick="saveMatiere()">💾 Enregistrer</button>
-                <button class="btn btn-outline" onclick="closeModal('modal-matiere')">Annuler</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL ADMIN -->
-    <div class="modal-overlay" id="modal-admin">
-        <div class="modal">
-            <h3>🔑 Droits administrateur</h3>
-            <p style="font-size:0.85em;color:var(--text-light);margin-bottom:16px;">Code admin requis pour tous les contrôles.</p>
-            <label>Code admin</label><input type="password" id="admin-code-input">
-            <div class="btn-row">
-                <button class="btn btn-accent" onclick="tryAdminUnlock()">🔓 Débloquer</button>
-                <button class="btn btn-outline" onclick="closeModal('modal-admin')">Annuler</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // ==================== CONFIGURATION ====================
         const SUPABASE_URL = 'https://rwmfypnkhsobyvmgtupa.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_SMwywe7eaf53fftFdvxLJQ_4RZ1_3-Y';
         const GLOBAL_PWD = '..@@3345';
@@ -482,118 +149,79 @@
 
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // ==================== ÉTAT ====================
         let formateurs = [];
-        let apprenants = {};
-        let notes = {};
         let currentProfId = null;
         let unlocked = false;
         let adminUnlocked = false;
         let popupCallback = null;
 
-        // ==================== INIT ====================
         async function init() {
             document.getElementById('loading-overlay').classList.remove('hidden');
             await loadFormateurs();
-            if (formateurs.length > 0) {
-                currentProfId = formateurs[0].id;
-            }
+            if (formateurs.length > 0) currentProfId = formateurs[0].id;
             document.getElementById('loading-overlay').classList.add('hidden');
         }
 
         function showLoading() { document.getElementById('loading-overlay').classList.remove('hidden'); }
         function hideLoading() { document.getElementById('loading-overlay').classList.add('hidden'); }
 
-        // ==================== API SUPABASE ====================
         async function loadFormateurs() {
             const { data, error } = await supabase.from('formateurs').select('*').order('id');
-            if (error) { console.error(error); return; }
+            if (error) { console.error('Erreur chargement formateurs:', error); return; }
             formateurs = data || [];
         }
 
         async function loadApprenants(formateurId) {
             const { data, error } = await supabase.from('apprenants').select('*').eq('formateur_id', formateurId).order('id');
             if (error) { console.error(error); return []; }
-            if (!apprenants[formateurId]) apprenants[formateurId] = {};
-            const liste = data || [];
-            liste.forEach(a => {
-                if (!apprenants[formateurId][a.id]) apprenants[formateurId][a.id] = a;
-                else Object.assign(apprenants[formateurId][a.id], a);
-            });
-            return liste;
+            return data || [];
         }
 
         async function loadNotes(apprenantId) {
             const { data, error } = await supabase.from('notes').select('*').eq('apprenant_id', apprenantId);
             if (error) { console.error(error); return []; }
-            if (!notes[apprenantId]) notes[apprenantId] = {};
-            (data || []).forEach(n => {
-                const key = n.matiere_index + '_' + n.semestre;
-                notes[apprenantId][key] = n;
-            });
             return data || [];
         }
 
         async function upsertNote(apprenantId, matiereIndex, semestre, field, value) {
-            const key = matiereIndex + '_' + semestre;
-            if (!notes[apprenantId]) notes[apprenantId] = {};
-            if (!notes[apprenantId][key]) {
-                notes[apprenantId][key] = {
-                    apprenant_id: apprenantId,
-                    matiere_index: matiereIndex,
-                    semestre: semestre,
-                    interro1: null, interro2: null, interro3: null, interro4: null,
-                    devoir1: null, devoir2: null
-                };
-            }
-            notes[apprenantId][key][field] = value === '' ? null : parseFloat(value);
-            const { data, error } = await supabase.from('notes').upsert(notes[apprenantId][key], {
-                onConflict: 'apprenant_id,matiere_index,semestre'
-            });
+            const { data: existing } = await supabase.from('notes').select('*').eq('apprenant_id', apprenantId).eq('matiere_index', matiereIndex).eq('semestre', semestre).maybeSingle();
+            const row = existing || { apprenant_id: apprenantId, matiere_index: matiereIndex, semestre: semestre, interro1: null, interro2: null, interro3: null, interro4: null, devoir1: null, devoir2: null };
+            row[field] = value === '' ? null : parseFloat(value);
+            const { error } = await supabase.from('notes').upsert(row, { onConflict: 'apprenant_id,matiere_index,semestre' });
             if (error) console.error(error);
-            return data;
         }
 
         async function addApprenant(formateurId, nom, prenom, niveau) {
-            const { data, error } = await supabase.from('apprenants').insert({
-                formateur_id: formateurId, nom, prenom, niveau
-            }).select();
+            const { data, error } = await supabase.from('apprenants').insert({ formateur_id: formateurId, nom, prenom, niveau }).select();
             if (error) { console.error(error); return null; }
             return data?.[0] || null;
         }
 
         async function deleteApprenant(apprenantId) {
-            const { error } = await supabase.from('apprenants').delete().eq('id', apprenantId);
-            if (error) console.error(error);
+            await supabase.from('apprenants').delete().eq('id', apprenantId);
         }
 
         async function deleteAllApprenants(formateurId, niveau) {
-            const { error } = await supabase.from('apprenants').delete().eq('formateur_id', formateurId).eq('niveau', niveau);
-            if (error) console.error(error);
+            await supabase.from('apprenants').delete().eq('formateur_id', formateurId).eq('niveau', niveau);
         }
 
         async function updateFormateur(id, nom, prenom) {
-            const { error } = await supabase.from('formateurs').update({ nom, prenom }).eq('id', id);
-            if (error) console.error(error);
+            await supabase.from('formateurs').update({ nom, prenom }).eq('id', id);
         }
 
         async function deleteFormateur(id) {
-            const { error } = await supabase.from('formateurs').delete().eq('id', id);
-            if (error) console.error(error);
+            await supabase.from('formateurs').delete().eq('id', id);
         }
 
         async function addFormateur(nom, prenom, matieres) {
-            const { data, error } = await supabase.from('formateurs').insert({ nom, prenom, matieres }).select();
-            if (error) { console.error(error); return null; }
+            const { data } = await supabase.from('formateurs').insert({ nom, prenom, matieres }).select();
             return data?.[0] || null;
         }
 
         async function updateFormateurMatieres(id, matieres) {
-            const { error } = await supabase.from('formateurs').update({ matieres }).eq('id', id);
-            if (error) console.error(error);
+            await supabase.from('formateurs').update({ matieres }).eq('id', id);
         }
 
-        // ==================== VERROUILLAGE ====================
         function tryUnlock() {
             if (document.getElementById('pwd-input').value === GLOBAL_PWD) {
                 unlocked = true; adminUnlocked = false;
@@ -644,7 +272,6 @@
         function canEditNotes() { return unlocked; }
         function canAdmin() { return unlocked && adminUnlocked; }
 
-        // ==================== POPUP / TOAST ====================
         function showPopup(title, msg, icon, callback, btnText) {
             document.getElementById('popup-title').textContent = title;
             document.getElementById('popup-msg').textContent = msg;
@@ -659,31 +286,20 @@
             popupCallback = null;
         }
 
-        document.getElementById('popup-btn-ok').addEventListener('click', () => {
-            if (popupCallback) popupCallback();
-            closePopup();
-        });
-
-        document.getElementById('popup-confirm').addEventListener('click', function(e) {
-            if (e.target === this) closePopup();
-        });
+        document.getElementById('popup-btn-ok').addEventListener('click', () => { if (popupCallback) popupCallback(); closePopup(); });
+        document.getElementById('popup-confirm').addEventListener('click', function(e) { if (e.target === this) closePopup(); });
 
         function showToast(msg, type) {
             const t = document.createElement('div');
-            t.className = 'toast';
-            if (type === 'warning') t.classList.add('warning');
-            if (type === 'error') t.classList.add('error');
+            t.className = 'toast' + (type === 'warning' ? ' warning' : '') + (type === 'error' ? ' error' : '');
             t.innerHTML = (type === 'error' ? '❌ ' : '✅ ') + msg;
             document.body.appendChild(t);
             setTimeout(() => t.remove(), 3000);
         }
 
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-        document.addEventListener('click', e => {
-            if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');
-        });
+        document.addEventListener('click', e => { if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active'); });
 
-        // ==================== BUILD UI ====================
         async function buildAll() {
             if (!unlocked) return;
             await loadFormateurs();
@@ -696,20 +312,13 @@
             const b = document.getElementById('role-badge');
             if (!unlocked) { b.textContent = '🔒'; b.className = 'badge'; return; }
             if (adminUnlocked) { b.textContent = '👑 Admin'; b.className = 'badge badge-admin'; }
-            else {
-                const f = formateurs.find(x => x.id === currentProfId);
-                b.textContent = '👨‍🏫 ' + (f ? (f.prenom ? f.prenom + ' ' + f.nom : f.nom) : '');
-                b.className = 'badge badge-prof';
-            }
+            else { const f = formateurs.find(x => x.id === currentProfId); b.textContent = '👨‍🏫 ' + (f ? (f.prenom ? f.prenom + ' ' + f.nom : f.nom) : ''); b.className = 'badge badge-prof'; }
         }
 
         function buildToolbar() {
             const tb = document.getElementById('toolbar');
             let h = '';
-            formateurs.forEach(f => {
-                const name = f.prenom ? f.prenom + ' ' + f.nom : f.nom;
-                h += '<button class="btn ' + (f.id === currentProfId ? 'btn-primary' : 'btn-outline') + '" onclick="selectProf(' + f.id + ')">' + name + '</button>';
-            });
+            formateurs.forEach(f => { const name = f.prenom ? f.prenom + ' ' + f.nom : f.nom; h += '<button class="btn ' + (f.id === currentProfId ? 'btn-primary' : 'btn-outline') + '" onclick="selectProf(' + f.id + ')">' + name + '</button>'; });
             if (canAdmin()) h += '<button class="btn btn-success" style="margin-left:10px;" onclick="addProf()">+ Formateur</button>';
             if (!adminUnlocked && unlocked) h += '<button class="btn btn-accent" style="margin-left:10px;" onclick="document.getElementById(\'modal-admin\').classList.add(\'active\')">🔑 Admin</button>';
             tb.innerHTML = h;
@@ -722,17 +331,12 @@
             if (!f) { ct.innerHTML = '<div class="empty-state">Formateur introuvable</div>'; return; }
             const name = f.prenom ? f.prenom + ' ' + f.nom : f.nom;
             const admin = canAdmin();
-
             let h = '';
             h += '<div class="section-title">Formateur : ' + name + (admin ? ' <span style="color:#e08e3e;">[Admin]</span>' : '') + '</div>';
-
             h += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;align-items:center;">';
             (f.matieres || []).forEach((m, i) => {
                 h += '<span class="matiere-tag">' + m;
-                if (admin) {
-                    h += ' <button onclick="editMatiere(' + f.id + ',' + i + ')">✎</button>';
-                    h += ' <button style="color:#a04442;" onclick="delMatiere(' + f.id + ',' + i + ')">×</button>';
-                }
+                if (admin) { h += ' <button onclick="editMatiere(' + f.id + ',' + i + ')">✎</button><button style="color:#a04442;" onclick="delMatiere(' + f.id + ',' + i + ')">×</button>'; }
                 h += '</span>';
             });
             if (admin) {
@@ -741,82 +345,27 @@
                 if (formateurs.length > 1) h += '<button class="btn btn-danger" style="font-size:0.7em;padding:5px 10px;" onclick="delProf(' + f.id + ')">🗑 Supprimer</button>';
             }
             h += '</div>';
-
             h += '<div style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap;align-items:center;">';
             h += '<select id="lvl-' + f.id + '" onchange="refreshTable(' + f.id + ')"><option value="1">CAP Niveau 1</option><option value="2">CAP Niveau 2</option></select>';
             h += '<select id="mat-' + f.id + '" onchange="refreshTable(' + f.id + ')"><option value="0">Toutes les matières</option>';
             (f.matieres || []).forEach((m, i) => h += '<option value="' + (i+1) + '">' + m + '</option>');
-            h += '</select>';
-            h += '<span style="font-size:0.8em;color:#6b7c8e;" id="stats-' + f.id + '"></span>';
-            h += '</div>';
-
-            h += '<div class="form-row">';
-            h += '<input type="text" id="nom-' + f.id + '" placeholder="Nom">';
-            h += '<input type="text" id="pnom-' + f.id + '" placeholder="Prénom">';
-            h += '<button class="btn btn-success" onclick="addEleve(' + f.id + ')">Ajouter apprenant</button>';
-            h += '</div>';
-
+            h += '</select><span style="font-size:0.8em;color:#6b7c8e;" id="stats-' + f.id + '"></span></div>';
+            h += '<div class="form-row"><input type="text" id="nom-' + f.id + '" placeholder="Nom"><input type="text" id="pnom-' + f.id + '" placeholder="Prénom"><button class="btn btn-success" onclick="addEleve(' + f.id + ')">Ajouter apprenant</button></div>';
             h += '<div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;">';
-            h += '<button class="btn btn-outline" onclick="expJSON(' + f.id + ')">📥 JSON</button>';
-            h += '<button class="btn btn-outline" onclick="expCSV(' + f.id + ')">📊 CSV</button>';
-            h += '<button class="btn btn-outline" onclick="imprimerPDF()">🖨️ PDF</button>';
+            h += '<button class="btn btn-outline" onclick="expJSON(' + f.id + ')">📥 JSON</button><button class="btn btn-outline" onclick="expCSV(' + f.id + ')">📊 CSV</button><button class="btn btn-outline" onclick="imprimerPDF()">🖨️ PDF</button>';
             if (canEditNotes()) h += '<button class="btn btn-danger" onclick="delAll(' + f.id + ')">🗑️ Tout supprimer</button>';
-            h += '</div>';
-
-            h += '<div class="table-container" id="table-' + f.id + '"></div>';
-
+            h += '</div><div class="table-container" id="table-' + f.id + '"></div>';
             ct.innerHTML = h;
             await refreshTable(f.id);
         }
 
-        async function selectProf(id) {
-            currentProfId = id;
-            await buildContent();
-            buildToolbar();
-            updateRoleBadge();
-        }
+        async function selectProf(id) { currentProfId = id; await buildContent(); buildToolbar(); updateRoleBadge(); }
 
-        // ==================== CALCULS ====================
-        function mi(notesRow) {
-            if (!notesRow) return 0;
-            const vals = [notesRow.interro1, notesRow.interro2, notesRow.interro3, notesRow.interro4].filter(v => v !== null && v !== undefined && v !== '');
-            return vals.length > 0 ? vals.reduce((a, b) => Number(a) + Number(b), 0) / vals.length : 0;
-        }
+        function mi(nr) { if (!nr) return 0; const v = [nr.interro1, nr.interro2, nr.interro3, nr.interro4].filter(x => x !== null && x !== undefined && x !== ''); return v.length > 0 ? v.reduce((a, b) => Number(a) + Number(b), 0) / v.length : 0; }
+        function moy(nr) { if (!nr) return '-'; const m = mi(nr); const d1 = Number(nr.devoir1) || 0; const d2 = Number(nr.devoir2) || 0; const has = [nr.interro1, nr.interro2, nr.interro3, nr.interro4].some(x => x !== null && x !== undefined && x !== ''); if (!has && !nr.devoir1 && !nr.devoir2) return '-'; return ((m + d1 + d2) / 3).toFixed(2); }
+        function mg(matNotes, sem) { const vals = matNotes.map(nr => { const n = nr[sem]; return n ? parseFloat(moy(n)) : NaN; }).filter(v => !isNaN(v)); return vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) : '-'; }
+        function getStats(liste, mi, sem) { const vals = liste.map(a => { const nr = (a._notes || {})[mi + '_' + sem]; return nr ? parseFloat(moy(nr)) : NaN; }).filter(v => !isNaN(v)); if (vals.length === 0) return { eff: 0, moy: '-', min: '-', max: '-' }; return { eff: vals.length, moy: (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2), min: Math.min(...vals).toFixed(2), max: Math.max(...vals).toFixed(2) }; }
 
-        function moy(notesRow) {
-            if (!notesRow) return '-';
-            const miVal = mi(notesRow);
-            const d1 = Number(notesRow.devoir1) || 0;
-            const d2 = Number(notesRow.devoir2) || 0;
-            const hasInterro = [notesRow.interro1, notesRow.interro2, notesRow.interro3, notesRow.interro4].some(v => v !== null && v !== undefined && v !== '');
-            if (!hasInterro && !notesRow.devoir1 && !notesRow.devoir2) return '-';
-            return ((miVal + d1 + d2) / 3).toFixed(2);
-        }
-
-        function mg(matieresNotes, semestre) {
-            const m = matieresNotes.map((nr, i) => {
-                const n = nr[semestre];
-                return n ? parseFloat(moy(n)) : NaN;
-            }).filter(v => !isNaN(v));
-            return m.length > 0 ? (m.reduce((a, b) => a + b, 0) / m.length).toFixed(2) : '-';
-        }
-
-        function getStats(listeApprenants, matiereIndex, semestre) {
-            const vals = listeApprenants.map(a => {
-                const allNotes = a._notes || {};
-                const nr = allNotes[matiereIndex + '_' + semestre];
-                return nr ? parseFloat(moy(nr)) : NaN;
-            }).filter(v => !isNaN(v));
-            if (vals.length === 0) return { eff: 0, moy: '-', min: '-', max: '-' };
-            return {
-                eff: vals.length,
-                moy: (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2),
-                min: Math.min(...vals).toFixed(2),
-                max: Math.max(...vals).toFixed(2)
-            };
-        }
-
-        // ==================== TABLE ====================
         async function refreshTable(profId) {
             const container = document.getElementById('table-' + profId);
             if (!container) return;
@@ -824,50 +373,27 @@
             const matIdx = parseInt(document.getElementById('mat-' + profId)?.value || '0');
             const f = formateurs.find(x => x.id === profId);
             if (!f) return;
-
             showLoading();
             const liste = await loadApprenants(profId);
             const filtered = liste.filter(a => a.niveau === lvl);
-
-            // Charger les notes pour chaque apprenant
-            for (let a of filtered) {
-                const n = await loadNotes(a.id);
-                a._notes = {};
-                n.forEach(row => { a._notes[row.matiere_index + '_' + row.semestre] = row; });
-            }
-
+            for (let a of filtered) { const n = await loadNotes(a.id); a._notes = {}; n.forEach(row => { a._notes[row.matiere_index + '_' + row.semestre] = row; }); }
             document.getElementById('stats-' + profId).textContent = filtered.length + ' apprenant(s)';
             const mats = f.matieres || [];
             const matsToShow = matIdx === 0 ? mats.map((_, i) => i) : [matIdx - 1];
-
-            if (filtered.length === 0) {
-                container.innerHTML = '<div class="empty-state">Aucun apprenant</div>';
-                hideLoading();
-                return;
-            }
-
-            let h = '<table><thead>';
-            h += '<tr><th rowspan="2">N°</th><th rowspan="2">Nom</th><th rowspan="2">Prénom</th>';
+            if (filtered.length === 0) { container.innerHTML = '<div class="empty-state">Aucun apprenant</div>'; hideLoading(); return; }
+            let h = '<table><thead><tr><th rowspan="2">N°</th><th rowspan="2">Nom</th><th rowspan="2">Prénom</th>';
             matsToShow.forEach(mi => h += '<th colspan="8">Semestre 1 — ' + mats[mi] + '</th>');
             if (matIdx === 0) h += '<th rowspan="2">MG S1</th>';
             matsToShow.forEach(mi => h += '<th colspan="8">Semestre 2 — ' + mats[mi] + '</th>');
             if (matIdx === 0) h += '<th rowspan="2">MG S2</th>';
-            h += '<th rowspan="2"></th></tr>';
-
-            h += '<tr>';
+            h += '<th rowspan="2"></th></tr><tr>';
             matsToShow.forEach(() => h += '<th class="sub-header">I1</th><th class="sub-header">I2</th><th class="sub-header">I3</th><th class="sub-header">I4</th><th class="sub-header">MI</th><th class="sub-header">D1</th><th class="sub-header">D2</th><th class="sub-header">Moy</th>');
             matsToShow.forEach(() => h += '<th class="sub-header">I1</th><th class="sub-header">I2</th><th class="sub-header">I3</th><th class="sub-header">I4</th><th class="sub-header">MI</th><th class="sub-header">D1</th><th class="sub-header">D2</th><th class="sub-header">Moy</th>');
             h += '</tr></thead><tbody>';
-
             const edit = canEditNotes();
-
             filtered.forEach((a, idx) => {
                 const an = a._notes || {};
-                h += '<tr>';
-                h += '<td>' + (idx + 1) + '</td>';
-                h += '<td class="cell-name">' + a.nom + '</td>';
-                h += '<td>' + a.prenom + '</td>';
-
+                h += '<tr><td>' + (idx + 1) + '</td><td class="cell-name">' + a.nom + '</td><td>' + a.prenom + '</td>';
                 matsToShow.forEach(mi => {
                     const nr = an[mi + '_1'];
                     h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
@@ -879,12 +405,7 @@
                     h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',1,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
                     h += '<td class="cell-moy">' + moy(nr) + '</td>';
                 });
-
-                if (matIdx === 0) {
-                    const matNotes = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] }));
-                    h += '<td class="cell-mg">' + mg(matNotes, '1') + '</td>';
-                }
-
+                if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); h += '<td class="cell-mg">' + mg(mn, '1') + '</td>'; }
                 matsToShow.forEach(mi => {
                     const nr = an[mi + '_2'];
                     h += '<td><input type="number" min="0" max="20" value="' + (nr?.interro1 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'interro1\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
@@ -896,103 +417,51 @@
                     h += '<td><input type="number" min="0" max="20" value="' + (nr?.devoir2 || '') + '" onchange="upd(' + a.id + ',' + mi + ',2,\'devoir2\',this.value)" ' + (edit ? '' : 'disabled') + '></td>';
                     h += '<td class="cell-moy">' + moy(nr) + '</td>';
                 });
-
-                if (matIdx === 0) {
-                    const matNotes = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] }));
-                    h += '<td class="cell-mg">' + mg(matNotes, '2') + '</td>';
-                }
-
-                h += '<td><button class="btn btn-danger" style="padding:2px 8px;font-size:0.65em;" onclick="delEleve(' + profId + ',' + a.id + ')" ' + (edit ? '' : 'disabled') + '>✕</button></td>';
-                h += '</tr>';
+                if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); h += '<td class="cell-mg">' + mg(mn, '2') + '</td>'; }
+                h += '<td><button class="btn btn-danger" style="padding:2px 8px;font-size:0.65em;" onclick="delEleve(' + profId + ',' + a.id + ')" ' + (edit ? '' : 'disabled') + '>✕</button></td></tr>';
             });
-
-            // Ligne stats
-            h += '<tr class="stats-row">';
-            h += '<td colspan="3" class="stat-label">📊 STATISTIQUES</td>';
-            matsToShow.forEach(mi => {
-                const s = getStats(filtered, mi, '1');
-                h += '<td colspan="4">Eff: ' + s.eff + '</td>';
-                h += '<td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>';
-            });
-            if (matIdx === 0) {
-                const mgVals = filtered.map(a => {
-                    const matNotes = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] }));
-                    const v = mg(matNotes, '1');
-                    return v === '-' ? NaN : parseFloat(v);
-                }).filter(v => !isNaN(v));
-                const eff = mgVals.length;
-                const moyMG = eff > 0 ? (mgVals.reduce((a, b) => a + b, 0) / eff).toFixed(2) : '-';
-                h += '<td>Eff:' + eff + '<br>Moy:' + moyMG + '</td>';
-            }
-            matsToShow.forEach(mi => {
-                const s = getStats(filtered, mi, '2');
-                h += '<td colspan="4">Eff: ' + s.eff + '</td>';
-                h += '<td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>';
-            });
-            if (matIdx === 0) {
-                const mgVals = filtered.map(a => {
-                    const matNotes = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] }));
-                    const v = mg(matNotes, '2');
-                    return v === '-' ? NaN : parseFloat(v);
-                }).filter(v => !isNaN(v));
-                const eff = mgVals.length;
-                const moyMG = eff > 0 ? (mgVals.reduce((a, b) => a + b, 0) / eff).toFixed(2) : '-';
-                h += '<td>Eff:' + eff + '<br>Moy:' + moyMG + '</td>';
-            }
-            h += '<td></td></tr>';
-            h += '</tbody></table>';
+            h += '<tr class="stats-row"><td colspan="3" class="stat-label">📊 STATISTIQUES</td>';
+            matsToShow.forEach(mi => { const s = getStats(filtered, mi, '1'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
+            if (matIdx === 0) { const mgVals = filtered.map(a => { const mn = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] })); const v = mg(mn, '1'); return v === '-' ? NaN : parseFloat(v); }).filter(v => !isNaN(v)); h += '<td>Eff:' + mgVals.length + '<br>Moy:' + (mgVals.length > 0 ? (mgVals.reduce((a, b) => a + b, 0) / mgVals.length).toFixed(2) : '-') + '</td>'; }
+            matsToShow.forEach(mi => { const s = getStats(filtered, mi, '2'); h += '<td colspan="4">Eff: ' + s.eff + '</td><td colspan="4">Moy: ' + s.moy + ' | Min: ' + s.min + ' | Max: ' + s.max + '</td>'; });
+            if (matIdx === 0) { const mgVals = filtered.map(a => { const mn = mats.map((_, mi) => ({ 1: (a._notes || {})[mi + '_1'], 2: (a._notes || {})[mi + '_2'] })); const v = mg(mn, '2'); return v === '-' ? NaN : parseFloat(v); }).filter(v => !isNaN(v)); h += '<td>Eff:' + mgVals.length + '<br>Moy:' + (mgVals.length > 0 ? (mgVals.reduce((a, b) => a + b, 0) / mgVals.length).toFixed(2) : '-') + '</td>'; }
+            h += '<td></td></tr></tbody></table>';
             container.innerHTML = h;
             hideLoading();
         }
 
-        async function upd(apprenantId, matiereIndex, semestre, field, value) {
-            await upsertNote(apprenantId, matiereIndex, semestre, field, value);
+        async function upd(apprenantId, mi, sem, field, value) {
+            await upsertNote(apprenantId, mi, sem, field, value);
             showToast('Note enregistrée 📒');
             await refreshTable(currentProfId);
         }
 
-        // ==================== ACTIONS ====================
         async function addEleve(profId) {
             if (!canEditNotes()) return;
             const nom = document.getElementById('nom-' + profId).value.trim();
             const pnom = document.getElementById('pnom-' + profId).value.trim();
             if (!nom || !pnom) return;
-            const lvl = document.getElementById('lvl-' + profId).value;
-            await addApprenant(profId, nom, pnom, lvl);
+            await addApprenant(profId, nom, pnom, document.getElementById('lvl-' + profId).value);
             showToast('Apprenant ajouté');
             document.getElementById('nom-' + profId).value = '';
             document.getElementById('pnom-' + profId).value = '';
             await refreshTable(profId);
         }
 
-        function delEleve(profId, apprenantId) {
+        function delEleve(profId, id) {
             if (!canEditNotes()) return;
-            showPopup('Supprimer', 'Supprimer cet apprenant ?', '🗑️', async () => {
-                await deleteApprenant(apprenantId);
-                showToast('Apprenant supprimé', 'error');
-                await refreshTable(profId);
-            });
+            showPopup('Supprimer', 'Supprimer cet apprenant ?', '🗑️', async () => { await deleteApprenant(id); showToast('Apprenant supprimé', 'error'); await refreshTable(profId); });
         }
 
         function delAll(profId) {
             if (!canEditNotes()) return;
-            showPopup('Tout supprimer', '⚠️ Supprimer TOUS les apprenants ?', '⚠️', async () => {
-                const lvl = document.getElementById('lvl-' + profId).value;
-                await deleteAllApprenants(profId, lvl);
-                showToast('Tous supprimés', 'error');
-                await refreshTable(profId);
-            });
+            showPopup('Tout supprimer', '⚠️ Supprimer TOUS les apprenants ?', '⚠️', async () => { await deleteAllApprenants(profId, document.getElementById('lvl-' + profId).value); showToast('Tous supprimés', 'error'); await refreshTable(profId); });
         }
 
         async function addProf() {
             if (!canAdmin()) return;
             const f = await addFormateur('Nouveau', '', ['Matière 1']);
-            if (f) {
-                showToast('Formateur ajouté', 'warning');
-                await loadFormateurs();
-                currentProfId = f.id;
-                buildAll();
-            }
+            if (f) { showToast('Formateur ajouté', 'warning'); await loadFormateurs(); currentProfId = f.id; buildAll(); }
         }
 
         function editProf(id) {
@@ -1008,9 +477,7 @@
         async function saveProf() {
             if (!canAdmin()) return;
             const id = parseInt(document.getElementById('mf-key').value);
-            const nom = document.getElementById('mf-nom').value.trim();
-            const prenom = document.getElementById('mf-prenom').value.trim();
-            await updateFormateur(id, nom, prenom);
+            await updateFormateur(id, document.getElementById('mf-nom').value.trim(), document.getElementById('mf-prenom').value.trim());
             showToast('Formateur modifié');
             closeModal('modal-prof');
             await loadFormateurs();
@@ -1018,15 +485,8 @@
         }
 
         function delProf(id) {
-            if (!canAdmin()) return;
-            if (formateurs.length <= 1) return;
-            showPopup('Supprimer', 'Supprimer ce formateur ?', '🗑️', async () => {
-                await deleteFormateur(id);
-                showToast('Formateur supprimé', 'error');
-                await loadFormateurs();
-                currentProfId = formateurs[0]?.id;
-                buildAll();
-            });
+            if (!canAdmin() || formateurs.length <= 1) return;
+            showPopup('Supprimer', 'Supprimer ce formateur ?', '🗑️', async () => { await deleteFormateur(id); showToast('Formateur supprimé', 'error'); await loadFormateurs(); currentProfId = formateurs[0]?.id; buildAll(); });
         }
 
         function editMatiere(profId, idx) {
@@ -1072,26 +532,14 @@
             if (!canAdmin()) return;
             const f = formateurs.find(x => x.id === profId);
             if (!f || f.matieres.length <= 1) return;
-            showPopup('Supprimer', 'Supprimer cette matière ?', '🗑️', async () => {
-                f.matieres.splice(idx, 1);
-                await updateFormateurMatieres(profId, f.matieres);
-                showToast('Matière supprimée', 'error');
-                await loadFormateurs();
-                buildAll();
-            });
+            showPopup('Supprimer', 'Supprimer cette matière ?', '🗑️', async () => { f.matieres.splice(idx, 1); await updateFormateurMatieres(profId, f.matieres); showToast('Matière supprimée', 'error'); await loadFormateurs(); buildAll(); });
         }
 
-        // ==================== EXPORTS ====================
         function expJSON(profId) {
             const lvl = document.getElementById('lvl-' + profId)?.value || '1';
-            const f = formateurs.find(x => x.id === profId);
-            if (!f) return;
             supabase.from('apprenants').select('*, notes(*)').eq('formateur_id', profId).eq('niveau', lvl).then(({ data }) => {
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = 'notes_' + profId + '_n' + lvl + '.json';
-                a.click();
+                const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + profId + '_n' + lvl + '.json'; a.click();
                 showToast('Export JSON');
             });
         }
@@ -1103,54 +551,29 @@
             if (!f) return;
             const mats = f.matieres || [];
             const mts = matIdx === 0 ? mats.map((_, i) => i) : [matIdx - 1];
-
             supabase.from('apprenants').select('*, notes(*)').eq('formateur_id', profId).eq('niveau', lvl).then(({ data }) => {
                 let csv = 'N°,Nom,Prénom,';
                 mts.forEach(mi => csv += 'S1-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,');
                 if (matIdx === 0) csv += 'MG S1,';
                 mts.forEach(mi => csv += 'S2-' + mats[mi] + ' I1,I2,I3,I4,MI,D1,D2,Moy,');
-                if (matIdx === 0) csv += 'MG S2';
-                csv += '\n';
-
+                if (matIdx === 0) csv += 'MG S2'; csv += '\n';
                 data.forEach((a, i) => {
-                    const an = {};
-                    (a.notes || []).forEach(n => { an[n.matiere_index + '_' + n.semestre] = n; });
+                    const an = {}; (a.notes || []).forEach(n => { an[n.matiere_index + '_' + n.semestre] = n; });
                     csv += (i + 1) + ',' + a.nom + ',' + a.prenom + ',';
-                    mts.forEach(mi => {
-                        const nr = an[mi + '_1'];
-                        csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',';
-                        csv += (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',';
-                        csv += (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ',';
-                    });
-                    if (matIdx === 0) {
-                        const matNotes = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] }));
-                        csv += mg(matNotes, '1') + ',';
-                    }
-                    mts.forEach(mi => {
-                        const nr = an[mi + '_2'];
-                        csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',';
-                        csv += (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',';
-                        csv += (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ',';
-                    });
-                    if (matIdx === 0) {
-                        const matNotes = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] }));
-                        csv += mg(matNotes, '2');
-                    }
+                    mts.forEach(mi => { const nr = an[mi + '_1']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; });
+                    if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '1') + ','; }
+                    mts.forEach(mi => { const nr = an[mi + '_2']; csv += (nr?.interro1 || '') + ',' + (nr?.interro2 || '') + ',' + (nr?.interro3 || '') + ',' + (nr?.interro4 || '') + ',' + (mi(nr) > 0 ? mi(nr).toFixed(2) : '') + ',' + (nr?.devoir1 || '') + ',' + (nr?.devoir2 || '') + ',' + moy(nr) + ','; });
+                    if (matIdx === 0) { const mn = mats.map((_, mi) => ({ 1: an[mi + '_1'], 2: an[mi + '_2'] })); csv += mg(mn, '2'); }
                     csv += '\n';
                 });
-
                 const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = 'notes_' + profId + '_n' + lvl + '.csv';
-                a.click();
+                const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes_' + profId + '_n' + lvl + '.csv'; a.click();
                 showToast('Export CSV');
             });
         }
 
         function imprimerPDF() { window.print(); }
 
-        // ==================== START ====================
         init();
     </script>
 </body>
